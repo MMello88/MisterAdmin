@@ -26,6 +26,21 @@
 
   <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/jquery.min.js'); ?>"></script>
 
+<script type="text/javascript">
+$(document).ready(function(){
+  console.log('asdf');
+  setInterval(function() { // Do this
+    $.get("<?= base_url("Dashboard/getStatusPedido"); ?>", function(data){
+      console.log('1');
+      data = jQuery.parseJSON(data);
+      $("#result_aberto").html(data.aberto);
+      $("#result_fechado").html(data.fechado);
+    })
+  }, 30000);
+});
+ 
+</script>
+
   <!-- Styles -->
   <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/weather-icons.css'); ?>" rel="stylesheet" />
   <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/owl.carousel.min.css'); ?>" rel="stylesheet" />
@@ -69,7 +84,6 @@
                   <ul>
                     <li><a href='<?= site_url("Dashboard/categorias"); ?>'>Categoria</a></li>
                     <li><a href='<?= site_url("Dashboard/produtos"); ?>'>Produto</a></li>
-                    <li><a href='<?= site_url("Dashboard/valores"); ?>'>Valores</a></li>
                   </ul>
                 </li>
               
@@ -220,20 +234,40 @@
                       </div>
 
 
-                          <div class="col-lg-3">
-                            <div class="card">
-                              <div class="stat-widget-two">
-                                <div class="stat-content">
-                                  <div class="stat-text">Cadastrar</div>
-                                  <div class="stat-digit"><a href='<?= site_url("Dashboard/clientes"); ?>'>Clientes</a></div>
-                                </div>
-                                <div class="progress">
-                                  <div class="progress-bar progress-bar-success w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                              </div>
+                      <div class="col-lg-3">
+                        <div class="card">
+                          <div class="stat-widget-two">
+                            <div class="stat-content">
+                              <div class="stat-text">Cadastrar</div>
+                              <div class="stat-digit"><a href='<?= site_url("Dashboard/clientes"); ?>'>Clientes</a></div>
+                            </div>
+                            <div class="progress">
+                              <div class="progress-bar progress-bar-success w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                           </div>
+                        </div>
+                      </div>
 
+                      <div class="col-md-4">
+                        <div class="card text-center">
+                            <div class="m-t-10">
+                                <p>Pedidos no Site</p>
+                            </div>
+                            <ul class="widget-line-list m-b-15">
+                                <li class="border-right"> <label id="result_aberto"><?= $PedidoAbertoFechado->aberto; ?></label> <br>
+                                  <span class="color-success">
+                                    <i class="ti-hand-point-up"></i> Aberto
+                                  </span>
+                                </li>
+                                <li>
+                                  <label id="result_fechado"><?= $PedidoAbertoFechado->fechado; ?></label> <br>
+                                  <span class="color-danger">
+                                    <i class="ti-hand-point-down"></i>Fechados
+                                  </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                       
                   </div>
                   <!-- /# row -->
@@ -343,6 +377,9 @@
     <?php foreach($js_files as $file): ?>
         <script src="<?php echo $file; ?>"></script>
     <?php endforeach; ?>
-</body>
 
+
+
+
+</body>
 </html>

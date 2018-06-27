@@ -9,6 +9,13 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 		if ($this->session->userdata('is_loginho') === null)
 			redirect('/');
+		$this->getStatusPedido(False);
+	}
+
+	public function getStatusPedido($param = True){
+		$this->data['PedidoAbertoFechado'] = $this->Pedidos->getQtdAbertoFechado();
+		if($param === True)
+			print_r(json_encode($this->data['PedidoAbertoFechado']));
 	}
 
 	public function _example_output($output = null)
@@ -23,14 +30,47 @@ class Dashboard extends CI_Controller {
 		$this->_example_output((object)array('output' => '' , 'js_files' => array() , 'css_files' => array()));
 	}
 
-	public function clientes($id_cliente = '')
+	public function cliente_unique($id_cliente = '')
 	{
 		$crud = new grocery_CRUD();
  
 		$crud->set_table('tbl_cliente');
-		/*if (!empty($id_cliente)){
+		if (!empty($id_cliente)){
 			$crud->where('tbl_cliente.id_cliente',$id_cliente);
-		}*/
+		}
+		$crud->set_subject('Cadastro de Cliente');
+		$crud->columns('nome','email','endereco','tipo');
+		$crud->fields('id_cliente','nome','cpf_cnpj','email','senha','telefone','endereco','numero','bairro',                     
+					  'complemento','situacao','tipo','ganho_unitario','ativo');
+		
+		$crud->display_as('nome','Nome');
+		$crud->display_as('email','E-mail');
+		$crud->display_as('cpf_cnpj','CPF/CNPJ');
+		$crud->display_as('senha','Senha');
+		$crud->display_as('telefone','Telefone');
+		$crud->display_as('endereco','Endereco');
+		$crud->display_as('numero','N°');
+		$crud->display_as('bairro','Bairro');
+		$crud->display_as('complemento','Complemento');
+		$crud->display_as('situacao','Situação');
+		$crud->display_as('tipo','Tipo');
+		$crud->display_as('ganho_unitario','Ganho %');
+		$crud->display_as('ativo','Ativo');
+
+		$crud->field_type('situacao','dropdown', array('a' => 'Ativo', 'd' => 'Desativado'));
+		$crud->field_type('tipo','dropdown', array('c' => 'Cliente', 'r' => 'Revendedor', 's' => 'Representante', 'p' => 'Parceiro'));
+		$crud->field_type('ativo','dropdown', array('1' => 'True', '0' => 'False'));
+		 
+		$output = $crud->render();
+
+		$this->_example_output($output);
+	}
+
+	public function clientes()
+	{
+		$crud = new grocery_CRUD();
+ 
+		$crud->set_table('tbl_cliente');
 		$crud->set_subject('Cadastro de Cliente');
 		$crud->columns('nome','email','endereco','tipo');
 		$crud->fields('id_cliente','nome','cpf_cnpj','email','senha','telefone','endereco','numero','bairro',                     
@@ -236,7 +276,7 @@ class Dashboard extends CI_Controller {
 
 	public function ClientePedido($primary_key , $row)
 	{
-		return site_url("Dashboard/clientes/$row->id_cliente");
+		return site_url("Dashboard/cliente_unique/$row->id_cliente");
 	}
 
 	public function itemPedido($id_pedido)
