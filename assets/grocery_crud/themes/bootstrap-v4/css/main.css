@@ -58,6 +58,9 @@
   margin-top: 4px;
   margin-bottom: 4px;
 }
-.btn-group.open > .dropdown-menu {
+.gc-container .table-section {
+  width: 100%;
+}
+.gc-container .btn-group.open > .dropdown-menu {
   display: block;
 }

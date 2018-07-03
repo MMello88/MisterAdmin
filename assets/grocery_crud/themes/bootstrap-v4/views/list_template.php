@@ -92,10 +92,10 @@
     var unique_hash = '<?php echo $unique_hash; ?>';
 
     var message_alert_delete = "<?php echo $this->l('alert_delete'); ?>";
-    var THEME_VERSION = '1.4.2';
+    var THEME_VERSION = '1.4.4';
 </script>
     <br/>
-    <div class="gc-container">
+    <div class="container-fluid gc-container">
         <div class="success-message hidden"><?php
         if($success_message !== null){?>
            <?php echo $success_message; ?> &nbsp; &nbsp;

@@ -1,3 +1,7 @@
+1.4.4
+    - GC-274: Fixing full width issues by having by default the bootstrap class "container-fluid"
+1.4.3
+    - GC-271: Create clone functionality
 1.4.2
     - GC-264: Having full width of the grid and CRUD by default
 1.4.1

@@ -10,16 +10,16 @@ if ($this->config->environment == 'production') {
     $this->set_js_lib($this->default_javascript_path.'/'.grocery_CRUD::JQUERY);
     $this->set_js_lib($this->default_theme_path.'/bootstrap-v4/build/js/global-libs.min.js');
 } else {
-    $this->set_js_lib($this->default_javascript_path.'/'.grocery_CRUD::JQUERY);
-    $this->set_js_lib($this->default_theme_path.'/bootstrap-v4/js/jquery-plugins/jquery.form.js');
-    $this->set_js_lib($this->default_theme_path.'/bootstrap-v4/js/common/cache-library.js');
-    $this->set_js_lib($this->default_theme_path.'/bootstrap-v4/js/common/common.js');
+    $this->set_js_lib($this->default_javascript_path . '/' . grocery_CRUD::JQUERY);
+    $this->set_js_lib($this->default_theme_path . '/bootstrap-v4/js/jquery-plugins/jquery.form.js');
+    $this->set_js_lib($this->default_theme_path . '/bootstrap-v4/js/common/cache-library.js');
+    $this->set_js_lib($this->default_theme_path . '/bootstrap-v4/js/common/common.js');
 }
 
 include(__DIR__ . '/common_javascript_vars.php');
 ?>
 <div class="crud-form" data-unique-hash="<?php echo $unique_hash; ?>">
-    <div class="container gc-container">
+    <div class="gc-container">
         <div class="row">
             <div class="col-md-12">
                 <div class="table-label">

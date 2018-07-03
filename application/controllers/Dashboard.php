@@ -216,14 +216,16 @@ class Dashboard extends CI_Controller {
 		$crud->set_table('tbl_valor_produto');
 		$crud->where('tbl_valor_produto.id_produto', $id_produto);
 		$crud->set_subject('Cadastro de Valor do Produto');
-		$crud->columns('id_produto','data_atualizacao','preco');
-		$crud->fields('id_valor_produto','id_produto','data_atualizacao','preco');
+		$crud->columns('id_produto','data_atualizacao','preco', 'tipo_cliente');
+		$crud->fields('id_valor_produto','id_produto','data_atualizacao','preco', 'tipo_cliente');
 		
 		$crud->display_as('id_produto','Nome do Produto');
 		$crud->display_as('data_atualizacao','Data Atualização');
 		$crud->display_as('preco','Preço');
 
 	 	$crud->set_relation('id_produto','tbl_produto','nome');
+
+	 	$crud->field_type('tipo_cliente','dropdown', array('c' => 'Cliente', 'r' => 'Revendedor', 's' => 'Representante', 'p' => 'Parceiro'));
 
 		$output = $crud->render();
 		 
