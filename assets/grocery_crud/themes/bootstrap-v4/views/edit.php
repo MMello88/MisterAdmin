@@ -59,16 +59,16 @@ include(__DIR__ . '/common_javascript_vars.php');
                     </div>
                     <div class="form-group gcrud-form-group">
                         <div class="col-sm-offset-3 col-sm-7">
-                            <button class="btn btn-secondary btn-success b10" type="submit" id="form-button-save">
+                            <button class="btn btn-secondary btn-success btn-outline b10" type="submit" id="form-button-save">
                                 <i class="el el-ok"></i>
-                                <?php echo $this->l('form_update_changes'); ?>
+                                <?php echo "Update" ?>
                             </button>
                             <?php 	if(!$this->unset_back_to_list) { ?>
-                                <button class="btn btn-info b10" type="button" id="save-and-go-back-button">
+                                <button class="btn btn-info btn-outline b10" type="button" id="save-and-go-back-button">
                                     <i class="el el-return-key"></i>
                                     <?php echo $this->l('form_update_and_go_back'); ?>
                                 </button>
-                                <button class="btn btn-secondary cancel-button b10" type="button" id="cancel-button">
+                                <button class="btn btn-secondary cancel-button btn-outline b10" type="button" id="cancel-button">
                                     <i class="el el-warning-sign"></i>
                                     <?php echo $this->l('form_cancel'); ?>
                                 </button>

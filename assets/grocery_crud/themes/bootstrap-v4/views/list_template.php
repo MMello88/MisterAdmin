@@ -1,5 +1,5 @@
 <?php
-    $this->set_css($this->default_theme_path.'/bootstrap-v4/css/bootstrap/bootstrap.min.css');
+    //$this->set_css($this->default_theme_path.'/bootstrap-v4/css/bootstrap/bootstrap.min.css');
     $this->set_css($this->default_theme_path.'/bootstrap-v4/css/elusive-icons/css/elusive-icons.min.css');
     $this->set_css($this->default_theme_path.'/bootstrap-v4/css/common.css');
     $this->set_css($this->default_theme_path.'/bootstrap-v4/css/list.css');
@@ -115,14 +115,14 @@
                         <div class="header-tools">
                             <?php if(!$unset_add){?>
                                 <div class="floatL t5">
-                                    <a class="btn btn-default btn-outline-dark" href="<?php echo $add_url?>">
+                                    <a class="btn btn-info btn-outline" href="<?php echo $add_url?>">
                                         <i class="el el-plus"></i> &nbsp; <?php echo $this->l('list_add'); ?> <?php echo $subject?>
                                     </a>
                                 </div>
                             <?php } ?>
                             <div class="floatR">
                                 <?php if(!$unset_export) { ?>
-                                    <a class="btn btn-default btn-outline-dark t5 gc-export" data-url="<?php echo $export_url; ?>" href="javascript:;">
+                                    <a class="btn btn-warning btn-outline t5 gc-export" data-url="<?php echo $export_url; ?>" href="javascript:;">
                                         <i class="el el-share floatL t3"></i>
                                         <span class="hidden-xs floatL l5">
                                             <?php echo $this->l('list_export');?>
@@ -131,7 +131,7 @@
                                     </a>
                                 <?php } ?>
                                 <?php if(!$unset_print) { ?>
-                                    <a class="btn btn-default btn-outline-dark t5 gc-print" data-url="<?php echo $print_url; ?>" href="javascript:;">
+                                    <a class="btn btn-warning btn-outline t5 gc-print" data-url="<?php echo $print_url; ?>" href="javascript:;">
                                         <i class="el el-print floatL t3"></i>
                                         <span class="hidden-xs floatL l5">
                                             <?php echo $this->l('list_print');?>
@@ -147,7 +147,7 @@
                             </div>
                             <div class="clear"></div>
                         </div>
-                        <div class="scroll-if-required">
+                        <div class="container-fluid scroll-if-required">
         			        <table class="table table-bordered grocery-crud-table table-hover">
         					<thead>
         						<tr>
@@ -176,7 +176,7 @@
                                             </a>
                                         </div>
                                         <div class="floatR l5">
-                                            <a href="javascript:void(0);" class="btn btn-default btn-outline-dark gc-refresh">
+                                            <a href="javascript:void(0);" class="btn btn-info btn-outline gc-refresh">
                                                 <i class="el el-refresh"></i>
                                             </a>
                                         </div>
@@ -262,7 +262,7 @@
 
                                                 <!-- Start of: Settings button -->
                                                 <div class="btn-group floatR t20 l10 settings-button-container">
-                                                    <button type="button" class="btn btn-default btn-outline-dark settings-button gc-bootstrap-dropdown dropdown-toggle">
+                                                    <button type="button" class="btn btn-sucess btn-outline settings-button gc-bootstrap-dropdown dropdown-toggle">
                                                         <i class="el el-cog r5"></i>
                                                         <span class="caret"></span>
                                                     </button>

@@ -1921,9 +1921,6 @@ footer p {
 }
 /*    Input Style
 ------------------------*/
-.form-group {
-  margin-bottom: 20px;
-}
 .form-control {
   height: 42px;
   border-radius: 0px;
@@ -2096,6 +2093,14 @@ footer p {
 }
 /*    Basic form
 ----------------------*/
+.table-label{
+  background: #fff;
+  border: 1px solid #ddd;
+}
+.gc-container .header-tools{
+  border-left: 0px solid #DDDDDD;
+    border-right: 0px solid #DDDDDD;
+}
 label {
   font-weight: 400;
   margin-bottom: 10px;
@@ -3678,7 +3683,6 @@ tbody tr td:last-child {
 body {
   font-family: 'Roboto', sans-serif;
   background: rgba(88, 115, 254, 0.04);
-  color: #868e96;
   font-size: 14px;
 }
 a,

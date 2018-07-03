@@ -60,7 +60,7 @@ include(__DIR__ . '/common_javascript_vars.php');
                     <div class="form-group gcrud-form-group">
                         <div class="col-sm-offset-3 col-sm-7">
                             <?php 	if(!$this->unset_back_to_list) { ?>
-                                <button class="btn btn-secondary cancel-button" type="button" onclick="window.location = '<?php echo $list_url; ?>'" >
+                                <button class="btn btn-secondary cancel-button btn-outline" type="button" onclick="window.location = '<?php echo $list_url; ?>'" >
                                     <i class="el el-return-key"></i>
                                     <?php echo $this->l('form_back_to_list'); ?>
                                 </button>
