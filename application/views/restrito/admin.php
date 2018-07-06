@@ -73,14 +73,24 @@ $(document).ready(function(){
                 <li class=""><a class="sidebar-sub-toggle"><i class="ti-settings"></i> Configurações <span class="sidebar-collapse-icon ti-angle-down"></span></a>
                   <ul>
                     <li><a href='<?= site_url("Dashboard/tipos"); ?>'>Tipo</a></li>
+                    <li><a href='<?= site_url("Dashboard/menu"); ?>'>Menu</a></li>
                   </ul>
                 </li>
                 <li class="label">Cadastros </li>
-                <li class=""><a class="sidebar-sub-toggle"><i class="ti-file"></i> Basico <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                <li class=""><a class="sidebar-sub-toggle"><i class="ti-file"></i> Manutenção <span class="sidebar-collapse-icon ti-angle-down"></span></a>
                   <ul>
                     <li><a href='<?= site_url("Dashboard/clientes"); ?>'>Clientes</a></li>
                     <li><a href='<?= site_url("Dashboard/cidades"); ?>'>Cidades</a></li>
                     <li><a href='<?= site_url("Dashboard/fornecedores"); ?>'>Fornecedores</a></li>
+                    <li><a href='<?= site_url("Dashboard/lojas"); ?>'>Cadastro de Loja</a></li>
+                  </ul>
+                </li>
+
+                <li class=""><a class="sidebar-sub-toggle"><i class="ti-file"></i> Movimentação <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                  <ul>
+                    <li><a href='<?= site_url("Dashboard/nota_entrada"); ?>'>Entrada</a></li>
+                    <li><a href='<?= site_url("Dashboard/nota_saida"); ?>'>Saída</a></li>
+                    <li><a href='<?= site_url("Dashboard/estoque"); ?>'>Estoque</a></li>
                   </ul>
                 </li>
 
@@ -218,10 +228,8 @@ $(document).ready(function(){
               </div>
               <!-- /# fim main titulo -->
 
-              
               <section id="main-content">
                 <?php if (isset($main_page)) : ?>
-                  <!-- /# row -->
                   <div class="row">
                       <div class="col-lg-3">
                           <div class="card">
@@ -237,7 +245,6 @@ $(document).ready(function(){
                           </div>
                       </div>
 
-
                       <div class="col-lg-3">
                         <div class="card">
                           <div class="stat-widget-two">
@@ -251,7 +258,9 @@ $(document).ready(function(){
                           </div>
                         </div>
                       </div>
-
+                  </div>
+                  <!-- /# row -->
+                  <div class="row">
                       <div class="col-md-4">
                         <div class="card text-center">
                             <div class="m-t-10">
@@ -272,7 +281,23 @@ $(document).ready(function(){
                             </ul>
                         </div>
                     </div>
-                      
+                  </div>
+                  <!-- /# row -->
+                  <div class="row">
+                      <div class="col-md-4">
+                        <div class="card text-center">
+                            <div class="m-t-10">
+                                <p>Metas a serem cumpridas em 1 mês</p>
+                            </div>                            
+                        </div>
+                        <div class="card text-left">
+                            <div class="m-t-10">
+                                <p>Iniciar a base de dados</p>
+                                <p>Ligar para os buffes para prospectar clientes</p>
+                                <p>Gerar a primeira renda através do Mister</p>
+                            </div>                            
+                        </div>
+                    </div>
                   </div>
                   <!-- /# row -->
                 <?php else : ?>

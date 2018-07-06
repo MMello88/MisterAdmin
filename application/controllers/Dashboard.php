@@ -301,4 +301,168 @@ class Dashboard extends CI_Controller {
 		 
 		$this->_example_output($output);
 	}
+
+	public function lojas(){
+		$crud = new grocery_CRUD();
+ 
+		$crud->set_table('tbl_loja');
+		$crud->set_subject('Loja');
+		$crud->columns('id_loja','nome_proprietario','razao_social','nome_fantasia');
+		$crud->fields('id_loja','nome_proprietario','cpf','razao_social','nome_fantasia','cnpj','nr_inscricao_muni','cnae','data_nascimento','data_abertura','endereco','numero','complemento','bairro','cep','municipio','uf');
+		
+		$crud->display_as('nome_proprietario','Nome do Proprietário');
+		$crud->display_as('cpf','CPF');
+		$crud->display_as('razao_social','Razão Social');
+		$crud->display_as('nome_fantasia','Nome Fantasia');
+		$crud->display_as('cnpj','CNPJ');
+		$crud->display_as('nr_inscricao_muni','Insc. Municipal');
+		$crud->display_as('cnae','CNAE');
+		$crud->display_as('data_nascimento','Data Nascimento');
+		$crud->display_as('data_abertura','Data de Abertura');
+		$crud->display_as('endereco','Endereço');
+		$crud->display_as('numero','N°');
+		$crud->display_as('complemento','Compl.');
+		$crud->display_as('bairro','Bairro');
+		$crud->display_as('cep','CEP');
+		$crud->display_as('municipio','Municipio');
+		$crud->display_as('uf','UF');
+
+		$output = $crud->render();
+		 
+		$this->_example_output($output);
+	}
+
+
+
+
+
+
+
+
+
+	public function menu()
+	{
+		$crud = new grocery_CRUD();
+ 
+		$crud->set_table('tbl_menu');
+		$crud->set_subject('Cadastro de Menu');
+		$crud->columns('nome_menu','menu_titulo', 'order');
+		$crud->fields('nome_menu','menu_titulo','tag_i', 'order');
+		
+		$crud->display_as('menu_id','Id Menu');
+		$crud->display_as('nome_menu','Nome do Menu');
+		$crud->display_as('menu_titulo','Titulo');
+		$crud->display_as('tag_i','Tag Img');
+		$crud->display_as('order','N° Ordenação');
+
+		$crud->required_fields('nome_menu');
+
+	 	$crud->add_action('Sub Menu', '', 'Dashboard/submenu', 'ui-icon-plus');
+
+		$output = $crud->render();
+		 
+		$this->_example_output($output);
+	}
+
+	public function submenu($menu_id)
+	{
+		$crud = new grocery_CRUD();
+ 
+		$crud->set_table('tbl_submenu');
+		$crud->where('tbl_submenu.menu_id', $menu_id);
+		$crud->set_subject('Cadastro do Sub Menu');
+		$crud->columns('menu_id','nome_submenu','arquivo_controller_id', 'function_controller_id','order');
+		$crud->fields('nome_submenu','arquivo_controller_id', 'function_controller_id','order');
+		
+		$crud->display_as('submenu_id','Id Sub Menu');
+		$crud->display_as('menu_id','Menu');
+		$crud->display_as('nome_submenu','Nome Sub Menu');
+		$crud->display_as('arquivo_controller_id','Nome Controller');
+		$crud->display_as('function_controller_id','Nome Function');
+		$crud->display_as('order','N° Ordenação');
+
+		
+		$crud->set_relation('arquivo_controller_id', 'tbl_arquivo_controller', 'nome');
+		$crud->set_relation('function_controller_id', 'tbl_function_controller', 'nome');
+
+
+		$crud->field_type('menu_id', 'hidden', $menu_id);
+
+		$crud->required_fields('nome_submenu','arquivo_controller_id','function_controller_id');
+
+		$this->load->library('gc_dependent_select');
+
+		$fields = array(
+			// first field:
+			'arquivo_controller_id' => array( // first dropdown name
+			'table_name' => 'tbl_arquivo_controller', // table of country
+			'title' => 'nome', // country title
+			'relate' => null // the first dropdown hasn't a relation
+			),
+			// second field
+			'function_controller_id' => array( // second dropdown name
+			'table_name' => 'tbl_function_controller', // table of state
+			'title' => 'nome', // state title
+			'id_field' => 'function_controller_id', // table of state: primary key
+			'relate' => 'arquivo_controller_id', // table of state:
+			'data-placeholder' => 'selecionar function' //dropdown's data-placeholder:
+			)
+		);
+
+		$config = array(
+			'main_table' => 'tbl_submenu',
+			'main_table_primary' => 'submenu_id',
+			"url" => base_url() . 'index.php/' . __CLASS__ . '/', //	.$id.'/add' //path to method
+			'ajax_loader' => base_url() . 'ajax-loader.gif', // path to ajax-loader image. It's an optional parameter
+			'segment_name' =>'get_colunasByIdTabela' // It's an optional parameter. by default "get_items"
+		);
+
+		// settings
+		/*$fields = array(
+			// first field:
+			'arquivo_controller_id' => array( // first dropdown name
+			'table_name' => 'tbl_arquivo_controller', // table of country
+			'title' => 'nome', // country title
+			'relate' => null // the first dropdown hasn't a relation
+			),
+			// second field
+			'function_controller_id' => array( // second dropdown name
+			'table_name' => 'tbl_function_controller', // table of state
+			'title' => 'nome', // state title
+			'id_field' => 'function_controller_id', // table of state: primary key
+			'relate' => 'arquivo_controller_id', // table of state:
+			'data-placeholder' => 'selecionar function' //dropdown's data-placeholder:
+			)
+		);
+
+		$config = array(
+			'main_table' => 'tbl_submenu',
+			'main_table_primary' => 'submenu_id',
+			"url" => base_url() . 'index.php/' . __CLASS__ . '/', //	.$id.'/add' //path to method
+			'ajax_loader' => base_url() . 'ajax-loader.gif', // path to ajax-loader image. It's an optional parameter
+			'segment_name' =>'get_functionByIdController' // It's an optional parameter. by default "get_items"
+		);*/
+
+		$mult = new gc_dependent_select($crud, $fields, $config);
+
+		// the second method:
+		$js = $mult->get_js();
+
+		$output = $crud->render();
+
+		$output->output.= $js;
+		 
+		$this->_example_output($output);
+	}
+
+	public function get_functionByIdController($id){
+		$functions = $this->Generico->getFunctionByIdController($id);
+		
+		$arr = array();
+		foreach ($functions as $item) {
+			array_push($arr, array('value' => $item['function_controller_id'], 'property' => $item['nome']));
+		}
+		
+		echo json_encode($arr);
+	}
 }
