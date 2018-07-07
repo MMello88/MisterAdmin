@@ -77,3 +77,4 @@ ALTER TABLE `miste872_prod`.`tbl_submenu`
   ADD CONSTRAINT `FK_submenu_arq_ctrl` FOREIGN KEY (`arquivo_controller_id`) REFERENCES `miste872_prod`.`tbl_arquivo_controller`(`arquivo_controller_id`),
   ADD CONSTRAINT `FK_submenu_fun_ctrl` FOREIGN KEY (`function_controller_id`) REFERENCES `miste872_prod`.`tbl_function_controller`(`function_controller_id`),
 AUTO_INCREMENT=1;
+

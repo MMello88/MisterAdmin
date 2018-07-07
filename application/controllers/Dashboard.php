@@ -333,12 +333,71 @@ class Dashboard extends CI_Controller {
 	}
 
 
+	public function arquivo_controller(){
+		$crud = new grocery_CRUD();
+ 
+		$crud->set_table('tbl_arquivo_controller');
+		$crud->set_subject('Arquivo Controller');
+		$crud->columns('nome','diretorio');
+		$crud->fields('nome','diretorio');
+		
+		$crud->display_as('arquivo_controller_id','Id Controller');
+		$crud->display_as('nome','Nome da Controller');
+		$crud->display_as('diretorio','Diretório');
 
+		$crud->required_fields('nome');
 
+	 	$crud->add_action('Funções', '', 'Dashboard/funcoes', 'ui-icon-plus');
+	 	$crud->add_action('Gerar Controller', '', 'Dashboard/gerar_controller', 'ui-icon-plus');
 
+		$output = $crud->render();
+		 
+		$this->_example_output($output);
+	}
 
+	public function funcoes($arquivo_controller_id){
+		$crud = new grocery_CRUD();
+ 
+		$crud->set_table('tbl_function_controller');
+		$crud->where('tbl_function_controller.arquivo_controller_id', $arquivo_controller_id);
+		$crud->set_subject('Funções da Controller (' . $arquivo_controller_id . ')');
+		$crud->columns('nome');
+		$crud->fields('arquivo_controller_id','nome','funcao');
+		
+		$crud->display_as('arquivo_controller_id','Id Controller');
+		$crud->display_as('nome','Nome da Function');
+		$crud->display_as('funcao','Função');
 
+		$crud->required_fields('nome','funcao');
 
+		$crud->field_type('arquivo_controller_id', 'hidden', $arquivo_controller_id);
+
+		$crud->unset_texteditor('funcao');		
+
+		$output = $crud->render();
+		 
+		$this->_example_output($output);
+	}
+
+	public function gerar_controller($arquivo_controller_id){
+		$controller = $this->Generico->getArquivoController($arquivo_controller_id);
+		$functions = $this->Generico->getFunctionByIdController($arquivo_controller_id);
+
+		$data = 
+			"<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');\nclass $controller->nome extends CI_Controller {\n";
+		foreach ($functions as $funcao) {
+			$data .= $funcao['funcao']."\n\n";
+		}
+		$data .= '}';
+
+		if (write_file(FCPATH."/application/controllers/{$controller->nome}.php", $data) == FALSE)
+		{
+		   echo 'Unable to write the file';
+
+		} else {
+		    echo 'File written!';                           
+		}
+	}
 
 	public function menu()
 	{
@@ -414,34 +473,8 @@ class Dashboard extends CI_Controller {
 			'main_table_primary' => 'submenu_id',
 			"url" => base_url() . 'index.php/' . __CLASS__ . '/', //	.$id.'/add' //path to method
 			'ajax_loader' => base_url() . 'ajax-loader.gif', // path to ajax-loader image. It's an optional parameter
-			'segment_name' =>'get_colunasByIdTabela' // It's an optional parameter. by default "get_items"
-		);
-
-		// settings
-		/*$fields = array(
-			// first field:
-			'arquivo_controller_id' => array( // first dropdown name
-			'table_name' => 'tbl_arquivo_controller', // table of country
-			'title' => 'nome', // country title
-			'relate' => null // the first dropdown hasn't a relation
-			),
-			// second field
-			'function_controller_id' => array( // second dropdown name
-			'table_name' => 'tbl_function_controller', // table of state
-			'title' => 'nome', // state title
-			'id_field' => 'function_controller_id', // table of state: primary key
-			'relate' => 'arquivo_controller_id', // table of state:
-			'data-placeholder' => 'selecionar function' //dropdown's data-placeholder:
-			)
-		);
-
-		$config = array(
-			'main_table' => 'tbl_submenu',
-			'main_table_primary' => 'submenu_id',
-			"url" => base_url() . 'index.php/' . __CLASS__ . '/', //	.$id.'/add' //path to method
-			'ajax_loader' => base_url() . 'ajax-loader.gif', // path to ajax-loader image. It's an optional parameter
 			'segment_name' =>'get_functionByIdController' // It's an optional parameter. by default "get_items"
-		);*/
+		);
 
 		$mult = new gc_dependent_select($crud, $fields, $config);
 

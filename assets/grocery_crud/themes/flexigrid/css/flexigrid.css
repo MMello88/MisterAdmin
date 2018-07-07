@@ -835,7 +835,7 @@ ul.chzn-choices li.search-field input
 	padding-bottom:10px;
 	border-radius: 0px 0px 5px 5px;
 }
-textarea.texteditor, textarea.mini-texteditor
+textarea, textarea.texteditor, textarea.mini-texteditor
 {
 	width:750px;
 	height: 200px;

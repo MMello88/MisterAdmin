@@ -74,6 +74,7 @@ $(document).ready(function(){
                   <ul>
                     <li><a href='<?= site_url("Dashboard/tipos"); ?>'>Tipo</a></li>
                     <li><a href='<?= site_url("Dashboard/menu"); ?>'>Menu</a></li>
+                    <li><a href='<?= site_url("Dashboard/arquivo_controller"); ?>'>Controller</a></li>
                   </ul>
                 </li>
                 <li class="label">Cadastros </li>
