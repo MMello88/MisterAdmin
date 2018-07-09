@@ -379,7 +379,8 @@ class Dashboard extends CI_Controller {
 		$this->_example_output($output);
 	}
 
-	public function gerar_controller($arquivo_controller_id){
+	public function gerar_controller($arquivo_controller_id)
+	{
 		$controller = $this->Generico->getArquivoController($arquivo_controller_id);
 		$functions = $this->Generico->getFunctionByIdController($arquivo_controller_id);
 
@@ -390,13 +391,20 @@ class Dashboard extends CI_Controller {
 		}
 		$data .= '}';
 
-		if (write_file(FCPATH."/application/controllers/{$controller->nome}.php", $data) == FALSE)
-		{
-		   echo 'Unable to write the file';
-
+		if (is_null($controller->diretorio)){
+			$dir_controller = FCPATH."/application/controllers/{$controller->nome}.php";
 		} else {
-		    echo 'File written!';                           
+			$dir_controller = FCPATH."/application/controllers/{$controller->diretorio}/{$controller->nome}.php";
 		}
+
+		if (write_file($dir_controller, $data) == FALSE)
+		{
+			$this->data['msg_file_create'] = 'Unable to write the file';
+		} else {
+			$this->data['msg_file_create'] = 'File written!';                           
+		}
+
+		$this->_example_output((object)array('output' => '' , 'js_files' => array() , 'css_files' => array()));
 	}
 
 	public function menu()
