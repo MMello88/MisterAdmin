@@ -78,3 +78,37 @@ ALTER TABLE `miste872_prod`.`tbl_submenu`
   ADD CONSTRAINT `FK_submenu_fun_ctrl` FOREIGN KEY (`function_controller_id`) REFERENCES `miste872_prod`.`tbl_function_controller`(`function_controller_id`),
 AUTO_INCREMENT=1;
 
+ALTER TABLE `miste872_prod`.`tbl_menu`   
+  ADD COLUMN `ativo` CHAR(1) NULL AFTER `order`;
+
+ALTER TABLE `miste872_prod`.`tbl_submenu`   
+  ADD COLUMN `ativo` CHAR(1) NULL AFTER `order`;
+
+ALTER TABLE `miste872_prod`.`tbl_arquivo_controller`   
+  CHANGE `nome` `nome_controller` VARCHAR(80) CHARSET utf8 COLLATE utf8_general_ci NOT NULL;
+
+ALTER TABLE `miste872_prod`.`tbl_function_controller`   
+  CHANGE `nome` `nome_function` VARCHAR(80) CHARSET utf8 COLLATE utf8_general_ci NOT NULL;
+
+ALTER TABLE `miste872_prod`.`tbl_estoque`   
+  CHANGE `qtde_total` `qtde_total` DECIMAL(6,0) NOT NULL  COMMENT 'qnt total disponivel',
+  ADD COLUMN `qnte_minima` DECIMAL(6,0) NULL  COMMENT 'estoque minimo' AFTER `qtde_total`,
+  ADD COLUMN `origem_movimentacao` CHAR(3) NULL  COMMENT 'e - movimentacao estoque / nfs - nota fiscal sainda / nfe nota fiscal entrada / ps - pedido site' AFTER `qnte_minima`,
+  ADD COLUMN `movimentacao` CHAR(2) NULL  COMMENT 'e - entrada / s - sainda / t - transferencia' AFTER `origem_movimentacao`;
+
+ALTER TABLE `miste872_prod`.`tbl_estoque`   
+  DROP COLUMN `origem_movimentacao`, 
+  CHANGE `qnte_minima` `qtde_minima` DECIMAL(6,0) NULL  COMMENT 'estoque minimo';
+
+ALTER TABLE `miste872_prod`.`tbl_ficha_kerdex`   
+  ADD COLUMN `origem_movimento` CHAR(3) NOT NULL  COMMENT 'e - movimentacao estoque / nfs - nota fiscal sainda / nfe nota fiscal entrada / ps - pedido site' AFTER `movimento`,
+  CHANGE `data_movimento` `data_movimento` DATE NOT NULL  AFTER `origem_movimento`,
+  CHANGE `qtde` `qtde_movimento` DECIMAL(6,0) NOT NULL  AFTER `data_movimento`;
+
+ALTER TABLE `miste872_prod`.`tbl_estoque`   
+  CHANGE `movimentacao` `movimentacao` CHAR(2) CHARSET utf8 COLLATE utf8_general_ci NULL  COMMENT 'e - entrada / s - sainda';
+
+ALTER TABLE `miste872_prod`.`tbl_estoque`   
+  CHANGE `movimentacao` `movimentacao` CHAR(2) CHARSET utf8 COLLATE utf8_general_ci NULL  COMMENT 'e - entrada / s - sainda'  AFTER `id_produto`,
+  CHANGE `qtde_total` `qtde_total` DECIMAL(6,0) NOT NULL  COMMENT 'qnt total disponivel'  AFTER `movimentacao`,
+  ADD COLUMN `qtde_movimento` DECIMAL(6,0) NULL  COMMENT 'qnt do movimento' AFTER `qtde_minima`;

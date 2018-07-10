@@ -10,6 +10,11 @@ class Dashboard extends CI_Controller {
 		if ($this->session->userdata('is_loginho') === null)
 			redirect('/');
 		$this->getStatusPedido(False);
+		$this->getMenus();
+	}
+
+	public function getMenus(){
+		$this->data['menus'] = $this->Generico->getAllMenus();
 	}
 
 	public function getStatusPedido($param = True){
@@ -32,6 +37,8 @@ class Dashboard extends CI_Controller {
 
 	public function cliente_unique($id_cliente = '')
 	{
+		$this->data['navigation_back'] = "<a href='".base_url(__CLASS__."/pedidos")."'>Voltar ao Pedido</a>";
+
 		$crud = new grocery_CRUD();
  
 		$crud->set_table('tbl_cliente');
@@ -211,6 +218,8 @@ class Dashboard extends CI_Controller {
 
 	public function valores($id_produto)
 	{
+		$this->data['navigation_back'] = "<a href='".base_url(__CLASS__."/pedidos")."'>Voltar ao Pedido</a>";
+
 		$crud = new grocery_CRUD();
  
 		$crud->set_table('tbl_valor_produto');
@@ -283,6 +292,8 @@ class Dashboard extends CI_Controller {
 
 	public function itemPedido($id_pedido)
 	{
+		$this->data['navigation_back'] = "<a href='".base_url(__CLASS__."/pedidos")."'>Voltar ao Pedido</a>";
+
 		$crud = new grocery_CRUD();
  
 		$crud->set_table('tbl_item_pedido');
@@ -332,20 +343,19 @@ class Dashboard extends CI_Controller {
 		$this->_example_output($output);
 	}
 
-
 	public function arquivo_controller(){
 		$crud = new grocery_CRUD();
  
 		$crud->set_table('tbl_arquivo_controller');
 		$crud->set_subject('Arquivo Controller');
-		$crud->columns('nome','diretorio');
-		$crud->fields('nome','diretorio');
+		$crud->columns('nome_controller','diretorio');
+		$crud->fields('nome_controller','diretorio');
 		
 		$crud->display_as('arquivo_controller_id','Id Controller');
-		$crud->display_as('nome','Nome da Controller');
+		$crud->display_as('nome_controller','Nome da Controller');
 		$crud->display_as('diretorio','Diretório');
 
-		$crud->required_fields('nome');
+		$crud->required_fields('nome_controller');
 
 	 	$crud->add_action('Funções', '', 'Dashboard/funcoes', 'ui-icon-plus');
 	 	$crud->add_action('Gerar Controller', '', 'Dashboard/gerar_controller', 'ui-icon-plus');
@@ -356,19 +366,21 @@ class Dashboard extends CI_Controller {
 	}
 
 	public function funcoes($arquivo_controller_id){
+		$this->data['navigation_back'] = "<a href='".base_url(__CLASS__."/arquivo_controller")."'>Voltar ao Arq. Controller</a>";
+
 		$crud = new grocery_CRUD();
  
 		$crud->set_table('tbl_function_controller');
 		$crud->where('tbl_function_controller.arquivo_controller_id', $arquivo_controller_id);
 		$crud->set_subject('Funções da Controller (' . $arquivo_controller_id . ')');
-		$crud->columns('nome');
-		$crud->fields('arquivo_controller_id','nome','funcao');
+		$crud->columns('nome_function');
+		$crud->fields('arquivo_controller_id','nome_function','funcao');
 		
 		$crud->display_as('arquivo_controller_id','Id Controller');
-		$crud->display_as('nome','Nome da Function');
+		$crud->display_as('nome_function','Nome da Function');
 		$crud->display_as('funcao','Função');
 
-		$crud->required_fields('nome','funcao');
+		$crud->required_fields('nome_function','funcao');
 
 		$crud->field_type('arquivo_controller_id', 'hidden', $arquivo_controller_id);
 
@@ -381,20 +393,22 @@ class Dashboard extends CI_Controller {
 
 	public function gerar_controller($arquivo_controller_id)
 	{
+		$this->data['navigation_back'] = "<a href='".base_url(__CLASS__."/arquivo_controller")."'>Voltar ao Arq. Controller</a>";
+
 		$controller = $this->Generico->getArquivoController($arquivo_controller_id);
 		$functions = $this->Generico->getFunctionByIdController($arquivo_controller_id);
 
 		$data = 
-			"<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');\nclass $controller->nome extends CI_Controller {\n";
+			"<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');\nclass $controller->nome_controller extends CI_Controller {\n";
 		foreach ($functions as $funcao) {
 			$data .= $funcao['funcao']."\n\n";
 		}
 		$data .= '}';
 
 		if (is_null($controller->diretorio)){
-			$dir_controller = FCPATH."/application/controllers/{$controller->nome}.php";
+			$dir_controller = FCPATH."/application/controllers/{$controller->nome_controller}.php";
 		} else {
-			$dir_controller = FCPATH."/application/controllers/{$controller->diretorio}/{$controller->nome}.php";
+			$dir_controller = FCPATH."/application/controllers/{$controller->diretorio}/{$controller->nome_controller}.php";
 		}
 
 		if (write_file($dir_controller, $data) == FALSE)
@@ -413,15 +427,17 @@ class Dashboard extends CI_Controller {
  
 		$crud->set_table('tbl_menu');
 		$crud->set_subject('Cadastro de Menu');
-		$crud->columns('nome_menu','menu_titulo', 'order');
-		$crud->fields('nome_menu','menu_titulo','tag_i', 'order');
+		$crud->columns('nome_menu','menu_titulo', 'order', 'ativo');
+		$crud->fields('nome_menu','menu_titulo','tag_i', 'order', 'ativo');
 		
 		$crud->display_as('menu_id','Id Menu');
 		$crud->display_as('nome_menu','Nome do Menu');
 		$crud->display_as('menu_titulo','Titulo');
 		$crud->display_as('tag_i','Tag Img');
 		$crud->display_as('order','N° Ordenação');
+		$crud->display_as('ativo','Ativo');
 
+		$crud->field_type('ativo','dropdown', array('a' => 'Ativado', 'd' => 'Desativado'));
 		$crud->required_fields('nome_menu');
 
 	 	$crud->add_action('Sub Menu', '', 'Dashboard/submenu', 'ui-icon-plus');
@@ -433,13 +449,14 @@ class Dashboard extends CI_Controller {
 
 	public function submenu($menu_id)
 	{
+		$this->data['navigation_back'] = "<a href='".base_url(__CLASS__."/menu")."'>Voltar ao Menu</a>";
+
 		$crud = new grocery_CRUD();
- 
 		$crud->set_table('tbl_submenu');
 		$crud->where('tbl_submenu.menu_id', $menu_id);
 		$crud->set_subject('Cadastro do Sub Menu');
-		$crud->columns('menu_id','nome_submenu','arquivo_controller_id', 'function_controller_id','order');
-		$crud->fields('nome_submenu','arquivo_controller_id', 'function_controller_id','order');
+		$crud->columns('menu_id','nome_submenu','arquivo_controller_id', 'function_controller_id','order', 'ativo');
+		$crud->fields('menu_id','nome_submenu','arquivo_controller_id', 'function_controller_id','order', 'ativo');
 		
 		$crud->display_as('submenu_id','Id Sub Menu');
 		$crud->display_as('menu_id','Menu');
@@ -447,12 +464,13 @@ class Dashboard extends CI_Controller {
 		$crud->display_as('arquivo_controller_id','Nome Controller');
 		$crud->display_as('function_controller_id','Nome Function');
 		$crud->display_as('order','N° Ordenação');
+		$crud->display_as('ativo','Ativo');
 
 		
 		$crud->set_relation('arquivo_controller_id', 'tbl_arquivo_controller', 'nome');
 		$crud->set_relation('function_controller_id', 'tbl_function_controller', 'nome');
 
-
+		$crud->field_type('ativo','dropdown', array('a' => 'Ativado', 'd' => 'Desativado'));
 		$crud->field_type('menu_id', 'hidden', $menu_id);
 
 		$crud->required_fields('nome_submenu','arquivo_controller_id','function_controller_id');
@@ -505,5 +523,31 @@ class Dashboard extends CI_Controller {
 		}
 		
 		echo json_encode($arr);
+	}
+
+	public function estoque(){
+		$crud = new grocery_CRUD();
+ 
+		$crud->set_table('tbl_estoque');
+		$crud->set_subject('Movimentação de Estoque');
+		$crud->columns('id_loja','id_produto', 'movimentacao', 'qtde_minima', 'qtde_movimento');
+		$crud->fields('id_loja','id_produto', 'movimentacao', 'qtde_minima', 'qtde_movimento');
+		
+		$crud->display_as('id_loja','Loja');
+		$crud->display_as('id_produto','Produto');
+		$crud->display_as('movimentacao','Movimentação');
+		$crud->display_as('qtde_minima','Qtde Estoque Minimo');
+		$crud->display_as('qtde_movimento','Qtde do Movimento');
+		$crud->display_as('qtde_total','Qtde Disponível');
+
+		$crud->set_relation('id_loja', 'tbl_loja', 'nome_fantasia');
+		$crud->set_relation('id_produto', 'tbl_produto', 'nome');
+
+		$crud->field_type('movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída'));
+		$crud->required_fields('id_loja','id_produto', 'movimentacao', 'qtde_minima', 'qtde_movimento');
+
+		$output = $crud->render();
+		 
+		$this->_example_output($output);
 	}
 }

@@ -64,50 +64,22 @@ $(document).ready(function(){
       <div class="nano">
           <div class="nano-content">
               <div class="logo"><a href="<?= site_url('Dashboard/index')?>"><!-- <img src="assets/images/logo.png" alt="" /> --><span>Mister Administrador</span></a></div>
+
               <ul>
-                <li class="label">Principal</li>
-                <li class=""><a href='<?= site_url("Dashboard/index"); ?>'><i class="ti-home"></i> Painel de Controle </a>
-
-                </li>
-                <li class="label">Configurações</li>
-                <li class=""><a class="sidebar-sub-toggle"><i class="ti-settings"></i> Configurações <span class="sidebar-collapse-icon ti-angle-down"></span></a>
-                  <ul>
-                    <li><a href='<?= site_url("Dashboard/tipos"); ?>'>Tipo</a></li>
-                    <li><a href='<?= site_url("Dashboard/menu"); ?>'>Menu</a></li>
-                    <li><a href='<?= site_url("Dashboard/arquivo_controller"); ?>'>Controller</a></li>
-                  </ul>
-                </li>
-                <li class="label">Cadastros </li>
-                <li class=""><a class="sidebar-sub-toggle"><i class="ti-file"></i> Manutenção <span class="sidebar-collapse-icon ti-angle-down"></span></a>
-                  <ul>
-                    <li><a href='<?= site_url("Dashboard/clientes"); ?>'>Clientes</a></li>
-                    <li><a href='<?= site_url("Dashboard/cidades"); ?>'>Cidades</a></li>
-                    <li><a href='<?= site_url("Dashboard/fornecedores"); ?>'>Fornecedores</a></li>
-                    <li><a href='<?= site_url("Dashboard/lojas"); ?>'>Cadastro de Loja</a></li>
-                  </ul>
-                </li>
-
-                <li class=""><a class="sidebar-sub-toggle"><i class="ti-file"></i> Movimentação <span class="sidebar-collapse-icon ti-angle-down"></span></a>
-                  <ul>
-                    <li><a href='<?= site_url("Dashboard/nota_entrada"); ?>'>Entrada</a></li>
-                    <li><a href='<?= site_url("Dashboard/nota_saida"); ?>'>Saída</a></li>
-                    <li><a href='<?= site_url("Dashboard/estoque"); ?>'>Estoque</a></li>
-                  </ul>
-                </li>
-
-                <li class=""><a class="sidebar-sub-toggle"><i class="ti-files"></i> Produtos <span class="sidebar-collapse-icon ti-angle-down"></span></a>
-                  <ul>
-                    <li><a href='<?= site_url("Dashboard/categorias"); ?>'>Categoria</a></li>
-                    <li><a href='<?= site_url("Dashboard/produtos"); ?>'>Produto</a></li>
-                  </ul>
-                </li>
-              
-                <li class="label">Compras</li>
-                <li class=""><a class="sidebar-sub-toggle"><i class="ti-control-shuffle"></i> Pedidos <span class="sidebar-collapse-icon ti-angle-down"></span></a>
-                  <ul>
-                    <li><a href='<?= site_url("Dashboard/pedidos"); ?>'>Pedidos Realizados</a></li>
-                  </ul>
-                </li>
+                <?php 
+                  foreach ($menus as $menu) {
+                    if (!is_null($menu['menu_titulo'])){
+                      echo "<li class='label'>".$menu['menu_titulo']."</li>";
+                    }
+                    echo "<li class=''><a class='sidebar-sub-toggle'><i class='".$menu['tag_i']."'></i> ".$menu['nome_menu']." <span class='sidebar-collapse-icon ti-angle-down'></span></a>";
+                    echo "  <ul>";
+                    foreach ($menu['submenus'] as $submenu) {
+                      echo "    <li><a href='".site_url($submenu['nome_controller']."/".$submenu['nome_function'])."'>".$submenu['nome_submenu']."</a></li>";
+                    }
+                    echo "  </ul>";
+                    echo "</li>";                
+                  }
+                ?>
                 <li class="label"><?= $this->session->userdata('nome_user'); ?></li>
                 <li><a href="<?= base_url('User/logout') ?>"><i class="ti-close"></i> Logout</a></li>
               </ul>
@@ -215,16 +187,15 @@ $(document).ready(function(){
                   </div>
                   <!-- /# column -->
 
-                  <!--<div class="col-lg-4 p-l-0 title-margin-left">
+                  <div class="col-lg-4 p-l-0 title-margin-left">
                     <div class="page-header">
                       <div class="page-title">
                         <ol class="breadcrumb">
-  												<li class="breadcrumb-item active">Cadastros</li>
-  												<li class="breadcrumb-item"><a href="<?= site_url("Dashboard/clientes"); ?>">Clientes</a></li>
+  												<li class="breadcrumb-item"><?= isset($navigation_back) ? $navigation_back : ""; ?></li>
                         </ol>
                       </div>
                     </div>
-                  </div>-->
+                  </div>
                   <!-- /# column -->
               </div>
               <!-- /# fim main titulo -->
@@ -308,7 +279,8 @@ $(document).ready(function(){
                       <div class="card nestable-cart">
                         <div class="card-title">
                           <div class="card-title-right-icon">
-                              <?php echo $output; ?>
+                            <?= isset($msg_file_create) ? $msg_file_create : ""; ?>
+                            <?php echo $output; ?>
                           </div>
                         </div>
                       </div>
