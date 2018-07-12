@@ -112,3 +112,31 @@ ALTER TABLE `miste872_prod`.`tbl_estoque`
   CHANGE `movimentacao` `movimentacao` CHAR(2) CHARSET utf8 COLLATE utf8_general_ci NULL  COMMENT 'e - entrada / s - sainda'  AFTER `id_produto`,
   CHANGE `qtde_total` `qtde_total` DECIMAL(6,0) NOT NULL  COMMENT 'qnt total disponivel'  AFTER `movimentacao`,
   ADD COLUMN `qtde_movimento` DECIMAL(6,0) NULL  COMMENT 'qnt do movimento' AFTER `qtde_minima`;
+
+  CREATE TABLE `miste872_prod`.`tbl_movimentacao_estoque`(  
+  `id_movimentacao_estoque` INT NOT NULL AUTO_INCREMENT,
+  `id_loja` INT NOT NULL,
+  `id_produto` INT NOT NULL,
+  `tipo_movimentacao` CHAR(2) COMMENT 'e - entrada / s - sainda',
+  `qtde_movimentacao` NUMERIC(6),
+  PRIMARY KEY (`id_movimentacao_estoque`),
+  CONSTRAINT `FK_MOV_ESTQ_LOJA` FOREIGN KEY (`id_loja`) REFERENCES `miste872_prod`.`tbl_loja`(`id_loja`),
+  CONSTRAINT `FK_MOV_ESTQ_PROD` FOREIGN KEY (`id_produto`) REFERENCES `miste872_prod`.`tbl_produto`(`id_produto`)
+);
+
+
+ALTER TABLE `miste872_prod`.`tbl_estoque`   
+  DROP COLUMN `movimentacao`;
+
+ALTER TABLE `miste872_prod`.`tbl_ficha_kerdex`   
+  CHANGE `movimento` `movimento` CHAR(2) CHARSET utf8 COLLATE utf8_general_ci NOT NULL  COMMENT 'e-entrada / s-saida / a - ajuste',
+  CHANGE `origem_movimento` `origem_movimento` CHAR(3) CHARSET utf8 COLLATE utf8_general_ci NOT NULL  COMMENT 'me - movimentacao estoque / nfs - nota fiscal sainda / nfe nota fiscal entrada / ps - pedido site';
+
+ALTER TABLE `miste872_prod`.`tbl_movimentacao_estoque`   
+  CHANGE `tipo_movimentacao` `tipo_movimentacao` CHAR(2) CHARSET utf8 COLLATE utf8_unicode_ci NULL  COMMENT 'e - entrada / s - sainda / a - ajuste';
+
+ALTER TABLE `miste872_prod`.`tbl_movimentacao_estoque`   
+  ADD COLUMN `data_movimentacao` DATETIME NULL AFTER `qtde_movimentacao`;
+
+ALTER TABLE `miste872_prod`.`tbl_estoque`   
+  ADD  UNIQUE INDEX `UK_LP` (`id_loja`, `id_produto`);

@@ -87,11 +87,11 @@
                                 }
 
                                 if (!$unset_read) { ?>
-                                    <a class="btn btn-secondary" href="<?php echo $row->read_url?>"><i class="el el-eye-open"></i> <?php echo $this->l('list_view')?></a>
+                                    <a class="btn btn-dark btn-outline" href="<?php echo $row->read_url?>"><i class="el el-eye-open"></i> <?php echo $this->l('list_view')?></a>
                                 <?php }
 
                                 if (!$unset_delete) { ?>
-                                    <a data-target="<?php echo $row->delete_url?>" href="javascript:void(0)" title="<?php echo $this->l('list_delete')?>" class="delete-row btn btn-secondary">
+                                    <a data-target="<?php echo $row->delete_url?>" href="javascript:void(0)" title="<?php echo $this->l('list_delete')?>" class="delete-row btn btn-dark btn-outline">
                                         <i class="el el-remove text-danger"></i>
                                         <span class="text-danger"><?php echo $this->l('list_delete')?></span>
                                     </a>
@@ -103,13 +103,13 @@
                 <div class="only-mobiles">
                     <?php if ($buttons_counter > 0) { ?>
                     <div class="btn-group dropdown">
-                        <button type="button" class="btn btn-secondary gc-bootstrap-dropdown dropdown-toggle">
+                        <button type="button" class="btn btn-secondary btn-outline gc-bootstrap-dropdown dropdown-toggle">
                             <?php echo $this->l('list_actions'); ?>
                             <span class="caret"></span>
                         </button>
                         <div class="dropdown-menu">
                             <?php if (!$unset_edit) { ?>
-                                <a href="<?php echo $row->edit_url?>" class="dropdown-item">
+                                <a href="<?php echo $row->edit_url?>" class="dropdown-item btn-outline">
                                     <i class="el el-pencil"></i> <?php echo $this->l('list_edit'); ?>
                                 </a>
                             <?php } ?>
@@ -118,19 +118,19 @@
                                 foreach($row->action_urls as $action_unique_id => $action_url){
                                     $action = $actions[$action_unique_id];
                                     ?>
-                                        <a href="<?php echo $action_url; ?>" class="dropdown-item">
+                                        <a href="<?php echo $action_url; ?>" class="dropdown-item btn-outline">
                                             <i class="fa <?php echo $action->css_class; ?>"></i> <?php echo $action->label?>
                                         </a>
                                 <?php }
                             }
                             ?>
                             <?php if (!$unset_read) { ?>
-                                <a href="<?php echo $row->read_url?>" class="dropdown-item">
+                                <a href="<?php echo $row->read_url?>" class="dropdown-item btn-outline">
                                     <i class="el el-eye-open"></i> <?php echo $this->l('list_view')?>
                                 </a>
                             <?php } ?>
                             <?php if (!$unset_delete) { ?>
-                                <a data-target="<?php echo $row->delete_url?>" href="javascript:void(0)" title="<?php echo $this->l('list_delete')?>" class="delete-row dropdown-item">
+                                <a data-target="<?php echo $row->delete_url?>" href="javascript:void(0)" title="<?php echo $this->l('list_delete')?>" class="delete-row dropdown-item btn-outline">
                                     <i class="el el-remove text-danger"></i> <span class="text-danger"><?php echo $this->l('list_delete')?></span>
                                 </a>
                             <?php } ?>

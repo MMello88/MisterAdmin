@@ -529,13 +529,12 @@ class Dashboard extends CI_Controller {
 		$crud = new grocery_CRUD();
  
 		$crud->set_table('tbl_estoque');
-		$crud->set_subject('Movimentação de Estoque');
-		$crud->columns('id_loja','id_produto', 'movimentacao', 'qtde_minima', 'qtde_movimento');
-		$crud->fields('id_loja','id_produto', 'movimentacao', 'qtde_minima', 'qtde_movimento');
+		$crud->set_subject('Consulta de Estoque');
+		$crud->columns('id_loja','id_produto', 'qtde_minima', 'qtde_movimento');
+		$crud->fields('id_loja','id_produto', 'qtde_minima', 'qtde_movimento');
 		
 		$crud->display_as('id_loja','Loja');
 		$crud->display_as('id_produto','Produto');
-		$crud->display_as('movimentacao','Movimentação');
 		$crud->display_as('qtde_minima','Qtde Estoque Minimo');
 		$crud->display_as('qtde_movimento','Qtde do Movimento');
 		$crud->display_as('qtde_total','Qtde Disponível');
@@ -543,11 +542,50 @@ class Dashboard extends CI_Controller {
 		$crud->set_relation('id_loja', 'tbl_loja', 'nome_fantasia');
 		$crud->set_relation('id_produto', 'tbl_produto', 'nome');
 
-		$crud->field_type('movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída'));
+		//$crud->field_type('movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída'));
+		$crud->unset_add();
+		$crud->unset_edit();
+		$crud->unset_delete();
 		$crud->required_fields('id_loja','id_produto', 'movimentacao', 'qtde_minima', 'qtde_movimento');
 
 		$output = $crud->render();
 		 
 		$this->_example_output($output);
+	}
+
+	public function movimentacao_estoque(){
+		$crud = new grocery_CRUD();
+ 
+		$crud->set_table('tbl_movimentacao_estoque');
+		$crud->set_subject('Movimentação de Estoque');
+		$crud->columns('id_loja','id_produto', 'tipo_movimentacao', 'qtde_movimentacao', 'data_movimentacao');
+		$crud->fields('id_loja','id_produto', 'tipo_movimentacao', 'qtde_movimentacao', 'data_movimentacao');
+		
+		$crud->display_as('id_loja','Loja');
+		$crud->display_as('id_produto','Produto');
+		$crud->display_as('tipo_movimentacao','Movimentação de');
+		$crud->display_as('qtde_movimentacao','Qtde Movimentação');
+		$crud->display_as('data_movimentacao','Data Movimentação');
+
+		$crud->set_relation('id_loja', 'tbl_loja', 'nome_fantasia');
+		$crud->set_relation('id_produto', 'tbl_produto', 'nome');
+
+		$crud->field_type('tipo_movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída', 'a' => 'Ajuste'));
+		$crud->field_type('data_movimentacao','hidden', date("Y-m-d H:i:s"));
+		$crud->required_fields('id_loja','id_produto', 'tipo_movimentacao', 'qtde_movimentacao');
+
+		$crud->unset_delete();
+		$crud->unset_edit();
+
+		$crud->callback_after_insert(array($this, 'after_insert_update_mov_estoque'));
+		$crud->callback_after_update(array($this, 'after_insert_update_mov_estoque'));
+
+		$output = $crud->render();
+		 
+		$this->_example_output($output);
+	}
+
+	public function after_insert_update_mov_estoque($post_array,$primary_key){
+		$this->Generico->geraEstoque();
 	}
 }

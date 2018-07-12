@@ -36,4 +36,26 @@ class Generico_model extends CI_Model {
 		}
 		return $menus;
 	}
+
+	public function geraEstoque($id_loja, $id_produto, $tipo_movimentacao, $qtde_movimentacao){
+		$query = $this->db->get_where('tbl_estoque', array('id_loja' => $id_loja, 'id_produto' => $id_produto));
+		
+		$qtde_movimentacao = $tipo_movimentacao === 's' ? ($qtde_movimentacao*-1) : $qtde_movimentacao;
+
+	    if(empty($query->row())){
+			$data = array(
+		        'id_loja' => $id_loja,
+		        'id_produto' => $id_produto,
+		        'qtde_movimento' => $qtde_movimentacao,
+		        'qtde_total' => $qtde_movimentacao
+			);		    
+
+	    	$this->db->insert('tbl_estoque', $data);
+	    } else {
+			$this->db->set('qtde_total', 'qtde_total+'.$qtde_movimentacao, FALSE);
+			$this->db->set('qtde_movimento', $qtde_movimentacao);
+			$this->db->where(array('id_loja' => $id_loja,'id_produto' => $id_produto,))
+	    	$this->db->update('tbl_estoque', $data);
+	    }
+	}
 }
