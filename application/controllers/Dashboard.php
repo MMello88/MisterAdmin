@@ -467,8 +467,8 @@ class Dashboard extends CI_Controller {
 		$crud->display_as('ativo','Ativo');
 
 		
-		$crud->set_relation('arquivo_controller_id', 'tbl_arquivo_controller', 'nome');
-		$crud->set_relation('function_controller_id', 'tbl_function_controller', 'nome');
+		$crud->set_relation('arquivo_controller_id', 'tbl_arquivo_controller', 'nome_controller');
+		$crud->set_relation('function_controller_id', 'tbl_function_controller', 'nome_function');
 
 		$crud->field_type('ativo','dropdown', array('a' => 'Ativado', 'd' => 'Desativado'));
 		$crud->field_type('menu_id', 'hidden', $menu_id);
@@ -481,13 +481,13 @@ class Dashboard extends CI_Controller {
 			// first field:
 			'arquivo_controller_id' => array( // first dropdown name
 			'table_name' => 'tbl_arquivo_controller', // table of country
-			'title' => 'nome', // country title
+			'title' => 'nome_controller', // country title
 			'relate' => null // the first dropdown hasn't a relation
 			),
 			// second field
 			'function_controller_id' => array( // second dropdown name
 			'table_name' => 'tbl_function_controller', // table of state
-			'title' => 'nome', // state title
+			'title' => 'nome_function', // state title
 			'id_field' => 'function_controller_id', // table of state: primary key
 			'relate' => 'arquivo_controller_id', // table of state:
 			'data-placeholder' => 'selecionar function' //dropdown's data-placeholder:
@@ -519,7 +519,7 @@ class Dashboard extends CI_Controller {
 		
 		$arr = array();
 		foreach ($functions as $item) {
-			array_push($arr, array('value' => $item['function_controller_id'], 'property' => $item['nome']));
+			array_push($arr, array('value' => $item['function_controller_id'], 'property' => $item['nome_function']));
 		}
 		
 		echo json_encode($arr);
@@ -530,21 +530,18 @@ class Dashboard extends CI_Controller {
  
 		$crud->set_table('tbl_estoque');
 		$crud->set_subject('Consulta de Estoque');
-		$crud->columns('id_loja','id_produto', 'qtde_minima', 'qtde_movimento');
-		$crud->fields('id_loja','id_produto', 'qtde_minima', 'qtde_movimento');
+		$crud->columns('id_loja','id_produto', 'qtde_minima', 'qtde_total');
+		$crud->edit_fields('qtde_minima');
 		
 		$crud->display_as('id_loja','Loja');
 		$crud->display_as('id_produto','Produto');
 		$crud->display_as('qtde_minima','Qtde Estoque Minimo');
-		$crud->display_as('qtde_movimento','Qtde do Movimento');
 		$crud->display_as('qtde_total','Qtde Disponível');
 
 		$crud->set_relation('id_loja', 'tbl_loja', 'nome_fantasia');
 		$crud->set_relation('id_produto', 'tbl_produto', 'nome');
 
-		//$crud->field_type('movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída'));
 		$crud->unset_add();
-		$crud->unset_edit();
 		$crud->unset_delete();
 		$crud->required_fields('id_loja','id_produto', 'movimentacao', 'qtde_minima', 'qtde_movimento');
 
@@ -558,21 +555,23 @@ class Dashboard extends CI_Controller {
  
 		$crud->set_table('tbl_movimentacao_estoque');
 		$crud->set_subject('Movimentação de Estoque');
-		$crud->columns('id_loja','id_produto', 'tipo_movimentacao', 'qtde_movimentacao', 'data_movimentacao');
-		$crud->fields('id_loja','id_produto', 'tipo_movimentacao', 'qtde_movimentacao', 'data_movimentacao');
+		$crud->columns('id_loja', 'id_categoria_produto', 'id_produto', 'tipo_movimentacao', 'qtde_movimentacao', 'data_movimentacao');
+		$crud->fields('id_loja', 'id_categoria_produto', 'id_produto', 'tipo_movimentacao', 'qtde_movimentacao', 'data_movimentacao');
 		
 		$crud->display_as('id_loja','Loja');
+		$crud->display_as('id_categoria_produto','Categoria');
 		$crud->display_as('id_produto','Produto');
 		$crud->display_as('tipo_movimentacao','Movimentação de');
 		$crud->display_as('qtde_movimentacao','Qtde Movimentação');
 		$crud->display_as('data_movimentacao','Data Movimentação');
 
 		$crud->set_relation('id_loja', 'tbl_loja', 'nome_fantasia');
+		$crud->set_relation('id_categoria_produto', 'tbl_categoria_produto', 'nome', array('situacao' => 'a'));
 		$crud->set_relation('id_produto', 'tbl_produto', 'nome');
 
 		$crud->field_type('tipo_movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída', 'a' => 'Ajuste'));
 		$crud->field_type('data_movimentacao','hidden', date("Y-m-d H:i:s"));
-		$crud->required_fields('id_loja','id_produto', 'tipo_movimentacao', 'qtde_movimentacao');
+		$crud->required_fields('id_loja','id_categoria_produto', 'id_produto', 'tipo_movimentacao', 'qtde_movimentacao');
 
 		$crud->unset_delete();
 		$crud->unset_edit();
@@ -580,12 +579,57 @@ class Dashboard extends CI_Controller {
 		$crud->callback_after_insert(array($this, 'after_insert_update_mov_estoque'));
 		$crud->callback_after_update(array($this, 'after_insert_update_mov_estoque'));
 
+		$this->load->library('gc_dependent_select');
+
+		$fields = array(
+			// first field:
+			'id_categoria_produto' => array( // first dropdown name
+			'table_name' => 'tbl_categoria_produto', // table of country
+			'title' => 'nome', // country title
+			'relate' => null // the first dropdown hasn't a relation
+			),
+			// second field
+			'id_produto' => array( // second dropdown name
+			'table_name' => 'tbl_produto', // table of state
+			'title' => 'nome', // state title
+			'id_field' => 'id_produto', // table of state: primary key
+			'relate' => 'id_categoria_produto', // table of state:
+			'data-placeholder' => 'selecionar produto' //dropdown's data-placeholder:
+			)
+		);
+
+		$config = array(
+			'main_table' => 'tbl_submenu',
+			'main_table_primary' => 'submenu_id',
+			"url" => base_url() . 'index.php/' . __CLASS__ . '/', //	.$id.'/add' //path to method
+			'ajax_loader' => base_url() . 'ajax-loader.gif', // path to ajax-loader image. It's an optional parameter
+			'segment_name' =>'get_produtoByCategoria' // It's an optional parameter. by default "get_items"
+		);
+
+		$mult = new gc_dependent_select($crud, $fields, $config);
+
+		// the second method:
+		$js = $mult->get_js();
+
 		$output = $crud->render();
+
+		$output->output.= $js;
 		 
 		$this->_example_output($output);
 	}
 
+	public function get_produtoByCategoria($id){
+		$produtos = $this->Generico->getprodutoByCategoria($id);
+
+		$arr = array();
+		foreach ($produtos as $item) {
+			array_push($arr, array('value' => $item['id_produto'], 'property' => $item['nome']));
+		}
+		
+		echo json_encode($arr);
+	}
+
 	public function after_insert_update_mov_estoque($post_array,$primary_key){
-		$this->Generico->geraEstoque();
+		$this->Generico->geraEstoque($post_array['id_loja'], $post_array['id_produto'], $post_array['tipo_movimentacao'], $post_array['qtde_movimentacao']);
 	}
 }

@@ -140,3 +140,86 @@ ALTER TABLE `miste872_prod`.`tbl_movimentacao_estoque`
 
 ALTER TABLE `miste872_prod`.`tbl_estoque`   
   ADD  UNIQUE INDEX `UK_LP` (`id_loja`, `id_produto`);
+
+ALTER TABLE `miste872_prod`.`tbl_estoque`   
+  DROP COLUMN `qtde_movimento`;
+
+ALTER TABLE `miste872_prod`.`tbl_movimentacao_estoque`   
+  ADD COLUMN `id_categoria_produto` INT(11) NOT NULL AFTER `data_movimentacao`,
+  ADD CONSTRAINT `FK_MOV_ESTQ_CATG` FOREIGN KEY (`id_categoria_produto`) REFERENCES `miste872_prod`.`tbl_categoria_produto`(`id_categoria_produto`);
+
+ALTER TABLE `miste872_prod`.`tbl_produto`   
+  ADD COLUMN `controla_estoque` CHAR(1) NOT NULL  COMMENT 's - sim / n - não' AFTER `imagem`;
+
+ALTER TABLE `miste872_prod`.`tbl_categoria_produto`   
+  ADD COLUMN `controla_estoque` CHAR(1) NOT NULL  COMMENT 's - sim / n - não' AFTER `cssClass`;
+
+
+CREATE TABLE `miste872_prod`.`tbl_produto_categoria`(  
+  `id_produto_categoria` INT NOT NULL AUTO_INCREMENT,
+  `id_produto` INT NOT NULL,
+  `id_categoria_produto` INT NOT NULL,
+  `imagem` VARCHAR(255),
+  PRIMARY KEY (`id_produto_categoria`),
+  CONSTRAINT `fk_pro_cat_prod` FOREIGN KEY (`id_produto`) REFERENCES `miste872_prod`.`tbl_produto`(`id_produto`),
+  CONSTRAINT `fk_pro_cat_cat` FOREIGN KEY (`id_categoria_produto`) REFERENCES `miste872_prod`.`tbl_categoria_produto`(`id_categoria_produto`)
+) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
+INSERT INTO tbl_produto_categoria 
+VALUES 
+(NULL,1,1,'frito_croquete.png'),
+(NULL,1,2,'congelado_croquete.png'),
+(NULL,13,3,'mini_cro.png'),
+(NULL,13,4,'mini_cro_sem.png'),
+
+(NULL,2,1,'frito_bolinho_carne.png'),
+(NULL,2,2,'congelado_bolinho_carne.png'),
+(NULL,14,3,'frito_mini_bolinho_carne.jpg'),
+(NULL,14,4,'congelado_mini_bolinho_carne.jpg'),
+
+(NULL,3,1,'frito_coxinha.png'),
+(NULL,3,2,'congelado_coxinha.png'),
+(NULL,15,3,'frito_mini_coxinha.jpg'),
+(NULL,15,4,'congelado_mini_coxinha.jpg'),
+
+(NULL,4,1,'frito_enroladinho.png'),
+(NULL,4,2,'congelado_enroladinho.png'),
+(NULL,16,3,'frito_mini_enroladinho.jpg'),
+(NULL,16,4,'congelado_mini_enroladinho.jpg'),
+
+(NULL,5,1,'frito_salsicha.png'),
+(NULL,5,2,'congelado_salsicha.png'),
+(NULL,17,3,'frito_mini_salsicha.jpg'),
+(NULL,17,4,'congelado_mini_salsicha.jpg'),
+
+(NULL,6,1,'frito_kibe.png'),
+(NULL,6,2,'congelado_kibe.png'),
+(NULL,18,3,'frito_mini_kibe.jpg'),
+(NULL,18,4,'congelado_mini_kibe.jpg'),
+
+(NULL,39,3,'frito_mini_bolinha_queijo.jpg'),
+(NULL,39,4,'congelado_mini_bolinha_queijo.jpg');
+
+DELETE FROM tbl_item_pedido WHERE id_produto IN (SELECT id_produto FROM tbl_produto WHERE id_produto NOT IN (SELECT id_produto FROM tbl_produto_categoria));
+
+DELETE FROM tbl_valor_produto WHERE id_produto IN (SELECT id_produto FROM tbl_produto WHERE id_produto NOT IN (SELECT id_produto FROM tbl_produto_categoria));
+
+DELETE FROM tbl_produto WHERE id_produto NOT IN (SELECT id_produto FROM tbl_produto_categoria);
+
+ALTER TABLE `miste872_prod`.`tbl_produto`   
+  DROP COLUMN `imagem`;
+
+ALTER TABLE `miste872_prod`.`tbl_produto`   
+  DROP COLUMN `id_categoria_produto`, 
+  DROP INDEX `id_categoria_produto`,
+  DROP FOREIGN KEY `tbl_produto_ibfk_1`;
+
+/*
+SELECT CONCAT('TRUNCATE TABLE ',table_schema, '.', TABLE_NAME, ';') 
+    FROM INFORMATION_SCHEMA.TABLES WHERE table_schema IN ('miste872_prod');
+*/
+
+ALTER TABLE `miste872_prod`.`tbl_cart`   
+  ADD COLUMN `id_categoria_produto` INT NOT NULL AFTER `id_session`,
+  ADD CONSTRAINT `tbl_cart_ibfk_3` FOREIGN KEY (`id_categoria_produto`) REFERENCES `miste872_prod`.`tbl_categoria_produto`(`id_categoria_produto`);

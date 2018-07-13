@@ -46,16 +46,19 @@ class Generico_model extends CI_Model {
 			$data = array(
 		        'id_loja' => $id_loja,
 		        'id_produto' => $id_produto,
-		        'qtde_movimento' => $qtde_movimentacao,
 		        'qtde_total' => $qtde_movimentacao
 			);		    
 
 	    	$this->db->insert('tbl_estoque', $data);
 	    } else {
 			$this->db->set('qtde_total', 'qtde_total+'.$qtde_movimentacao, FALSE);
-			$this->db->set('qtde_movimento', $qtde_movimentacao);
-			$this->db->where(array('id_loja' => $id_loja,'id_produto' => $id_produto,))
+			$this->db->where(array('id_loja' => $id_loja,'id_produto' => $id_produto,));
 	    	$this->db->update('tbl_estoque', $data);
 	    }
+	}
+
+	public function getprodutoByCategoria($id_categoria_produto) {
+	    $query = $this->db->get_where('tbl_produto', array('id_categoria_produto' => $id_categoria_produto));
+	    return $query->result_array();
 	}
 }
