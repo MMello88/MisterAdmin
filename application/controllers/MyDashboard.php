@@ -1,7 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
-class Dashboard extends CI_Controller {
-
+class MyDashboard extends CI_Controller {
 	public $data = array();
 
 	public function __construct()
@@ -555,7 +553,7 @@ class Dashboard extends CI_Controller {
 		$this->_example_output($output);
 	}
 
-	public function movimentacao_estoque(){
+public function movimentacao_estoque(){
 		$crud = new grocery_CRUD();
  
 		$crud->set_table('tbl_movimentacao_estoque');
@@ -622,4 +620,5 @@ class Dashboard extends CI_Controller {
  
 		$this->_example_output($output);
 	}
+
 }

@@ -166,7 +166,7 @@ CREATE TABLE `miste872_prod`.`tbl_produto_categoria`(
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
-INSERT INTO tbl_produto_categoria 
+/*INSERT INTO tbl_produto_categoria 
 VALUES 
 (NULL,1,1,'frito_croquete.png'),
 (NULL,1,2,'congelado_croquete.png'),
@@ -199,7 +199,7 @@ VALUES
 (NULL,18,4,'congelado_mini_kibe.jpg'),
 
 (NULL,39,3,'frito_mini_bolinha_queijo.jpg'),
-(NULL,39,4,'congelado_mini_bolinha_queijo.jpg');
+(NULL,39,4,'congelado_mini_bolinha_queijo.jpg'); */
 
 DELETE FROM tbl_item_pedido WHERE id_produto IN (SELECT id_produto FROM tbl_produto WHERE id_produto NOT IN (SELECT id_produto FROM tbl_produto_categoria));
 
@@ -228,9 +228,9 @@ ALTER TABLE `miste872_prod`.`tbl_valor_produto`
   ADD COLUMN `id_categoria_produto` INT(11) NOT NULL AFTER `tipo_cliente`,
   ADD CONSTRAINT `tbl_valor_produto_ibfk_2` FOREIGN KEY (`id_categoria_produto`) REFERENCES `miste872_prod`.`tbl_categoria_produto`(`id_categoria_produto`);
 
-INSERT INTO tbl_valor_produto 
+/*INSERT INTO tbl_valor_produto 
 VALUES
-/* fritos */ 
+/* fritos 
 (NULL, 1, '2018-01-01', 3.00, 'c', 1),
 (NULL, 1, '2018-01-01', 3.00, 's', 1),
 (NULL, 1, '2018-01-01', 2.20, 'r', 1),
@@ -255,7 +255,7 @@ VALUES
 (NULL, 6, '2018-01-01', 3.00, 's', 1),
 (NULL, 6, '2018-01-01', 2.20, 'r', 1),
 
-/*congelados*/
+/*congelados
 
 (NULL, 1, '2018-01-01', 2.25, 'c', 2),
 (NULL, 1, '2018-01-01', 2.50, 's', 2),
@@ -281,7 +281,7 @@ VALUES
 (NULL, 6, '2018-01-01', 2.50, 's', 2),
 (NULL, 6, '2018-01-01', 1.90, 'r', 2),
 
-/*mini fritos*/
+/*mini fritos
 
 (NULL, 13, '2018-01-01', 0.45, 'c', 3),
 (NULL, 13, '2018-01-01', 0.45, 's', 3),
@@ -311,7 +311,7 @@ VALUES
 (NULL, 39, '2018-01-01', 0.45, 's', 3),
 (NULL, 39, '2018-01-01', 0.36, 'r', 3),
 
-/* MINI CONGELADOS */
+/* MINI CONGELADOS
 
 (NULL, 13, '2018-01-01', 0.40, 'c', 4),
 (NULL, 13, '2018-01-01', 0.40, 's', 4),
@@ -339,7 +339,7 @@ VALUES
 
 (NULL, 39, '2018-01-01', 0.40, 'c', 4),
 (NULL, 39, '2018-01-01', 0.40, 's', 4),
-(NULL, 39, '2018-01-01', 0.35, 'r', 4);
+(NULL, 39, '2018-01-01', 0.35, 'r', 4);*/
 
 ALTER TABLE `miste872_prod`.`tbl_movimentacao_estoque`   
   DROP COLUMN `id_categoria_produto`, 
@@ -358,3 +358,6 @@ ALTER TABLE `miste872_prod`.`tbl_ficha_kardex`
   CHANGE `origem_movimento` `origem_movimentacao` CHAR(3) CHARSET utf8 COLLATE utf8_general_ci NOT NULL  COMMENT 'me - movimentacao estoque / nfs - nota fiscal sainda / nfe nota fiscal entrada / ps - pedido site',
   CHANGE `data_movimento` `data_movimentacao` DATE NOT NULL,
   CHANGE `qtde_movimento` `qtde_movimentacao` DECIMAL(6,0) NOT NULL;
+
+ALTER TABLE `miste872_prod`.`tbl_menu`   
+  CHANGE `order` `order` NUMERIC(10,3) NULL;
