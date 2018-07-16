@@ -9,6 +9,7 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 		if ($this->session->userdata('is_loginho') === null)
 			redirect('/');
+		$this->data['__CLASS__'] = __CLASS__;
 		$this->getStatusPedido(False);
 		$this->getMenus();
 	}
@@ -32,6 +33,8 @@ class Dashboard extends CI_Controller {
 	public function index()
 	{
 		$this->data['main_page'] = 'isset';
+		$this->data['estoques'] = $this->Generico->getEstoque();
+		$this->data['afazeres'] = $this->Generico->getAFazer();
 		$this->_example_output((object)array('output' => '' , 'js_files' => array() , 'css_files' => array()));
 	}
 
@@ -621,5 +624,42 @@ class Dashboard extends CI_Controller {
 		$output = $crud->render();
  
 		$this->_example_output($output);
+	}
+
+	public function postMoviEstoque(){
+		if($_POST){
+			$this->Generico->gerarMovimentacao($_POST['id_loja'], $_POST['id_produto'], $_POST['tipo_movimentacao'], $_POST['qtde_movimentacao']);
+			redirect(__CLASS__.'/index');
+		}
+	}
+
+	public function afazer(){
+		$crud = new grocery_CRUD();
+ 
+		$crud->set_table('tbl_afazer');
+		$crud->set_subject('A Fazer');
+		$crud->columns('id_afazer', 'afazer', 'dt_inicio', 'dt_fim', 'realizado');
+		$crud->fields('afazer', 'dt_inicio', 'dt_fim', 'realizado');
+		
+		$crud->display_as('id_afazer','Id A Fazer');
+		$crud->display_as('afazer','A Fazer');
+		$crud->display_as('dt_inicio','Data Inicio');
+		$crud->display_as('dt_fim','Data Fim');
+		$crud->display_as('realizado','Realizado');
+
+		$crud->field_type('realizado','dropdown', array('s' => 'Sim', 'n' => 'Não'));
+
+		$crud->required_fields('afazer', 'dt_inicio', 'realizado');
+
+		$output = $crud->render();
+ 
+		$this->_example_output($output);
+	}
+
+	public function postAFazer(){
+		if($_POST){
+			$this->Generico->AFazerRealizado($_POST['id_afazer'], $_POST['realizado']);
+			redirect(__CLASS__.'/index');
+		}
 	}
 }

@@ -214,3 +214,15 @@ ALTER TABLE `miste872_prod`.`tbl_ficha_kardex`
 
 ALTER TABLE `miste872_prod`.`tbl_menu`   
   CHANGE `order` `order` NUMERIC(10,3) NULL;
+
+CREATE TABLE `miste872_prod`.`tbl_afazer`(  
+  `id_afazer` INT(11) NOT NULL AUTO_INCREMENT,
+  `afazer` VARCHAR(255) NOT NULL,
+  `dt_inicio` DATE NOT NULL,
+  `dt_fim` DATE,
+  `ativo` CHAR(1) COMMENT 'a - ativo / d - desativado',
+  PRIMARY KEY (`id_afazer`)
+) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
+
+ALTER TABLE `miste872_prod`.`tbl_afazer`   
+  CHANGE `ativo` `realizado` CHAR(1) CHARSET utf8 COLLATE utf8_general_ci NULL  COMMENT 's - sim / n - não';

@@ -203,39 +203,9 @@ $(document).ready(function(){
               <section id="main-content">
                 <?php if (isset($main_page)) : ?>
                   <div class="row">
-                      <div class="col-lg-3">
-                          <div class="card">
-                              <div class="stat-widget-two">
-                                  <div class="stat-content">
-                                      <div class="stat-text">Realizar</div>
-                                      <div class="stat-digit"><a href='<?= site_url("Dashboard/pedidos"); ?>'>Pedidos</a></div>
-                                  </div>
-                                  <div class="progress">
-                                      <div class="progress-bar progress-bar-success w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-
-                      <div class="col-lg-3">
-                        <div class="card">
-                          <div class="stat-widget-two">
-                            <div class="stat-content">
-                              <div class="stat-text">Cadastrar</div>
-                              <div class="stat-digit"><a href='<?= site_url("Dashboard/clientes"); ?>'>Clientes</a></div>
-                            </div>
-                            <div class="progress">
-                              <div class="progress-bar progress-bar-success w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                  <!-- /# row -->
-                  <div class="row">
-                      <div class="col-md-4">
-                        <div class="card text-center">
-                            <div class="m-t-10">
+                    <div class="col-md-3">
+                        <div class="card bg-white p-2 text-center">
+                            <div class="m-t-5">
                                 <p>Pedidos no Site</p>
                             </div>
                             <ul class="widget-line-list m-b-15">
@@ -253,22 +223,109 @@ $(document).ready(function(){
                             </ul>
                         </div>
                     </div>
+                      <div class="col-lg-3">
+                          <div class="card bg-white p-3">
+                              <div class="m-t-10 stat-widget-two">
+                                  <div class="stat-content">
+                                      <div class="stat-text">Realizar</div>
+                                      <div class="stat-digit"><a href='<?= site_url("Dashboard/pedidos"); ?>'>Pedidos</a></div>
+                                  </div>
+                                  <div class="progress">
+                                      <div class="progress-bar progress-bar-success w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-lg-3">
+                        <div class="card bg-white p-3">
+                          <div class="m-t-10 stat-widget-two">
+                            <div class="stat-content">
+                              <div class="stat-text">Cadastrar</div>
+                              <div class="stat-digit"><a href='<?= site_url("Dashboard/clientes"); ?>'>Clientes</a></div>
+                            </div>
+                            <div class="progress">
+                              <div class="progress-bar progress-bar-success w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12 col-sm-12 col-lg-12">
+                      <div class="card">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Loja</th>
+                              <th scope="col">Produto</th>
+                              <th scope="col">Qntd Total</th>
+                              <th scope="col">Qntd Minima</th>
+                              <th scope="col">Nova Qntd</th>
+                              <th scope="col">Entrada/Saída</th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                        <?php 
+                          foreach ($estoques as $estoq) {
+                            $alerta = $estoq['estoque_baixo'] == 1 ? "<span class='badge badge-danger pull-right'><i class='ti-alert'></i></span>" : "";
+                            echo "
+                            <tr>
+                            ".form_open($__CLASS__.'/postMoviEstoque', array())."
+                              <input type='hidden' name='id_loja' value='".$estoq['id_loja']."'>
+                              <input type='hidden' name='id_produto' value='".$estoq['id_produto']."'>
+                              <td>".$estoq['nome_fantasia']."</td>
+                              <td>{$alerta} ".$estoq['produto']."</td>
+                              <td>".$estoq['qtde_total']."</td>
+                              <td>".$estoq['qtde_minima']."</td>
+                              <td><input type='numeric' name='qtde_movimentacao' class='form-control form-control-sm mb-2' placeholder='Nova Quantidade'></td>
+                              <td><select class='custom-select' name='tipo_movimentacao'><option value='e' selected>Entrada</option><option value='s'>Saída</option></select></td>
+                              <td><button type='submit' class='btn btn-sm btn-success btn-outline mb-2'>Enviar</button></td>
+                            </form>
+                            </tr>";
+                          } 
+                        ?>
+                          </tbody>
+                        </table>
+                        
+                      </div>
+                    </div>
                   </div>
                   <!-- /# row -->
                   <div class="row">
-                      <div class="col-md-4">
-                        <div class="card text-center">
-                            <div class="m-t-10">
-                                <p>Metas a serem cumpridas em 1 mês</p>
-                            </div>                            
-                        </div>
-                        <div class="card text-left">
-                            <div class="m-t-10">
-                                <p>Iniciar a base de dados</p>
-                                <p>Ligar para os buffes para prospectar clientes</p>
-                                <p>Gerar a primeira renda através do Mister</p>
-                            </div>                            
-                        </div>
+                    <div class="col-12 col-sm-12 col-lg-12">
+                      <div class="card">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">A Fazer</th>
+                              <th scope="col">Data Inicio</th>
+                              <th scope="col">Data Fim</th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody> 
+                        <?php 
+                          foreach ($afazeres as $afazer) {
+                            echo "
+                            <tr>
+                            ".form_open($__CLASS__.'/postAFazer', array())."
+                              <input type='hidden' name='id_afazer' value='".$afazer['id_afazer']."'>
+                              <input type='hidden' name='realizado' value='s'>
+                              <td>".$afazer['afazer']."</td>
+                              <td>".$afazer['dt_inicio']."</td>
+                              <td>".$afazer['dt_fim']."</td>
+                              <td><button type='submit' class='btn btn-sm btn-danger btn-outline'>X</button></td>
+                            </form>
+                            </tr>";
+                          } 
+                        ?>
+                          </tbody>
+                        </table>
+                        
+                      </div>
                     </div>
                   </div>
                   <!-- /# row -->

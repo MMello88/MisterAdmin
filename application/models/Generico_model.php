@@ -37,14 +37,32 @@ class Generico_model extends CI_Model {
 		return $menus;
 	}
 
-	public function geraFichaKardex($id_loja, $id_produto, $tipo_movimentacao, $origem_movimento, $qtde_movimento){
+	public function gerarMovimentacao($id_loja, $id_produto, $tipo_movimentacao, $qtde_movimentacao){
+    
+		$data_movimentacao = date("Y-m-d H:i:s");
+		$data = array(
+    		'id_loja' => $id_loja,
+    		'id_produto' => $id_produto,
+    		'tipo_movimentacao' => $tipo_movimentacao,
+    		'data_movimentacao' => $data_movimentacao,
+    		'qtde_movimentacao' => $qtde_movimentacao
+  		);
+
+		$this->db->insert('tbl_movimentacao_estoque', $data);
+
+		$this->geraEstoque($id_loja, $id_produto, $tipo_movimentacao, $qtde_movimentacao);
+
+		$this->geraFichaKardex($id_loja, $id_produto, $tipo_movimentacao, 'me', $qtde_movimentacao);
+}
+
+	public function geraFichaKardex($id_loja, $id_produto, $tipo_movimentacao, $origem_movimento, $qtde_movimentacao){
 		$data = array(
 	        'id_loja' => $id_loja,
 	        'id_produto' => $id_produto,
 	        'tipo_movimentacao' => $tipo_movimentacao,
 	        'origem_movimentacao' => $origem_movimento,
 	        'data_movimentacao' => date("Y-m-d H:i:s"),
-	        'qtde_movimentacao' => $qtde_movimento
+	        'qtde_movimentacao' => $qtde_movimentacao
 		);
 
     	$this->db->insert('tbl_ficha_kardex', $data);
@@ -65,13 +83,39 @@ class Generico_model extends CI_Model {
 	    	$this->db->insert('tbl_estoque', $data);
 	    } else {
 			$this->db->set('qtde_total', 'qtde_total+'.$qtde_movimentacao, FALSE);
-			$this->db->where(array('id_loja' => $id_loja,'id_produto' => $id_produto,));
-	    	$this->db->update('tbl_estoque', $data);
+			$this->db->where(array('id_loja' => $id_loja,'id_produto' => $id_produto));
+	    	$this->db->update('tbl_estoque');
 	    }
 	}
 
 	public function getprodutoByCategoria($id_categoria_produto) {
 	    $query = $this->db->get_where('tbl_produto', array('id_categoria_produto' => $id_categoria_produto));
+	    return $query->result_array();
+	}
+
+	public function getEstoque(){
+		$query = $this->db->query(" SELECT e.id_estoque,
+	       								   e.id_loja,
+	        							   e.id_produto,
+									       l.nome_fantasia,
+									       p.nome produto,
+									       e.qtde_total,
+									       e.qtde_minima,
+									       CASE WHEN e.qtde_total <= e.qtde_minima THEN 1 ELSE 0 END estoque_baixo
+									  FROM tbl_estoque e
+									  LEFT JOIN tbl_produto p ON (e.id_produto = p.id_produto)
+									  LEFT JOIN tbl_loja l ON (l.id_loja = e.id_loja)");
+		return $query->result_array();
+	}
+
+	public function AFazerRealizado($id_afazer, $realizado){
+		$this->db->set('realizado', $realizado);
+		$this->db->where(array('id_afazer' => $id_afazer));
+    	$this->db->update('tbl_afazer');
+	}
+
+	public function getAFazer(){
+		$query = $this->db->order_by('dt_fim', 'asc')->get_where('tbl_afazer', array('realizado' => 'n'));
 	    return $query->result_array();
 	}
 }
