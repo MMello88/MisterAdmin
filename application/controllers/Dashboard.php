@@ -541,8 +541,11 @@ class Dashboard extends CI_Controller {
 		$crud->set_relation('id_loja', 'tbl_loja', 'nome_fantasia');
 		$crud->set_relation('id_produto', 'tbl_produto', 'nome');
 
+		$crud->field_type('tipo_movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída', 'a' => 'Ajuste', 't' => 'Transferência'));
+
 		$crud->unset_add();
 		$crud->unset_delete();
+
 		$crud->required_fields('id_loja','id_produto', 'movimentacao', 'qtde_minima', 'qtde_movimento');
 
 		$output = $crud->render();
@@ -569,8 +572,9 @@ class Dashboard extends CI_Controller {
 		$crud->set_relation('id_categoria_produto', 'tbl_categoria_produto', 'nome', array('situacao' => 'a'));
 		$crud->set_relation('id_produto', 'tbl_produto', 'nome');
 
-		$crud->field_type('tipo_movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída', 'a' => 'Ajuste'));
+		$crud->field_type('tipo_movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída', 'a' => 'Ajuste', 't' => 'Transferência'));
 		$crud->field_type('data_movimentacao','hidden', date("Y-m-d H:i:s"));
+		
 		$crud->required_fields('id_loja','id_categoria_produto', 'id_produto', 'tipo_movimentacao', 'qtde_movimentacao');
 
 		$crud->unset_delete();
@@ -579,57 +583,13 @@ class Dashboard extends CI_Controller {
 		$crud->callback_after_insert(array($this, 'after_insert_update_mov_estoque'));
 		$crud->callback_after_update(array($this, 'after_insert_update_mov_estoque'));
 
-		$this->load->library('gc_dependent_select');
-
-		$fields = array(
-			// first field:
-			'id_categoria_produto' => array( // first dropdown name
-			'table_name' => 'tbl_categoria_produto', // table of country
-			'title' => 'nome', // country title
-			'relate' => null // the first dropdown hasn't a relation
-			),
-			// second field
-			'id_produto' => array( // second dropdown name
-			'table_name' => 'tbl_produto', // table of state
-			'title' => 'nome', // state title
-			'id_field' => 'id_produto', // table of state: primary key
-			'relate' => 'id_categoria_produto', // table of state:
-			'data-placeholder' => 'selecionar produto' //dropdown's data-placeholder:
-			)
-		);
-
-		$config = array(
-			'main_table' => 'tbl_submenu',
-			'main_table_primary' => 'submenu_id',
-			"url" => base_url() . 'index.php/' . __CLASS__ . '/', //	.$id.'/add' //path to method
-			'ajax_loader' => base_url() . 'ajax-loader.gif', // path to ajax-loader image. It's an optional parameter
-			'segment_name' =>'get_produtoByCategoria' // It's an optional parameter. by default "get_items"
-		);
-
-		$mult = new gc_dependent_select($crud, $fields, $config);
-
-		// the second method:
-		$js = $mult->get_js();
-
 		$output = $crud->render();
-
-		$output->output.= $js;
-		 
+ 
 		$this->_example_output($output);
-	}
-
-	public function get_produtoByCategoria($id){
-		$produtos = $this->Generico->getprodutoByCategoria($id);
-
-		$arr = array();
-		foreach ($produtos as $item) {
-			array_push($arr, array('value' => $item['id_produto'], 'property' => $item['nome']));
-		}
-		
-		echo json_encode($arr);
 	}
 
 	public function after_insert_update_mov_estoque($post_array,$primary_key){
 		$this->Generico->geraEstoque($post_array['id_loja'], $post_array['id_produto'], $post_array['tipo_movimentacao'], $post_array['qtde_movimentacao']);
+		$this->Generico->geraFichaKardex($post_array['id_loja'], $post_array['id_produto'], $post_array['tipo_movimentacao'], 'me', $post_array['qtde_movimentacao']);
 	}
 }

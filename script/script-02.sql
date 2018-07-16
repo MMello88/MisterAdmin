@@ -340,3 +340,21 @@ VALUES
 (NULL, 39, '2018-01-01', 0.40, 'c', 4),
 (NULL, 39, '2018-01-01', 0.40, 's', 4),
 (NULL, 39, '2018-01-01', 0.35, 'r', 4);
+
+ALTER TABLE `miste872_prod`.`tbl_movimentacao_estoque`   
+  DROP COLUMN `id_categoria_produto`, 
+  DROP INDEX `FK_MOV_ESTQ_CATG`,
+  DROP FOREIGN KEY `FK_MOV_ESTQ_CATG`;
+
+RENAME TABLE `miste872_prod`.`tbl_ficha_kerdex` TO `miste872_prod`.`tbl_ficha_kardex`;
+
+ALTER TABLE `miste872_prod`.`tbl_movimentacao_estoque`   
+  CHANGE `tipo_movimentacao` `tipo_movimentacao` CHAR(2) CHARSET utf8 COLLATE utf8_unicode_ci NULL  COMMENT 'e - entrada / s - sainda / a - ajuste / t - transferencia';
+
+ALTER TABLE `miste872_prod`.`tbl_ficha_kardex`   
+  CHANGE `movimento` `tipo_movimentacao` CHAR(2) CHARSET utf8 COLLATE utf8_general_ci NOT NULL  COMMENT 'e - entrada / s - sainda / a - ajuste / t - transferencia';
+
+ALTER TABLE `miste872_prod`.`tbl_ficha_kardex`   
+  CHANGE `origem_movimento` `origem_movimentacao` CHAR(3) CHARSET utf8 COLLATE utf8_general_ci NOT NULL  COMMENT 'me - movimentacao estoque / nfs - nota fiscal sainda / nfe nota fiscal entrada / ps - pedido site',
+  CHANGE `data_movimento` `data_movimentacao` DATE NOT NULL,
+  CHANGE `qtde_movimento` `qtde_movimentacao` DECIMAL(6,0) NOT NULL;

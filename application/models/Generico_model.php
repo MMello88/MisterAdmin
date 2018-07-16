@@ -37,6 +37,19 @@ class Generico_model extends CI_Model {
 		return $menus;
 	}
 
+	public function geraFichaKardex($id_loja, $id_produto, $tipo_movimentacao, $origem_movimento, $qtde_movimento){
+		$data = array(
+	        'id_loja' => $id_loja,
+	        'id_produto' => $id_produto,
+	        'tipo_movimentacao' => $tipo_movimentacao,
+	        'origem_movimentacao' => $origem_movimento,
+	        'data_movimentacao' => date("Y-m-d H:i:s"),
+	        'qtde_movimentacao' => $qtde_movimento
+		);
+
+    	$this->db->insert('tbl_ficha_kardex', $data);
+	}
+
 	public function geraEstoque($id_loja, $id_produto, $tipo_movimentacao, $qtde_movimentacao){
 		$query = $this->db->get_where('tbl_estoque', array('id_loja' => $id_loja, 'id_produto' => $id_produto));
 		
