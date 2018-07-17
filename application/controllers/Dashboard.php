@@ -35,6 +35,7 @@ class Dashboard extends CI_Controller {
 		$this->data['main_page'] = 'isset';
 		$this->data['estoques'] = $this->Generico->getEstoque();
 		$this->data['afazeres'] = $this->Generico->getAFazer();
+		$this->data['PedidosSolicitados'] = $this->Generico->getPedidoSolicitados();
 		$this->_example_output((object)array('output' => '' , 'js_files' => array() , 'css_files' => array()));
 	}
 
@@ -659,6 +660,13 @@ class Dashboard extends CI_Controller {
 	public function postAFazer(){
 		if($_POST){
 			$this->Generico->AFazerRealizado($_POST['id_afazer'], $_POST['realizado']);
+			redirect(__CLASS__.'/index');
+		}
+	}
+
+	public function postPedidoEntregue(){
+		if($_POST){
+			$this->Generico->PedidoEntregue($_POST['id_pedido']);
 			redirect(__CLASS__.'/index');
 		}
 	}

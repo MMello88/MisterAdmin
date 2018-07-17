@@ -226,3 +226,6 @@ CREATE TABLE `miste872_prod`.`tbl_afazer`(
 
 ALTER TABLE `miste872_prod`.`tbl_afazer`   
   CHANGE `ativo` `realizado` CHAR(1) CHARSET utf8 COLLATE utf8_general_ci NULL  COMMENT 's - sim / n - não';
+
+ALTER TABLE `miste872_prod`.`tbl_item_pedido`   
+  ADD COLUMN `id_categoria_produto` INT(11) NOT NULL  COMMENT 'categoria' AFTER `id_produto`;

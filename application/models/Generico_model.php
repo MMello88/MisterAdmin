@@ -118,4 +118,67 @@ class Generico_model extends CI_Model {
 		$query = $this->db->order_by('dt_fim', 'asc')->get_where('tbl_afazer', array('realizado' => 'n'));
 	    return $query->result_array();
 	}
+
+	public function getPedidoSolicitados(){
+		$query = $this->db->query(" SELECT p.id_pedido,
+									       c.nome nome_cliente,
+									       cd.nome nome_cidade,
+									       CASE
+									         WHEN p.situacao = 's' THEN 'Solicitado'
+									         WHEN p.situacao = 'v' THEN 'Visualizado'
+									         WHEN p.situacao = 'p' THEN 'Produzindo'
+									         WHEN p.situacao = 't' THEN 'Saíu p/ Entregar'
+									         WHEN p.situacao = 'e' THEN 'Entregue'
+									         ELSE '' END situacao,
+									       p.data_pedido,
+									       CASE
+									         WHEN p.forma_pgto = 'd' THEN 'Dinheiro'
+									         WHEN p.forma_pgto = 'cd' THEN 'Cartão de Débito'
+									         WHEN p.forma_pgto = 'cc' THEN 'Cartão de Crédito'
+									         ELSE '' END forma_pgto,
+									       CASE 
+									         WHEN p.forma_entrega = 'r' THEN 'Retirar'
+									         WHEN p.forma_entrega = 'e' THEN 'Entregar'
+									         ELSE '' END forma_entrega,
+									       p.valor,
+									       CASE 
+									         WHEN p.forma_entrega = 'e' THEN p.taxa_entrega
+									         ELSE 0 END taxa_entrega,
+									       p.valor_total,
+									       CONCAT(p.data_entrega, ' ', p.hora_entrega) dthr_entrega,
+									       CASE 
+									         WHEN p.end_entrega IS NULL THEN CONCAT(c.endereco, ', Nr.', c.numero, ', ', c.bairro, ' ', IFNULL(c.complemento,''))
+									         ELSE CONCAT(IFNULL(p.end_entrega,''), ', Nr.', IFNULL(p.num_entrega,''), ' ', IFNULL(p.bairro_entrega,''), ' ', IFNULL(p.comp_entrega,'')) END end_completo
+									  FROM tbl_pedido p
+									  LEFT JOIN tbl_cliente c ON (c.id_cliente = p.id_cliente)
+									  LEFT JOIN tbl_cidade cd ON (cd.id_cidade = p.id_cidade)
+									 WHERE p.situacao = 's'
+									 ORDER BY p.data_entrega, p.hora_entrega");
+		$pedidos = $query->result_array();
+
+		foreach ($pedidos as $key => $pedido) {
+			$pedidos[$key]['itens'] = $this->getItensPedido($pedido['id_pedido']);
+		}
+
+		return $pedidos;
+	}
+
+	public function getItensPedido($id_pedido){
+		$query = $this->db->query(" SELECT i.id_item_pedido,
+									       p.id_produto,
+									       p.nome nome_produto,
+									       c.nome nome_categoria,
+									       i.qtde
+									  FROM tbl_item_pedido i
+									  LEFT JOIN tbl_produto p ON (p.id_produto = i.id_produto)
+									  LEFT JOIN tbl_categoria_produto c ON (c.id_categoria_produto = i.id_categoria_produto)
+									 WHERE i.id_pedido = $id_pedido");
+		return $query->result_array();
+	}
+
+	public function PedidoEntregue($id_pedido){
+		$this->db->set('situacao', 'e');
+		$this->db->where(array('id_pedido' => $id_pedido));
+    	$this->db->update('tbl_pedido');
+	}
 }
