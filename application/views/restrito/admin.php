@@ -368,7 +368,7 @@ $(document).ready(function(){
                                 <div class="col">Cliente</div>
                                 <div class="col">Pgto</div>
                                 <div class="col">Entrega</div>
-                                <div class="col">Data</div>
+                                <div class="col">Dt Entrega</div>
                                 <div class="col">Valor</div>
                                 <div class="col">Taxa</div>
                                 <div class="col">Valor Total</div>
@@ -392,6 +392,10 @@ $(document).ready(function(){
                                         ".form_open($__CLASS__.'/postPedidoEntregue', array())."
                                           <input type='hidden' name='id_pedido' value='".$pedido['id_pedido']."'>
                                           <button type='submit' class='btn btn-sm btn-warning btn-outline'>Entregar</button>
+                                        </form>
+                                        ".form_open($__CLASS__.'/postCancelarPedido', array())."
+                                          <input type='hidden' name='id_pedido' value='".$pedido['id_pedido']."'>
+                                          <button type='submit' class='btn btn-sm btn-warning btn-outline'>Cancelar</button>
                                         </form>
                                       </div>
                                     </div>

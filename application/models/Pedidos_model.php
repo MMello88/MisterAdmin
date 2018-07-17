@@ -24,7 +24,7 @@ class Pedidos_model extends CI_Model {
                     COUNT(1) aberto 
                   FROM
                     tbl_pedido 
-                  WHERE situacao <> 'e') a " ;
+                  WHERE situacao NOT IN ('c','e')) a " ;
         $query = $this->db->query($sql);
         return $query->result_object()[0];
     }

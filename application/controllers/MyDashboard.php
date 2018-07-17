@@ -143,15 +143,19 @@ class MyDashboard extends CI_Controller {
  
 		$crud->set_table('tbl_fornecedor');
 		$crud->set_subject('Cadastro de Fornecedor');
-		$crud->columns('nome','telefone','situacao');
-		$crud->fields('id_fornecedor','nome','telefone','situacao');
+		$crud->columns('nome', 'ramo', 'whatsapp');
+		$crud->fields('nome', 'ramo', 'descricao', 'whatsapp', 'celular', 'telefone');
 		
+		$crud->display_as('id_fornecedor','Id Fornecedor');
 		$crud->display_as('nome','Nome Fornecedor');
+		$crud->display_as('ramo','Ramo Profissional');
+		$crud->display_as('descricao','Descrição');
+		$crud->display_as('whatsapp','Whatsapp');
+		$crud->display_as('celular','Celular');	
 		$crud->display_as('telefone','Telefone');
-		$crud->display_as('situacao','Situação');
-	 
-	 	$crud->field_type('situacao','dropdown', array('a' => 'Ativo', 'd' => 'Desativado'));
 
+		$crud->unset_texteditor('descricao');
+		
 		$output = $crud->render();
 		 
 		$this->_example_output($output);
@@ -271,7 +275,7 @@ class MyDashboard extends CI_Controller {
 		$crud->display_as('comp_entrega','Complemento');
 		$crud->display_as('data_pagamento','Data Pagamento');
 
-		$crud->field_type('situacao','dropdown', array('s' => 'Solicitação', 'v' => 'Visualizado', 'p' => 'Produzindo', 't' => 'Saiu p/ entregar', 'e' => 'Entregue'));
+		$crud->field_type('situacao','dropdown', array('s' => 'Solicitação', 'v' => 'Visualizado', 'p' => 'Produzindo', 't' => 'Saiu p/ entregar', 'e' => 'Entregue', 'c' => 'Cancelado'));
 		$crud->field_type('forma_pgto','dropdown', array('d' => 'Dinheiro', 'cd' => 'Cartão Débito', 'cc' => 'Cartão Crédito'));
 		$crud->field_type('forma_entrega','dropdown', array('r' => 'Retirar', 'e' => 'Entregar'));
 
@@ -557,12 +561,12 @@ class MyDashboard extends CI_Controller {
 		$this->_example_output($output);
 	}
 
-public function movimentacao_estoque(){
+	public function movimentacao_estoque(){
 		$crud = new grocery_CRUD();
  
 		$crud->set_table('tbl_movimentacao_estoque');
 		$crud->set_subject('Movimentação de Estoque');
-		$crud->columns('id_loja', 'id_produto', 'tipo_movimentacao', 'qtde_movimentacao', 'data_movimentacao');
+		$crud->columns('id_loja', 'id_produto', 'tipo_movimentacao', 'qtde_movimentacao', 'data_movimentacao', 'id_item_pedido');
 		$crud->fields('id_loja', 'id_produto', 'tipo_movimentacao', 'qtde_movimentacao', 'data_movimentacao');
 		
 		$crud->display_as('id_loja','Loja');
@@ -570,11 +574,12 @@ public function movimentacao_estoque(){
 		$crud->display_as('tipo_movimentacao','Movimentação de');
 		$crud->display_as('qtde_movimentacao','Qtde Movimentação');
 		$crud->display_as('data_movimentacao','Data Movimentação');
+		$crud->display_as('id_item_pedido','Id Item Pedido');
 
 		$crud->set_relation('id_loja', 'tbl_loja', 'nome_fantasia');
 		$crud->set_relation('id_produto', 'tbl_produto', 'nome');
 
-		$crud->field_type('tipo_movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída', 'a' => 'Ajuste', 't' => 'Transferência'));
+		$crud->field_type('tipo_movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída', 'a' => 'Ajuste', 't' => 'Transferência', 'c' => 'Cancelado'));
 		$crud->field_type('data_movimentacao','hidden', date("Y-m-d H:i:s"));
 		
 		$crud->required_fields('id_loja', 'id_produto', 'tipo_movimentacao', 'qtde_movimentacao');
@@ -613,7 +618,7 @@ public function movimentacao_estoque(){
 		$crud->set_relation('id_loja', 'tbl_loja', 'nome_fantasia');
 		$crud->set_relation('id_produto', 'tbl_produto', 'nome');
 
-		$crud->field_type('tipo_movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída', 'a' => 'Ajuste', 't' => 'Transferência'));
+		$crud->field_type('tipo_movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída', 'a' => 'Ajuste', 't' => 'Transferência', 'c' => 'Cancelado'));
 		$crud->field_type('origem_movimentacao','dropdown', array('me' => 'Movimentação Estoque', 'nfs' => 'Nf Saída', 'nfe' => 'Nf Entrada', 'ps' => 'Pedido no Site'));
 
 		$crud->unset_delete();
@@ -664,7 +669,18 @@ public function movimentacao_estoque(){
 
 	public function postPedidoEntregue(){
 		if($_POST){
-			$this->Generico->PedidoEntregue($_POST['id_pedido']);
+			$this->Generico->AlterarSituacaoPedido($_POST['id_pedido'], 'e');
+			redirect(__CLASS__.'/index');
+		}
+	}
+
+	public function postCancelarPedido(){
+		if($_POST){
+			$pedido = $this->Generico->getPedidoSolicitados($_POST['id_pedido']);
+			foreach ($pedido[0]['itens'] as $items) {
+				$this->Generico->gerarMovimentacao($pedido[0]['id_cidade'], $items['id_produto'], 'c', $items['qtde'], $items['id_item_pedido']);
+				$this->Generico->AlterarSituacaoPedido($_POST['id_pedido'], 'c');
+			}
 			redirect(__CLASS__.'/index');
 		}
 	}

@@ -27,6 +27,8 @@ CREATE TABLE `miste872_prod`.`tbl_fornecedor`(
   PRIMARY KEY (`id_fornecedor`)
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
 
+DROP TABLE tbl_menu;
+
 CREATE TABLE `tbl_menu` (
   `menu_id` INT(11) NOT NULL AUTO_INCREMENT,
   `nome_menu` VARCHAR(80) NOT NULL,
@@ -165,6 +167,11 @@ CREATE TABLE `miste872_prod`.`tbl_produto_categoria`(
   CONSTRAINT `fk_pro_cat_cat` FOREIGN KEY (`id_categoria_produto`) REFERENCES `miste872_prod`.`tbl_categoria_produto`(`id_categoria_produto`)
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
 
+LOCK TABLES `tbl_produto_categoria` WRITE;
+
+insert  into `tbl_produto_categoria`(`id_produto_categoria`,`id_produto`,`id_categoria_produto`,`imagem`) values (1,1,1,'frito_croquete.png'),(2,1,2,'congelado_croquete.png'),(3,13,3,'mini_cro.png'),(4,13,4,'mini_cro_sem.png'),(5,2,1,'frito_bolinho_carne.png'),(6,2,2,'congelado_bolinho_carne.png'),(7,14,3,'frito_mini_bolinho_carne.jpg'),(8,14,4,'congelado_mini_bolinho_carne.jpg'),(9,3,1,'frito_coxinha.png'),(10,3,2,'congelado_coxinha.png'),(11,15,3,'frito_mini_coxinha.jpg'),(12,15,4,'congelado_mini_coxinha.jpg'),(13,4,1,'frito_enroladinho.png'),(14,4,2,'congelado_enroladinho.png'),(15,16,3,'frito_mini_enroladinho.jpg'),(16,16,4,'congelado_mini_enroladinho.jpg'),(17,5,1,'frito_salsicha.png'),(18,5,2,'congelado_salsicha.png'),(19,17,3,'frito_mini_salsicha.jpg'),(20,17,4,'congelado_mini_salsicha.jpg'),(21,6,1,'frito_kibe.png'),(22,6,2,'congelado_kibe.png'),(23,18,3,'frito_mini_kibe.jpg'),(24,18,4,'congelado_mini_kibe.jpg'),(25,39,3,'frito_mini_bolinha_queijo.jpg'),(26,39,4,'congelado_mini_bolinha_queijo.jpg');
+
+UNLOCK TABLES;
 
 DELETE FROM tbl_item_pedido WHERE id_produto IN (SELECT id_produto FROM tbl_produto WHERE id_produto NOT IN (SELECT id_produto FROM tbl_produto_categoria));
 
@@ -188,6 +195,8 @@ SELECT CONCAT('TRUNCATE TABLE ',table_schema, '.', TABLE_NAME, ';')
 ALTER TABLE `miste872_prod`.`tbl_cart`   
   ADD COLUMN `id_categoria_produto` INT NOT NULL AFTER `id_session`,
   ADD CONSTRAINT `tbl_cart_ibfk_3` FOREIGN KEY (`id_categoria_produto`) REFERENCES `miste872_prod`.`tbl_categoria_produto`(`id_categoria_produto`);
+
+DELETE FROM tbl_valor_produto;
 
 ALTER TABLE `miste872_prod`.`tbl_valor_produto`   
   ADD COLUMN `id_categoria_produto` INT(11) NOT NULL AFTER `tipo_cliente`,
@@ -229,3 +238,16 @@ ALTER TABLE `miste872_prod`.`tbl_afazer`
 
 ALTER TABLE `miste872_prod`.`tbl_item_pedido`   
   ADD COLUMN `id_categoria_produto` INT(11) NOT NULL  COMMENT 'categoria' AFTER `id_produto`;
+
+ALTER TABLE `miste872_prod`.`tbl_movimentacao_estoque`   
+  ADD COLUMN `id_item_pedido` INT(11) NULL AFTER `data_movimentacao`,
+  ADD CONSTRAINT `FK_MOV_ESTQ_ITEM_PEDIDO` FOREIGN KEY (`id_item_pedido`) REFERENCES `miste872_prod`.`tbl_item_pedido`(`id_item_pedido`);
+
+ALTER TABLE `miste872_prod`.`tbl_ficha_kardex`   
+  CHANGE `tipo_movimentacao` `tipo_movimentacao` CHAR(2) CHARSET utf8 COLLATE utf8_general_ci NOT NULL  COMMENT 'e - entrada / s - sainda / a - ajuste / t - transferencia / c - cancelado';
+
+ALTER TABLE `miste872_prod`.`tbl_pedido`   
+  CHANGE `situacao` `situacao` CHAR(1) CHARSET utf8 COLLATE utf8_general_ci NOT NULL  COMMENT 's - solicitado / v - visualizado / p - produzindo / t - saiu entrega / e - entregue / c - cancelado';
+
+ALTER TABLE `miste872_prod`.`tbl_movimentacao_estoque`   
+  CHANGE `tipo_movimentacao` `tipo_movimentacao` CHAR(2) CHARSET utf8 COLLATE utf8_unicode_ci NULL  COMMENT 'e - entrada / s - sainda / a - ajuste / t - transferencia / c - cancelado';
