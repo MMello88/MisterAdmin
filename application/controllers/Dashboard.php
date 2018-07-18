@@ -52,7 +52,7 @@ class Dashboard extends CI_Controller {
 		$crud->set_subject('Cadastro de Cliente');
 		$crud->columns('nome','email','endereco','tipo');
 		$crud->fields('id_cliente','nome','cpf_cnpj','email','senha','telefone','endereco','numero','bairro',                     
-					  'complemento','situacao','tipo','ganho_unitario','ativo');
+					  'complemento','situacao','tipo','ganho_unitario','ativo', 'dt_cadastro');
 		
 		$crud->display_as('nome','Nome');
 		$crud->display_as('email','E-mail');
@@ -67,6 +67,7 @@ class Dashboard extends CI_Controller {
 		$crud->display_as('tipo','Tipo');
 		$crud->display_as('ganho_unitario','Ganho %');
 		$crud->display_as('ativo','Ativo');
+		$crud->display_as('dt_cadastro','Dt. Cadastro');
 
 		$crud->field_type('situacao','dropdown', array('a' => 'Ativo', 'd' => 'Desativado'));
 		$crud->field_type('tipo','dropdown', array('c' => 'Cliente', 'r' => 'Revendedor', 's' => 'Representante', 'p' => 'Parceiro'));
@@ -85,7 +86,7 @@ class Dashboard extends CI_Controller {
 		$crud->set_subject('Cadastro de Cliente');
 		$crud->columns('nome','email','endereco','tipo');
 		$crud->fields('id_cliente','nome','cpf_cnpj','email','senha','telefone','endereco','numero','bairro',                     
-					  'complemento','situacao','tipo','ganho_unitario','ativo');
+					  'complemento','situacao','tipo','ganho_unitario','ativo', 'dt_cadastro');
 		
 		$crud->display_as('nome','Nome');
 		$crud->display_as('email','E-mail');
@@ -100,6 +101,7 @@ class Dashboard extends CI_Controller {
 		$crud->display_as('tipo','Tipo');
 		$crud->display_as('ganho_unitario','Ganho %');
 		$crud->display_as('ativo','Ativo');
+		$crud->display_as('dt_cadastro','Dt. Cadastro');
 
 		$crud->field_type('situacao','dropdown', array('a' => 'Ativo', 'd' => 'Desativado'));
 		$crud->field_type('tipo','dropdown', array('c' => 'Cliente', 'r' => 'Revendedor', 's' => 'Representante', 'p' => 'Parceiro'));
@@ -145,19 +147,44 @@ class Dashboard extends CI_Controller {
  
 		$crud->set_table('tbl_fornecedor');
 		$crud->set_subject('Cadastro de Fornecedor');
-		$crud->columns('nome', 'ramo', 'whatsapp');
-		$crud->fields('nome', 'ramo', 'descricao', 'whatsapp', 'celular', 'telefone');
+		$crud->columns('nome', 'apelido', 'whatsapp', 'email','site');
+		$crud->fields('nome','apelido','telefone','celular','whatsapp','email','site','observacao',
+				 	  'tipo_pessoa','cpf_cnpj','rg','inscr_municipal','inscr_estadual','tipo_ie','cep',
+					  'endereco','numero','bairro','complemento','banco','agencia','digito_ag','conta_corrente','digito_cc');
 		
 		$crud->display_as('id_fornecedor','Id Fornecedor');
-		$crud->display_as('nome','Nome Fornecedor');
-		$crud->display_as('ramo','Ramo Profissional');
-		$crud->display_as('descricao','Descrição');
+		$crud->display_as('nome','Nome');
+		$crud->display_as('apelido','Apelido/ Razão Social'); 
 		$crud->display_as('whatsapp','Whatsapp');
 		$crud->display_as('celular','Celular');	
 		$crud->display_as('telefone','Telefone');
+		$crud->display_as('email','E-mail');
+		$crud->display_as('site','Site');
+		$crud->display_as('tipo_pessoa','Fisíca/Juridica');
+		$crud->display_as('cpf_cnpj','CPF / CNPJ');
+		$crud->display_as('rg','RG');
+		$crud->display_as('inscr_municipal','Inscrição Municipal');
+		$crud->display_as('inscr_estadual','Inscrição Estadual');
+		$crud->display_as('tipo_ie','Indicador IE');
+		$crud->display_as('cep','CEP');
+		$crud->display_as('endereco','Endereço');
+		$crud->display_as('numero','Nr.');
+		$crud->display_as('bairro','Bairro');
+		$crud->display_as('complemento','Complemento');
+		$crud->display_as('banco','Banco');
+		$crud->display_as('agencia','Agência');
+		$crud->display_as('digito_ag','Digito');
+		$crud->display_as('conta_corrente','Conta Corrente');
+		$crud->display_as('digito_cc','Digito');
 
-		$crud->unset_texteditor('descricao');
-		
+		$crud->display_as('observacao','Descrição');
+
+		$crud->set_relation('banco','tbl_tipo','descricao', array('campo' => 'banco'));
+		$crud->set_relation('tipo_ie','tbl_tipo','descricao', array('campo' => 'tipo_ie'));
+
+		$crud->unset_texteditor('observacao');
+
+
 		$output = $crud->render();
 		 
 		$this->_example_output($output);

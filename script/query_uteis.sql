@@ -9,3 +9,7 @@ INSERT  INTO `tbl_function_controller`(`function_controller_id`,`arquivo_control
 UNLOCK TABLES;
 
 SET FOREIGN_KEY_CHECKS=1;
+
+
+/*listar as colunas da tabela */
+SELECT * FROM information_schema.columns WHERE table_schema = 'db_name';
