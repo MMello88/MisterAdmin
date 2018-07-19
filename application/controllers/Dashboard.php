@@ -713,4 +713,86 @@ class Dashboard extends CI_Controller {
 			redirect(__CLASS__.'/index');
 		}
 	}
+
+	public function ContasAPagar(){
+		$crud = new grocery_CRUD();
+ 
+		$crud->set_table('tbl_contas_apagar');
+		$crud->set_subject('Cadastrar Contas A Pagar');
+		$crud->columns('id_contas_apagar', 'id_fornecedor', 'id_classificacao', 'dt_venc', 'valor_apagar');
+		$crud->fields('id_classificacao','dt_cadastro', 'id_fornecedor', 'dt_venc', 'valor_apagar', 'conta_fixa', 'obs', 'situacao');
+		
+		$crud->display_as('id_classificacao','Classificação');
+		$crud->display_as('id_fornecedor','Fornecedor');
+		$crud->display_as('dt_venc','Data Vencimento');
+		$crud->display_as('valor_apagar','Valor A Pagar');
+		$crud->display_as('conta_fixa','Conta Fixa');
+		$crud->display_as('obs','Observação');
+
+		$crud->field_type('dt_cadastro','hidden', date("Y-m-d H:i:s"));
+		$crud->field_type('situacao','hidden', 'a');
+		$crud->field_type('conta_fixa','dropdown', array('s' => 'Sim', 'n' => 'Não'));
+
+		$crud->required_fields('id_classificacao', 'dt_venc', 'valor_apagar', 'conta_fixa');
+
+		$crud->set_relation('id_classificacao','tbl_tipo','descricao', array('campo' => 'id_classificacao'));
+		$crud->set_relation('id_fornecedor','tbl_fornecedor','apelido');
+
+		$output = $crud->render();
+ 
+		$this->_example_output($output);
+	}
+
+	public function PagarAConta(){
+		$crud = new grocery_CRUD();
+ 
+		$crud->set_table('tbl_contas_apagar');
+		$crud->where('situacao', 'a');
+		$crud->set_subject('Pagar A Contas');
+		$crud->columns('id_fornecedor', 'id_classificacao', 'dt_venc', 'valor_apagar');
+		$crud->fields('id_contas_apagar', 'tipo_pagamento', 'dt_venc', 'dt_pago', 'valor_apagar', 'valor_pgto', 'valor_desconto', 'valor_juros', 'conta_fixa', 'situacao', 
+			'id_contas_apagar', 'id_fornecedor', 'id_classificacao');
+		
+		$crud->display_as('id_classificacao','Classificação');
+		$crud->display_as('id_fornecedor','Fornecedor');
+		$crud->display_as('dt_venc','Data Vencimento');
+		$crud->display_as('valor_apagar','Valor A Pagar');
+		$crud->display_as('conta_fixa','Conta Fixa');
+		$crud->display_as('obs','Observação');
+
+		$crud->display_as('dt_pago','Data Pagamento');
+		$crud->display_as('valor_pgto','Valor Pago');
+		$crud->display_as('valor_desconto','Valor Desconto');
+		$crud->display_as('valor_juros','Valor Juros');
+		$crud->display_as('tipo_pagamento','Tipo Pagamento');
+
+
+		$crud->set_relation('id_classificacao','tbl_tipo','descricao', array('campo' => 'id_classificacao'));
+		$crud->set_relation('tipo_pagamento','tbl_tipo','descricao', array('campo' => 'tipo_pagamento'));
+		$crud->set_relation('id_fornecedor','tbl_fornecedor','apelido');
+
+		$crud->field_type('conta_fixa','hidden');
+		$crud->field_type('situacao','hidden', 'p');
+		$crud->field_type('id_contas_apagar','hidden');
+		$crud->field_type('id_fornecedor','readonly');
+		$crud->field_type('id_classificacao','readonly');
+		$crud->field_type('dt_venc','readonly');
+		$crud->field_type('valor_apagar','readonly');
+
+		$crud->required_fields('dt_pago', 'valor_pgto');
+
+
+		$crud->unset_add();
+		$crud->unset_delete();
+
+		$crud->callback_after_update(array($this, 'after_update_contas_apagar'));
+
+		$output = $crud->render();
+ 
+		$this->_example_output($output);
+	}
+
+	public function after_update_contas_apagar($post_array,$primary_key){
+		$this->Generico->geraProximaContaAPagarFixa($post_array);
+	}
 }

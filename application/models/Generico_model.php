@@ -187,4 +187,19 @@ class Generico_model extends CI_Model {
 		$this->db->where(array('id_pedido' => $id_pedido));
     	$this->db->update('tbl_pedido');
 	}
+
+	public function geraProximaContaAPagarFixa($ArrContaAPagar){
+		print_r($ArrContaAPagar);
+		die();
+		$ArrContaAPagar['dt_cadastro'] = date("Y-m-d H:i:s");
+		$ArrContaAPagar['dt_venc'] = date('Y-m-d', strtotime("+1 month", strtotime($ArrContaAPagar['dt_venc'])));
+		$ArrContaAPagar['situacao'] = 'a';
+		$ArrContaAPagar['id_contas_apagar'] = '';
+		$ArrContaAPagar['dt_pago'] = '';
+		$ArrContaAPagar['valor_pgto'] = '';
+		$ArrContaAPagar['valor_desconto'] = '';
+		$ArrContaAPagar['valor_juros'] = '';
+		$ArrContaAPagar['tipo_pagamento'] = '';
+		$this->db->insert('tbl_contas_apagar', $ArrContaAPagar);
+	}
 }
