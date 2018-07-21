@@ -752,8 +752,7 @@ class Dashboard extends CI_Controller {
 		$crud->set_subject('Pagar A Contas');
 		$crud->columns('id_fornecedor', 'id_conta_gerencial', 'dt_venc', 'valor_apagar');
 		$crud->fields('id_contas_apagar', 'tipo_pagamento', 'dt_venc', 'dt_pago', 'id_conta_corrente', 'valor_apagar', 
-			'valor_pgto', 'valor_desconto', 'valor_juros', 'conta_fixa', 'situacao', 'id_contas_apagar', 
-			'id_fornecedor', 'id_conta_gerencial');
+			'valor_pgto', 'valor_desconto', 'valor_juros', 'conta_fixa', 'situacao', 'id_fornecedor', 'id_conta_gerencial');
 		
 		$crud->display_as('id_conta_gerencial','Conta Gerencial');
 		$crud->display_as('id_fornecedor','Fornecedor');
@@ -782,7 +781,7 @@ class Dashboard extends CI_Controller {
 		$crud->field_type('dt_venc','readonly');
 		$crud->field_type('valor_apagar','readonly');
 
-		$crud->required_fields('tipo_pagamento', 'dt_pago', 'valor_pgto');
+		$crud->required_fields('tipo_pagamento', 'dt_pago', 'valor_pgto', 'id_conta_corrente');
 
 
 		$crud->unset_add();
@@ -809,8 +808,7 @@ class Dashboard extends CI_Controller {
 		$crud->set_subject('Pagar A Contas');
 		$crud->columns('id_fornecedor', 'id_conta_gerencial', 'dt_venc', 'valor_apagar', 'tipo_pagamento', 'dt_pago', 'valor_apagar');
 		$crud->fields('id_contas_apagar', 'tipo_pagamento', 'dt_venc', 'dt_pago', 'id_conta_corrente', 'valor_apagar', 
-			'valor_pgto', 'valor_desconto', 'valor_juros', 'conta_fixa', 'situacao', 'id_contas_apagar', 
-			'id_fornecedor', 'id_conta_gerencial');
+			'valor_pgto', 'valor_desconto', 'valor_juros', 'conta_fixa', 'situacao', 'id_fornecedor', 'id_conta_gerencial');
 		
 		$crud->display_as('id_conta_gerencial','Conta Gerencial');
 		$crud->display_as('id_fornecedor','Fornecedor');
