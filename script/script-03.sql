@@ -158,3 +158,31 @@ ALTER TABLE `miste872_prod`.`tbl_cliente`
   ADD COLUMN `id_cidade` INT(11) NULL AFTER `ativo`,
   ADD COLUMN `dt_cadastro` DATE NULL AFTER `id_cidade`, 
   ADD CONSTRAINT `FK_CIENTE_CIDADE` FOREIGN KEY (`id_cidade`) REFERENCES `miste872_prod`.`tbl_cidade`(`id_cidade`);
+
+ALTER TABLE `miste872_prod`.`tbl_cliente`   
+  CHANGE `telefone` `telefone` VARCHAR(30) CHARSET utf8 COLLATE utf8_general_ci NULL,
+  CHANGE `endereco` `endereco` VARCHAR(250) CHARSET utf8 COLLATE utf8_general_ci NULL,
+  CHANGE `numero` `numero` VARCHAR(10) CHARSET utf8 COLLATE utf8_general_ci NULL,
+  CHANGE `bairro` `bairro` VARCHAR(150) CHARSET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `miste872_prod`.`tbl_cliente`   
+  CHANGE `dt_cadastro` `dt_cadastro` DATETIME NULL;
+
+CREATE TABLE `miste872_prod`.`tbl_endereco`(  
+  `id_endereco` INT(11) NOT NULL AUTO_INCREMENT,
+  `endereco` VARCHAR(250) NOT NULL,
+  `numero` VARCHAR(10) NOT NULL,
+  `bairro` VARCHAR(150) NOT NULL,
+  `complemento` VARCHAR(100),
+  `cep` VARCHAR(10),
+  `principal` CHAR(1) NOT NULL COMMENT 's - sim / n - não',
+  `id_cliente` INT(11),
+  PRIMARY KEY (`id_endereco`),
+  CONSTRAINT `FK_ENDERECO_CLIENTE` FOREIGN KEY (`id_cliente`) REFERENCES `miste872_prod`.`tbl_cliente`(`id_cliente`)
+) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
+
+ALTER TABLE `miste872_prod`.`tbl_endereco`   
+  ADD COLUMN `id_cidade` INT(11) NOT NULL AFTER `id_cliente`,
+  ADD CONSTRAINT `FK_ENDERECO_CIDADE` FOREIGN KEY (`id_cidade`) REFERENCES `miste872_prod`.`tbl_cidade`(`id_cidade`);
+
+ALTER TABLE `miste872_prod`.`tbl_pedido`   
+  ADD COLUMN `cidade_entrega` VARCHAR(150) NULL AFTER `end_entrega`;
