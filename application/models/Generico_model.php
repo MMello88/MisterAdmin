@@ -188,10 +188,9 @@ class Generico_model extends CI_Model {
     	$this->db->update('tbl_pedido');
 	}
 
-	public function geraProximaContaAPagarFixa($key){
+	public function geraProximaContaAPagarFixa($key, $nrvezes = FALSE){
 		$query = $this->db->get_where('tbl_contas_apagar', array('id_contas_apagar' => $key));
 		$conta = $query->row();
-		log_message('error', json_encode($conta));
 		$conta->dt_cadastro = date("Y-m-d H:i:s");
 		$conta->dt_venc = date('Y-m-d', strtotime("+1 month", strtotime($conta->dt_venc)));
 		$conta->situacao = 'a';
@@ -201,6 +200,40 @@ class Generico_model extends CI_Model {
 		$conta->valor_desconto = null;
 		$conta->valor_juros = null;
 		$conta->tipo_pagamento = null;
-		$this->db->insert('tbl_contas_apagar', $conta);
+		if ($nrvezes){
+			if ($conta->nr_vezes <> null)
+				if((int)$conta->nr_vezes >= 2){
+					$conta->nr_vezes = (int)$conta->nr_vezes - 1;
+					$this->db->insert('tbl_contas_apagar', $conta);
+				}
+		} else {
+			$conta->nr_vezes = null;
+			$this->db->insert('tbl_contas_apagar', $conta);
+		}
+	}
+
+	public function geraProximaContaAReceberFixa($key, $nrvezes){
+		$query = $this->db->get_where('tbl_contas_areceber', array('id_contas_areceber' => $key));
+		$conta = $query->row();
+		//log_message('error', json_encode($conta));
+		$conta->dt_cadastro = date("Y-m-d H:i:s");
+		$conta->dt_venc = date('Y-m-d', strtotime("+1 month", strtotime($conta->dt_venc)));
+		$conta->situacao = 'a';
+		$conta->id_contas_areceber = null;
+		$conta->dt_recebido = null;
+		$conta->valor_recebido = null;
+		$conta->valor_desconto = null;
+		$conta->valor_juros = null;
+		$conta->tipo_recebimento = null;
+		if ($nrvezes){
+			if ($conta->nr_vezes <> null)
+				if((int)$conta->nr_vezes >= 2){
+					$conta->nr_vezes = (int)$conta->nr_vezes - 1;
+					$this->db->insert('tbl_contas_areceber', $conta);
+				}
+		} else {
+			$conta->nr_vezes = null;
+			$this->db->insert('tbl_contas_areceber', $conta);
+		}
 	}
 }
