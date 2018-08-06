@@ -78,7 +78,8 @@ class Generico_model extends CI_Model {
 			$data = array(
 		        'id_loja' => $id_loja,
 		        'id_produto' => $id_produto,
-		        'qtde_total' => $qtde_movimentacao
+		        'qtde_total' => $qtde_movimentacao,
+		        'ativo' => 's'
 			);		    
 
 	    	$this->db->insert('tbl_estoque', $data);
@@ -102,10 +103,12 @@ class Generico_model extends CI_Model {
 									       p.nome produto,
 									       e.qtde_total,
 									       e.qtde_minima,
-									       CASE WHEN e.qtde_total <= e.qtde_minima THEN 1 ELSE 0 END estoque_baixo
+									       CASE WHEN e.qtde_total <= e.qtde_minima THEN 1 ELSE 0 END estoque_baixo,
+									       e.ativo
 									  FROM tbl_estoque e
 									  LEFT JOIN tbl_produto p ON (e.id_produto = p.id_produto)
-									  LEFT JOIN tbl_loja l ON (l.id_loja = e.id_loja)");
+									  LEFT JOIN tbl_loja l ON (l.id_loja = e.id_loja)
+									  WHERE e.ativo = 's'");
 		return $query->result_array();
 	}
 

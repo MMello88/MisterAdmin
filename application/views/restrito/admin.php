@@ -285,6 +285,7 @@ $(document).ready(function(){
                                 ".form_open($__CLASS__.'/postMoviEstoque', array())."
                                   <input type='hidden' name='id_loja' value='".$estoq['id_loja']."'>
                                   <input type='hidden' name='id_produto' value='".$estoq['id_produto']."'>
+                                  <input type='hidden' name='ativo' value='".$estoq['ativo']."'>
                                   <td>".$estoq['nome_fantasia']."</td>
                                   <td>{$alerta} ".$estoq['produto']."</td>
                                   <td>".$estoq['qtde_total']."</td>

@@ -24,3 +24,7 @@ CREATE TABLE `miste872_prod`.`tbl_contas_areceber`(
   CONSTRAINT `FK_CONTAS_ARECEBER_CONTA_GERENECIAL` FOREIGN KEY (`id_conta_gerencial`) REFERENCES `miste872_prod`.`tbl_conta_gerencial`(`id_conta_gerencial`),
   CONSTRAINT `FK_CONTAS_ARECEBER_FORNECEDOR` FOREIGN KEY (`id_fornecedor`) REFERENCES `miste872_prod`.`tbl_fornecedor`(`id_fornecedor`)
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
+ALTER TABLE `miste872_prod`.`tbl_estoque`   
+  ADD COLUMN `ativo` CHAR(1) NULL  COMMENT 's - sim / n - não' AFTER `qtde_minima`;

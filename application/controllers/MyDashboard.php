@@ -558,23 +558,25 @@ class MyDashboard extends CI_Controller {
 		echo json_encode($arr);
 	}
 
-	public function estoque(){
+public function estoque(){
 		$crud = new grocery_CRUD();
  
 		$crud->set_table('tbl_estoque');
 		$crud->set_subject('Consulta de Estoque');
-		$crud->columns('id_loja','id_produto', 'qtde_minima', 'qtde_total');
-		$crud->edit_fields('qtde_minima');
+		$crud->columns('id_loja','id_produto', 'qtde_minima', 'qtde_total', 'ativo');
+		$crud->edit_fields('qtde_minima', 'ativo');
 		
 		$crud->display_as('id_loja','Loja');
 		$crud->display_as('id_produto','Produto');
 		$crud->display_as('qtde_minima','Qtde Estoque Minimo');
 		$crud->display_as('qtde_total','Qtde Disponível');
+		$crud->display_as('ativo','Ativo');
 
 		$crud->set_relation('id_loja', 'tbl_loja', 'nome_fantasia');
 		$crud->set_relation('id_produto', 'tbl_produto', 'nome');
 
 		$crud->field_type('tipo_movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída', 'a' => 'Ajuste', 't' => 'Transferência'));
+		$crud->field_type('ativo','dropdown', array('s' => 'Sim', 'n' => 'Não'));
 
 		$crud->unset_add();
 		$crud->unset_delete();
