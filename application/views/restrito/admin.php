@@ -263,7 +263,7 @@ $(document).ready(function(){
                             </button>
                           </div>
 
-                          <div id="collapseEstoque" class="collapse" aria-labelledby="headingEstoque" data-parent="#accordionEstoque">
+                          <div id="collapseEstoque" class="collapse show" aria-labelledby="headingEstoque" data-parent="#accordionEstoque">
                             <table class="table">
                               <thead>
                                 <tr>
@@ -277,26 +277,26 @@ $(document).ready(function(){
                                 </tr>
                               </thead>
                               <tbody>
-                            <?php 
-                              foreach ($estoques as $estoq) {
-                                $alerta = $estoq['estoque_baixo'] == 1 ? "<span class='badge badge-danger pull-right'><i class='ti-alert'></i></span>" : "";
-                                echo "
-                                <tr>
-                                ".form_open($__CLASS__.'/postMoviEstoque', array())."
-                                  <input type='hidden' name='id_loja' value='".$estoq['id_loja']."'>
-                                  <input type='hidden' name='id_produto' value='".$estoq['id_produto']."'>
-                                  <input type='hidden' name='ativo' value='".$estoq['ativo']."'>
-                                  <td>".$estoq['nome_fantasia']."</td>
-                                  <td>{$alerta} ".$estoq['produto']."</td>
-                                  <td>".$estoq['qtde_total']."</td>
-                                  <td>".$estoq['qtde_minima']."</td>
-                                  <td><input type='numeric' name='qtde_movimentacao' class='form-control form-control-sm mb-2' placeholder='Nova Quantidade'></td>
-                                  <td><select class='custom-select' name='tipo_movimentacao'><option value='e' selected>Entrada</option><option value='s'>Saída</option></select></td>
-                                  <td><button type='submit' class='btn btn-sm btn-success btn-outline mb-2'>Enviar</button></td>
-                                </form>
-                                </tr>";
-                              } 
-                            ?>
+                              <?php 
+                                foreach ($estoques as $estoq) {
+                                  $alerta = $estoq['estoque_baixo'] == 1 ? "<span class='badge badge-danger pull-right'><i class='ti-alert'></i></span>" : "";
+                                  echo "
+                                  <tr>
+                                  ".form_open($__CLASS__.'/postMoviEstoque', array('id' => 'movEstoque'))."
+                                    <input type='hidden' name='id_loja' value='".$estoq['id_loja']."'>
+                                    <input type='hidden' name='id_produto' value='".$estoq['id_produto']."'>
+                                    <input type='hidden' name='ativo' value='".$estoq['ativo']."'>
+                                    <td>".$estoq['nome_fantasia']."</td>
+                                    <td>{$alerta} ".$estoq['produto']."</td>
+                                    <td>".$estoq['qtde_total']."</td>
+                                    <td>".$estoq['qtde_minima']."</td>
+                                    <td><input type='numeric' name='qtde_movimentacao' class='form-control form-control-sm mb-2' placeholder='Nova Quantidade'></td>
+                                    <td><select class='custom-select' name='tipo_movimentacao'><option value='e' selected>Entrada</option><option value='s'>Saída</option></select></td>
+                                    <td><button type='submit' class='btn btn-sm btn-success btn-outline mb-2'>Enviar</button></td>
+                                  </form>
+                                  </tr>";
+                                } 
+                              ?>
                               </tbody>
                             </table>
                           </div>
@@ -562,7 +562,7 @@ $(document).ready(function(){
         <script src="<?php echo $file; ?>"></script>
     <?php endforeach; ?>
 
-
+<script src="<?= base_url("assets/js/grid_estoque.js"); ?>"></script>
 
 
 </body>

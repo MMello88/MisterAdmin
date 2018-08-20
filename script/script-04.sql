@@ -28,3 +28,26 @@ CREATE TABLE `miste872_prod`.`tbl_contas_areceber`(
 
 ALTER TABLE `miste872_prod`.`tbl_estoque`   
   ADD COLUMN `ativo` CHAR(1) NULL  COMMENT 's - sim / n - não' AFTER `qtde_minima`;
+
+CREATE TABLE `miste872_prod`.`tbl_fluxo_caixa`(  
+  `id_fluxo_caixa` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_conta_areceber` INT(11),
+  `id_conta_apagar` INT(11),
+  `dt_cadastro` DATE NOT NULL,
+  `id_conta_gerencial` INT(11) NOT NULL,
+  `id_fornecedor` INT(11) NOT NULL,
+  `id_documento` INT(11) COMMENT 'deixar desativado',
+  `dt_venc` DATE NOT NULL,
+  `valor_areceber` DECIMAL(7,2),
+  `valor_apagar` DECIMAL(7,2),
+  `dt_pgto_receb` DATE,
+  `id_conta_corrente` INT(11),
+  `valor_recebido` DECIMAL(7,2),
+  `valor_pgto` DECIMAL(7,2),
+  `valor_desconto` DECIMAL(7,2),
+  `valor_juros` DECIMAL(7,2),
+  `obs` VARCHAR(255),
+  `tipo_recebimento` VARCHAR(11),
+  `tp_entrada_saida` CHAR(1) COMMENT 'e - entrada / s - saida',
+  PRIMARY KEY (`id_fluxo_caixa`)
+) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
