@@ -37,7 +37,7 @@ class Generico_model extends CI_Model {
 		return $menus;
 	}
 
-	public function gerarMovimentacao($id_loja, $id_produto, $tipo_movimentacao, $qtde_movimentacao, $id_item_pedido = ''){
+	public function gerarMovimentacao($id_loja, $id_produto, $tipo_movimentacao, $qtde_movimentacao, $id_item_pedido = null){
     
 		$data_movimentacao = date("Y-m-d H:i:s");
 		$data = array(

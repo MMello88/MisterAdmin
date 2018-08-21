@@ -28,13 +28,14 @@
   <?php } ?>
 
   <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/jquery.min.js'); ?>"></script>
+  <script src="<?= base_url("assets/js/grid_estoque.js"); ?>"></script>
 
 <script type="text/javascript">
+
+
 $(document).ready(function(){
-  console.log('asdf');
   setInterval(function() { // Do this
-    $.get("<?= base_url("Dashboard/getStatusPedido"); ?>", function(data){
-      console.log('1');
+    $.get("<?= base_url($__CLASS__."/getStatusPedido"); ?>", function(data){
       data = jQuery.parseJSON(data);
       $("#result_aberto").html(data.aberto);
       $("#result_fechado").html(data.fechado);
@@ -138,7 +139,7 @@ $(document).ready(function(){
                                       <ul>
                                           <li class="notification-unread">
                                               <a href="#">
-                                                  <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/1.jpg" alt="" />
+                                                  <!--<img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/1.jpg" alt="" />-->
                                                   <div class="notification-content">
                                                       <small class="notification-timestamp pull-right">02:34 PM</small>
                                                       <div class="notification-heading">Michael Qin</div>
@@ -288,7 +289,7 @@ $(document).ready(function(){
                                     <input type='hidden' name='ativo' value='".$estoq['ativo']."'>
                                     <td>".$estoq['nome_fantasia']."</td>
                                     <td>{$alerta} ".$estoq['produto']."</td>
-                                    <td>".$estoq['qtde_total']."</td>
+                                    <td><label for='qtde_total'>".$estoq['qtde_total']."</label></td>
                                     <td>".$estoq['qtde_minima']."</td>
                                     <td><input type='numeric' name='qtde_movimentacao' class='form-control form-control-sm mb-2' placeholder='Nova Quantidade'></td>
                                     <td><select class='custom-select' name='tipo_movimentacao'><option value='e' selected>Entrada</option><option value='s'>Saída</option></select></td>
@@ -552,17 +553,47 @@ $(document).ready(function(){
   <script src="<?= base_url('assets/tamplate_focus/assets/js/scripts.js'); ?>"></script>
 
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
   <!-- scripit init-->
 
+<script type="text/javascript">
+  $("#movEstoque").submit(function(e){
+
+    var form = this;
+  /*  var idCart = $(form).find("input[name='id_cart']").val(); */
+    var dados = $(form).serialize();
+    var url_post = form.action;
+    var qtde_total = $(form).find("label[for='qtde_total']").val();
+    console.log(form);
+    console.log(dados);
+
+    event.preventDefault();
+
+   
+    $.ajax({
+      type: "POST",
+      url: url_post,
+      data: dados,
+      success: function( data )
+      {
+        $("#carrinho-"+idCart).remove();
+        $("#valor_total").text("Total Pedido: " + total.toFixed(2));
+      },
+      error : function(data) {
+        $("#msgError").html("<strong>Desculpe!</strong> Erro ao remover seu pedido. Em breve tente novamente!");
+        $("#message-danger").removeAttr("style");
+        event.preventDefault();
+      }
+    });
+    
+  });
+</script>
 
     <?php foreach($js_files as $file): ?>
         <script src="<?php echo $file; ?>"></script>
     <?php endforeach; ?>
-
-<script src="<?= base_url("assets/js/grid_estoque.js"); ?>"></script>
 
 
 </body>

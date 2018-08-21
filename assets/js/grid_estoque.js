@@ -1,17 +1,17 @@
-$(document).on('submit','form#movEstoque', function(){
+$(document).on('submit','#movEstoque', function(){
   var form = this;
 /*  var idCart = $(form).find("input[name='id_cart']").val(); */
   var dados = $(form).serialize();
-  var valor_item = $(form).find("input[name='valor_subtotal-"+idCart+"']").val();
-  var total = $("#valor_total").text().replace("Total Pedido: ","");
-  total = Number(total) - Number(valor_item);
+  var qtde_total = $(form).find("#qtde_total").val();
+ console.log(form);
+ console.log(dados);
+ var url_post = form.attr('action');
   $.ajax({
     type: "POST",
-    url: location.href + "/postMoviEstoque",
+    url: url_post,
     data: dados,
     success: function( data )
     {
-      getCountCart();
       $("#carrinho-"+idCart).remove();
       $("#valor_total").text("Total Pedido: " + total.toFixed(2));
     },
