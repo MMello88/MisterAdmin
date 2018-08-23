@@ -28,7 +28,6 @@
   <?php } ?>
 
   <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/jquery.min.js'); ?>"></script>
-  <script src="<?= base_url("assets/js/grid_estoque.js"); ?>"></script>
 
 <script type="text/javascript">
 
@@ -253,6 +252,24 @@ $(document).ready(function(){
                       </div>
                   </div>
 
+  <div class="alert alert-success alert-dismissible fade m-2 d-none" id="alert-post-sucesso" role="alert">
+    <h4 class="alert-heading">Realizado com Sucesso!</h4>
+    <hr class="my-2">
+    <p class="p-0 m-0 text-light">Processo realizado com sucesso!</p> 
+    <button type="button" class="close" id="close-post-sucesso">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="alert alert-danger alert-dismissible fade m-2 d-none" id="alert-post-error" role="alert">
+    <h4 class="alert-heading">Realizado com Erro!</h4>
+    <hr class="my-2">
+    Processo realizado com erro. Em breve tente novamente!
+    <button type="button" class="close" id="close-post-error">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
                   <div class="row">
                     <div class="col-12 col-sm-12 col-lg-12">
                       <div class="accordion" id="accordionEstoque">
@@ -279,22 +296,27 @@ $(document).ready(function(){
                               </thead>
                               <tbody>
                               <?php 
-                                foreach ($estoques as $estoq) {
+                                foreach ($estoques as $key => $estoq) {
                                   $alerta = $estoq['estoque_baixo'] == 1 ? "<span class='badge badge-danger pull-right'><i class='ti-alert'></i></span>" : "";
                                   echo "
                                   <tr>
                                   ".form_open($__CLASS__.'/postMoviEstoque', array('id' => 'movEstoque'))."
-                                    <input type='hidden' name='id_loja' value='".$estoq['id_loja']."'>
-                                    <input type='hidden' name='id_produto' value='".$estoq['id_produto']."'>
-                                    <input type='hidden' name='ativo' value='".$estoq['ativo']."'>
-                                    <td>".$estoq['nome_fantasia']."</td>
-                                    <td>{$alerta} ".$estoq['produto']."</td>
-                                    <td><label for='qtde_total'>".$estoq['qtde_total']."</label></td>
-                                    <td>".$estoq['qtde_minima']."</td>
-                                    <td><input type='numeric' name='qtde_movimentacao' class='form-control form-control-sm mb-2' placeholder='Nova Quantidade'></td>
-                                    <td><select class='custom-select' name='tipo_movimentacao'><option value='e' selected>Entrada</option><option value='s'>Saída</option></select></td>
-                                    <td><button type='submit' class='btn btn-sm btn-success btn-outline mb-2'>Enviar</button></td>
-                                  </form>
+                                      <input type='hidden' name='id_loja' value='".$estoq['id_loja']."'>
+                                      <input type='hidden' name='id_produto' value='".$estoq['id_produto']."'>
+                                      <input type='hidden' name='ativo' value='".$estoq['ativo']."'>
+                                      <input type='hidden' name='qtde_total' value='".$estoq['qtde_total']."'>
+                                      <td>".$estoq['nome_fantasia']."</td>
+                                      <td>{$alerta} ".$estoq['produto']."</td>
+                                      <td for='qtde_total'>".$estoq['qtde_total']."</td>
+                                      <td>".$estoq['qtde_minima']."</td>
+                                      <td for='qtde_movimentacao'>
+                                        <input type='numeric' name='qtde_movimentacao' class='form-control form-control-sm mb-2' placeholder='Nova Quantidade'>
+                                      </td>
+                                      <td for='tipo_movimentacao'>
+                                        <select class='custom-select' name='tipo_movimentacao'><option value='e' selected>Entrada</option><option value='s'>Saída</option></select>
+                                      </td>
+                                      <td><button type='submit' class='btn btn-sm btn-success btn-outline mb-2'>Enviar</button></td>
+                                    </form>
                                   </tr>";
                                 } 
                               ?>
@@ -465,9 +487,6 @@ $(document).ready(function(){
                   </div>
 
                 <?php endif; ?>
-
-                  
-
                   <div class="row">
                       <div class="col-lg-12">
                           <div class="footer">
@@ -486,6 +505,8 @@ $(document).ready(function(){
           <button type="submit" class="btn btn-primary">Search</button>
       </form>
   </div>
+
+
   <!-- jquery vendor -->
   
   <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/jquery.nanoscroller.min.js'); ?>"></script>
@@ -555,41 +576,10 @@ $(document).ready(function(){
 
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
   <!-- scripit init-->
 
-<script type="text/javascript">
-  $("#movEstoque").submit(function(e){
-
-    var form = this;
-  /*  var idCart = $(form).find("input[name='id_cart']").val(); */
-    var dados = $(form).serialize();
-    var url_post = form.action;
-    var qtde_total = $(form).find("label[for='qtde_total']").val();
-    console.log(form);
-    console.log(dados);
-
-    event.preventDefault();
-
-   
-    $.ajax({
-      type: "POST",
-      url: url_post,
-      data: dados,
-      success: function( data )
-      {
-        $("#carrinho-"+idCart).remove();
-        $("#valor_total").text("Total Pedido: " + total.toFixed(2));
-      },
-      error : function(data) {
-        $("#msgError").html("<strong>Desculpe!</strong> Erro ao remover seu pedido. Em breve tente novamente!");
-        $("#message-danger").removeAttr("style");
-        event.preventDefault();
-      }
-    });
-    
-  });
-</script>
+  <script src="<?= base_url('assets/js/grid_estoque.js'); ?>" ></script>
 
     <?php foreach($js_files as $file): ?>
         <script src="<?php echo $file; ?>"></script>

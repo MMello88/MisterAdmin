@@ -664,7 +664,6 @@ class Dashboard extends CI_Controller {
 	public function postMoviEstoque(){
 		if($_POST){
 			$this->Generico->gerarMovimentacao($_POST['id_loja'], $_POST['id_produto'], $_POST['tipo_movimentacao'], $_POST['qtde_movimentacao']);
-			redirect(__CLASS__.'/index');
 		}
 	}
 
