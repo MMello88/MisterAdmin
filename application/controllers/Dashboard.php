@@ -1061,4 +1061,49 @@ class Dashboard extends CI_Controller {
  
 		$this->_example_output($output);
 	}
+
+	public function FluxoCaixa(){
+$crud = new grocery_CRUD();
+ 
+		$crud->set_table('tbl_contas_areceber');
+		$crud->where('situacao', 'r');
+		$crud->order_by('dt_recebido', 'desc');
+		$crud->set_subject('Contas Recebidas');
+		$crud->columns('id_fornecedor', 'id_conta_gerencial', 'dt_venc', 'valor_areceber', 'tipo_recebimento', 'dt_recebido', 'valor_recebido');
+		$crud->fields('id_contas_apagar', 'tipo_recebimento', 'dt_venc', 'dt_recebido', 'id_conta_corrente', 'valor_apagar', 
+			'valor_pgto', 'valor_desconto', 'valor_juros', 'conta_fixa', 'nr_vezes', 'situacao', 'id_fornecedor', 'id_conta_gerencial');
+		
+		$crud->display_as('id_conta_gerencial','Conta Gerencial');
+		$crud->display_as('id_fornecedor','Fornecedor');
+		$crud->display_as('dt_venc','Data Vencimento');
+		$crud->display_as('valor_apagar','Valor A Receber');
+		$crud->display_as('conta_fixa','Conta Fixa');
+		$crud->display_as('nr_vezes','Nr. Parcela');
+		$crud->display_as('obs','Observação');
+
+		$crud->display_as('dt_recebido','Data Recebimento');
+		$crud->display_as('id_conta_corrente','Conta Corrente');
+		$crud->display_as('valor_pgto','Valor Pago');
+		$crud->display_as('valor_desconto','Valor Desconto');
+		$crud->display_as('valor_juros','Valor Juros');
+		$crud->display_as('tipo_recebimento','Tipo Recebimento');
+		$crud->display_as('situacao','Situação');
+
+		$crud->field_type('nr_vezes','readonly');
+		$crud->field_type('conta_fixa','dropdown', array('s' => 'Sim', 'n' => 'Não'));
+		$crud->field_type('situacao','dropdown', array('a' => 'Aberto', 'r' => 'Recebido'));
+
+		$crud->set_relation('id_conta_gerencial','tbl_conta_gerencial','nome_conta_gerencial');
+		$crud->set_relation('id_conta_corrente','tbl_conta_corrente','nome_conta_corrente');
+		$crud->set_relation('tipo_recebimento','tbl_tipo','descricao', array('campo' => 'tipo_pagamento'));
+		$crud->set_relation('id_fornecedor','tbl_fornecedor','apelido');
+		
+		$crud->unset_add();
+		$crud->unset_edit();
+		$crud->unset_delete();
+
+		$output = $crud->render();
+ 
+		$this->_example_output($output);
+	}
 }

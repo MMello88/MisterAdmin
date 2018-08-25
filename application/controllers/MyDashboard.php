@@ -50,7 +50,7 @@ class MyDashboard extends CI_Controller {
 		$crud->set_subject('Cadastro de Cliente');
 		$crud->columns('nome','email','endereco','tipo');
 		$crud->fields('id_cliente','nome','cpf_cnpj','email','senha','telefone','endereco','numero','bairro',                     
-					  'complemento','situacao','tipo','ganho_unitario','ativo');
+					  'complemento','situacao','tipo','ganho_unitario','ativo', 'dt_cadastro');
 		
 		$crud->display_as('nome','Nome');
 		$crud->display_as('email','E-mail');
@@ -65,6 +65,7 @@ class MyDashboard extends CI_Controller {
 		$crud->display_as('tipo','Tipo');
 		$crud->display_as('ganho_unitario','Ganho %');
 		$crud->display_as('ativo','Ativo');
+		$crud->display_as('dt_cadastro','Dt. Cadastro');
 
 		$crud->field_type('situacao','dropdown', array('a' => 'Ativo', 'd' => 'Desativado'));
 		$crud->field_type('tipo','dropdown', array('c' => 'Cliente', 'r' => 'Revendedor', 's' => 'Representante', 'p' => 'Parceiro'));
@@ -82,8 +83,8 @@ class MyDashboard extends CI_Controller {
 		$crud->set_table('tbl_cliente');
 		$crud->set_subject('Cadastro de Cliente');
 		$crud->columns('nome','email','endereco','tipo');
-		$crud->fields('id_cliente','nome','cpf_cnpj','email','senha','telefone','endereco','numero','bairro',                     
-					  'complemento','situacao','tipo','ganho_unitario','ativo');
+		$crud->fields('id_cliente','nome','cpf_cnpj','email','senha','telefone','endereco','numero','bairro',
+					  'complemento','situacao','tipo','ganho_unitario','ativo', 'dt_cadastro');
 		
 		$crud->display_as('nome','Nome');
 		$crud->display_as('email','E-mail');
@@ -98,6 +99,7 @@ class MyDashboard extends CI_Controller {
 		$crud->display_as('tipo','Tipo');
 		$crud->display_as('ganho_unitario','Ganho %');
 		$crud->display_as('ativo','Ativo');
+		$crud->display_as('dt_cadastro','Dt. Cadastro');
 
 		$crud->field_type('situacao','dropdown', array('a' => 'Ativo', 'd' => 'Desativado'));
 		$crud->field_type('tipo','dropdown', array('c' => 'Cliente', 'r' => 'Revendedor', 's' => 'Representante', 'p' => 'Parceiro'));
@@ -414,7 +416,7 @@ class MyDashboard extends CI_Controller {
 
 		$crud->field_type('arquivo_controller_id', 'hidden', $arquivo_controller_id);
 
-		$crud->unset_texteditor('funcao');		
+		$crud->unset_texteditor('funcao');
 
 		$output = $crud->render();
 		 
@@ -558,7 +560,7 @@ class MyDashboard extends CI_Controller {
 		echo json_encode($arr);
 	}
 
-public function estoque(){
+    public function estoque(){
 		$crud = new grocery_CRUD();
  
 		$crud->set_table('tbl_estoque');
@@ -660,7 +662,6 @@ public function estoque(){
 	public function postMoviEstoque(){
 		if($_POST){
 			$this->Generico->gerarMovimentacao($_POST['id_loja'], $_POST['id_produto'], $_POST['tipo_movimentacao'], $_POST['qtde_movimentacao']);
-			redirect(__CLASS__.'/index');
 		}
 	}
 
@@ -814,8 +815,8 @@ public function estoque(){
 		$crud->set_table('tbl_contas_apagar');
 		$crud->where('situacao', 'p');
 		$crud->order_by('dt_pago', 'desc');
-		$crud->set_subject('Pagar A Contas');
-		$crud->columns('id_fornecedor', 'id_conta_gerencial', 'dt_venc', 'valor_apagar', 'tipo_pagamento', 'dt_pago', 'valor_apagar');
+		$crud->set_subject('Contas Pagas');
+		$crud->columns('id_fornecedor', 'id_conta_gerencial', 'dt_venc', 'valor_apagar', 'tipo_pagamento', 'dt_pago', 'valor_pgto');
 		$crud->fields('id_contas_apagar', 'tipo_pagamento', 'dt_venc', 'dt_pago', 'id_conta_corrente', 'valor_apagar', 
 			'valor_pgto', 'valor_desconto', 'valor_juros', 'conta_fixa', 'nr_vezes', 'situacao', 'id_fornecedor', 'id_conta_gerencial');
 		

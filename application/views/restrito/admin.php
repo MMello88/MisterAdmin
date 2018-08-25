@@ -581,10 +581,9 @@ $(document).ready(function(){
 
   <script src="<?= base_url('assets/js/grid_estoque.js'); ?>" ></script>
 
-    <?php foreach($js_files as $file): ?>
-        <script src="<?php echo $file; ?>"></script>
-    <?php endforeach; ?>
-
+<?php foreach($js_files as $file): ?>
+  <script src="<?php echo $file; ?>"></script>
+<?php endforeach; ?>
 
 </body>
 </html>

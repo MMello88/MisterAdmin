@@ -31,8 +31,8 @@ ALTER TABLE `miste872_prod`.`tbl_estoque`
 
 CREATE TABLE `miste872_prod`.`tbl_fluxo_caixa`(  
   `id_fluxo_caixa` INT(11) NOT NULL AUTO_INCREMENT,
-  `id_conta_areceber` INT(11),
-  `id_conta_apagar` INT(11),
+  `id_contas_areceber` INT(11),
+  `id_contas_apagar` INT(11),
   `dt_cadastro` DATE NOT NULL,
   `id_conta_gerencial` INT(11) NOT NULL,
   `id_fornecedor` INT(11) NOT NULL,
@@ -51,3 +51,12 @@ CREATE TABLE `miste872_prod`.`tbl_fluxo_caixa`(
   `tp_entrada_saida` CHAR(1) COMMENT 'e - entrada / s - saida',
   PRIMARY KEY (`id_fluxo_caixa`)
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
+
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa`  
+  ADD CONSTRAINT `fk_fluxocaixa_contas_areceber` FOREIGN KEY (`id_contas_areceber`) REFERENCES `miste872_prod`.`tbl_contas_areceber`(`id_contas_areceber`),
+  ADD CONSTRAINT `fk_fluxocaixa_contas_apagar` FOREIGN KEY (`id_contas_apagar`) REFERENCES `miste872_prod`.`tbl_contas_apagar`(`id_contas_apagar`);
+
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa`  
+  ADD CONSTRAINT `fk_fluxocaixa_conta_corrente` FOREIGN KEY (`id_conta_corrente`) REFERENCES `miste872_prod`.`tbl_conta_corrente`(`id_conta_corrente`),
+  ADD CONSTRAINT `fk_fluxocaixa_conta_gerencial` FOREIGN KEY (`id_conta_gerencial`) REFERENCES `miste872_prod`.`tbl_conta_gerencial`(`id_conta_gerencial`),
+  ADD CONSTRAINT `fk_fluxocaixa_fornecedor` FOREIGN KEY (`id_fornecedor`) REFERENCES `miste872_prod`.`tbl_fornecedor`(`id_fornecedor`);
