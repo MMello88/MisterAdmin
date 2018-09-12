@@ -1063,9 +1063,9 @@ class Dashboard extends CI_Controller {
 	}
 
 	public function FluxoCaixa(){
-$crud = new grocery_CRUD();
+		$crud = new grocery_CRUD();
  
-		$crud->set_table('tbl_contas_areceber');
+		$crud->set_table('tbl_fluxo_caixa');
 		$crud->where('situacao', 'r');
 		$crud->order_by('dt_recebido', 'desc');
 		$crud->set_subject('Contas Recebidas');
