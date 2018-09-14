@@ -52,7 +52,7 @@ class Dashboard extends CI_Controller {
 		$crud->set_subject('Cadastro de Cliente');
 		$crud->columns('nome','email','endereco','tipo');
 		$crud->fields('id_cliente','nome','cpf_cnpj','email','senha','telefone','endereco','numero','bairro',                     
-					  'complemento','situacao','tipo','ganho_unitario','ativo');
+					  'complemento','situacao','tipo','ganho_unitario','ativo', 'dt_cadastro');
 		
 		$crud->display_as('nome','Nome');
 		$crud->display_as('email','E-mail');
@@ -67,6 +67,7 @@ class Dashboard extends CI_Controller {
 		$crud->display_as('tipo','Tipo');
 		$crud->display_as('ganho_unitario','Ganho %');
 		$crud->display_as('ativo','Ativo');
+		$crud->display_as('dt_cadastro','Dt. Cadastro');
 
 		$crud->field_type('situacao','dropdown', array('a' => 'Ativo', 'd' => 'Desativado'));
 		$crud->field_type('tipo','dropdown', array('c' => 'Cliente', 'r' => 'Revendedor', 's' => 'Representante', 'p' => 'Parceiro'));
@@ -85,7 +86,7 @@ class Dashboard extends CI_Controller {
 		$crud->set_subject('Cadastro de Cliente');
 		$crud->columns('nome','email','endereco','tipo');
 		$crud->fields('id_cliente','nome','cpf_cnpj','email','senha','telefone','endereco','numero','bairro',                     
-					  'complemento','situacao','tipo','ganho_unitario','ativo');
+					  'complemento','situacao','tipo','ganho_unitario','ativo', 'dt_cadastro');
 		
 		$crud->display_as('nome','Nome');
 		$crud->display_as('email','E-mail');
@@ -100,6 +101,7 @@ class Dashboard extends CI_Controller {
 		$crud->display_as('tipo','Tipo');
 		$crud->display_as('ganho_unitario','Ganho %');
 		$crud->display_as('ativo','Ativo');
+		$crud->display_as('dt_cadastro','Dt. Cadastro');
 
 		$crud->field_type('situacao','dropdown', array('a' => 'Ativo', 'd' => 'Desativado'));
 		$crud->field_type('tipo','dropdown', array('c' => 'Cliente', 'r' => 'Revendedor', 's' => 'Representante', 'p' => 'Parceiro'));
