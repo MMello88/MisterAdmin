@@ -48,9 +48,9 @@ class User extends CI_Controller {
 		if ($this->form_validation->run() == false) {
 			
 			// validation not ok, send validation errors to the view
-			$this->load->view('user/includes/header');
-			$this->load->view('user/login/login');
-			$this->load->view('user/includes/footer');
+			$this->load->view('user/includes/headerV3');
+			$this->load->view('user/login/loginV3');
+			$this->load->view('user/includes/footerV3');
 			
 		} else {
 			
@@ -74,9 +74,9 @@ class User extends CI_Controller {
 				$data->error = 'Usuário e Senha errados.';
 				
 				// send error to the view
-				$this->load->view('user/includes/header');
-				$this->load->view('user/login/login', $data);
-				$this->load->view('user/includes/footer');
+				$this->load->view('user/includes/headerV3');
+				$this->load->view('user/login/loginV3', $data);
+				$this->load->view('user/includes/footerV3');
 			}
 		}
 	}
@@ -99,9 +99,9 @@ class User extends CI_Controller {
 			$this->session->unset_userdata('nome_user');
 			
 			// user logout ok
-			$this->load->view('user/includes/header');
+			$this->load->view('user/includes/headerV3');
 			$this->load->view('user/logout/logout_success', $data);
-			$this->load->view('user/includes/footer');
+			$this->load->view('user/includes/footerV3');
 			
 		} else {
 			

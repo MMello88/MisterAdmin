@@ -1,4 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 class MyDashboard extends CI_Controller {
 	public $data = array();
 

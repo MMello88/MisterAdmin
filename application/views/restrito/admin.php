@@ -11,7 +11,7 @@
 
   <!-- ================= Favicon ================== -->
   <!-- Standard -->
-  <link rel="shortcut icon" sizes="32x32" href="<?= base_url('assets/ico/32.png'); ?>">
+  <link rel="shortcut icon" sizes="32x32" href="<?= base_url('assets/templateGrocery/ico/32.png'); ?>">
 
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -24,10 +24,10 @@
 
   <?php if (empty($css_files)) { ?>
   <!-- Bootstrap core CSS-->
-  <!--<link href="<?= base_url('assets/template_admin/vendor/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">-->
+  <!--<link href="<?= base_url('assets/templateGrocery/template_admin/vendor/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">-->
   <?php } ?>
 
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/jquery.min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/jquery.min.js'); ?>"></script>
 
 <script type="text/javascript">
 
@@ -46,16 +46,16 @@ $(document).ready(function(){
 
   <!-- Styles -->
 
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/weather-icons.css'); ?>" rel="stylesheet" />
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/owl.carousel.min.css'); ?>" rel="stylesheet" />
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/owl.theme.default.min.css'); ?>" rel="stylesheet" />
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/font-awesome.min.css'); ?>" rel="stylesheet">
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/themify-icons.css'); ?>" rel="stylesheet">
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/menubar/sidebar.css'); ?>" rel="stylesheet">
-  <!--<link href="<?= base_url('assets/tamplate_focus/assets/css/lib/bootstrap.min.css'); ?>" rel="stylesheet">-->
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/weather-icons.css'); ?>" rel="stylesheet" />
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/owl.carousel.min.css'); ?>" rel="stylesheet" />
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/owl.theme.default.min.css'); ?>" rel="stylesheet" />
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/font-awesome.min.css'); ?>" rel="stylesheet">
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/themify-icons.css'); ?>" rel="stylesheet">
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/menubar/sidebar.css'); ?>" rel="stylesheet">
+  <!--<link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/bootstrap.min.css'); ?>" rel="stylesheet">-->
 
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/helper.css'); ?>" rel="stylesheet">
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/style.css'); ?>" rel="stylesheet">
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/helper.css'); ?>" rel="stylesheet">
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/style.css'); ?>" rel="stylesheet">
 </head>
 
 <body>
@@ -63,7 +63,7 @@ $(document).ready(function(){
   <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
       <div class="nano">
           <div class="nano-content">
-              <div class="logo"><a href="<?= site_url('Dashboard/index')?>"><!-- <img src="assets/images/logo.png" alt="" /> --><span>Mister Administrador</span></a></div>
+              <div class="logo"><a href="<?= site_url('Dashboard/index')?>"><!-- <img src="assets/templateGrocery/images/logo.png" alt="" /> --><span>Mister Administrador</span></a></div>
 
               <ul>
                 <?php 
@@ -112,7 +112,7 @@ $(document).ready(function(){
                                       <ul>
                                           <li>
                                               <a href="#">
-                                                  <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
+                                                  <img class="pull-left m-r-10 avatar-img" src="assets/templateGrocery/images/avatar/3.jpg" alt="" />
                                                   <div class="notification-content">
                                                       <small class="notification-timestamp pull-right">02:34 PM</small>
                                                       <div class="notification-heading">Mr. John</div>
@@ -138,7 +138,7 @@ $(document).ready(function(){
                                       <ul>
                                           <li class="notification-unread">
                                               <a href="#">
-                                                  <!--<img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/1.jpg" alt="" />-->
+                                                  <!--<img class="pull-left m-r-10 avatar-img" src="assets/templateGrocery/images/avatar/1.jpg" alt="" />-->
                                                   <div class="notification-content">
                                                       <small class="notification-timestamp pull-right">02:34 PM</small>
                                                       <div class="notification-heading">Michael Qin</div>
@@ -509,69 +509,69 @@ $(document).ready(function(){
 
   <!-- jquery vendor -->
   
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/jquery.nanoscroller.min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/jquery.nanoscroller.min.js'); ?>"></script>
   <!-- nano scroller -->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/menubar/sidebar.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/preloader/pace.min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/menubar/sidebar.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/preloader/pace.min.js'); ?>"></script>
   <!-- sidebar -->
-  <!--<script src="<?= base_url('assets/tamplate_focus/assets/js/lib/bootstrap.min.js'); ?>"></script>-->
+  <!--<script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/bootstrap.min.js'); ?>"></script>-->
 
 
   <!-- bootstrap -->
 
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/circle-progress/circle-progress.min.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/circle-progress/circle-progress-init.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/circle-progress/circle-progress.min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/circle-progress/circle-progress-init.js'); ?>"></script>
 
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/morris-chart/raphael-min.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/morris-chart/morris.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/morris-chart/morris-init.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/morris-chart/raphael-min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/morris-chart/morris.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/morris-chart/morris-init.js'); ?>"></script>
 
   <!--  flot-chart js -->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/flot-chart/jquery.flot.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/flot-chart/jquery.flot.resize.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/flot-chart/flot-chart-init.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/flot-chart/jquery.flot.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/flot-chart/jquery.flot.resize.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/flot-chart/flot-chart-init.js'); ?>"></script>
   <!-- // flot-chart js -->
 
 
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/jquery.vmap.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/jquery.vmap.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/jquery.vmap.min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/jquery.vmap.min.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/jquery.vmap.sampledata.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/jquery.vmap.sampledata.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.world.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.world.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.algeria.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.algeria.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.argentina.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.argentina.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.brazil.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.brazil.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.france.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.france.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.germany.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.germany.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.greece.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.greece.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.iran.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.iran.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.iraq.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.iraq.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.russia.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.russia.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.tunisia.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.tunisia.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.europe.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.europe.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.usa.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.usa.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/vector.init.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/vector.init.js'); ?>"></script>
 
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/weather/jquery.simpleWeather.min.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/weather/weather-init.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/owl-carousel/owl.carousel.min.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/owl-carousel/owl.carousel-init.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/scripts.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/weather/jquery.simpleWeather.min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/weather/weather-init.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/owl-carousel/owl.carousel.min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/owl-carousel/owl.carousel-init.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/scripts.js'); ?>"></script>
 
 
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
@@ -579,7 +579,7 @@ $(document).ready(function(){
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
   <!-- scripit init-->
 
-  <script src="<?= base_url('assets/js/grid_estoque.js'); ?>" ></script>
+  <script src="<?= base_url('assets/templateGrocery/js/grid_estoque.js'); ?>" ></script>
 
 <?php foreach($js_files as $file): ?>
   <script src="<?php echo $file; ?>"></script>
