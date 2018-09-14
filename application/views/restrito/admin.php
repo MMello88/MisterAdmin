@@ -11,7 +11,7 @@
 
   <!-- ================= Favicon ================== -->
   <!-- Standard -->
-  <link rel="shortcut icon" sizes="32x32" href="<?= base_url('assets/ico/32.png'); ?>">
+  <link rel="shortcut icon" sizes="32x32" href="<?= base_url('assets/templateGrocery/ico/32.png'); ?>">
 
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -24,17 +24,17 @@
 
   <?php if (empty($css_files)) { ?>
   <!-- Bootstrap core CSS-->
-  <!--<link href="<?= base_url('assets/template_admin/vendor/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">-->
+  <!--<link href="<?= base_url('assets/templateGrocery/template_admin/vendor/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">-->
   <?php } ?>
 
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/jquery.min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/jquery.min.js'); ?>"></script>
 
 <script type="text/javascript">
+
+
 $(document).ready(function(){
-  console.log('asdf');
   setInterval(function() { // Do this
-    $.get("<?= base_url("Dashboard/getStatusPedido"); ?>", function(data){
-      console.log('1');
+    $.get("<?= base_url($__CLASS__."/getStatusPedido"); ?>", function(data){
       data = jQuery.parseJSON(data);
       $("#result_aberto").html(data.aberto);
       $("#result_fechado").html(data.fechado);
@@ -46,16 +46,16 @@ $(document).ready(function(){
 
   <!-- Styles -->
 
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/weather-icons.css'); ?>" rel="stylesheet" />
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/owl.carousel.min.css'); ?>" rel="stylesheet" />
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/owl.theme.default.min.css'); ?>" rel="stylesheet" />
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/font-awesome.min.css'); ?>" rel="stylesheet">
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/themify-icons.css'); ?>" rel="stylesheet">
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/menubar/sidebar.css'); ?>" rel="stylesheet">
-  <!--<link href="<?= base_url('assets/tamplate_focus/assets/css/lib/bootstrap.min.css'); ?>" rel="stylesheet">-->
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/weather-icons.css'); ?>" rel="stylesheet" />
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/owl.carousel.min.css'); ?>" rel="stylesheet" />
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/owl.theme.default.min.css'); ?>" rel="stylesheet" />
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/font-awesome.min.css'); ?>" rel="stylesheet">
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/themify-icons.css'); ?>" rel="stylesheet">
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/menubar/sidebar.css'); ?>" rel="stylesheet">
+  <!--<link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/bootstrap.min.css'); ?>" rel="stylesheet">-->
 
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/lib/helper.css'); ?>" rel="stylesheet">
-  <link href="<?= base_url('assets/tamplate_focus/assets/css/style.css'); ?>" rel="stylesheet">
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/helper.css'); ?>" rel="stylesheet">
+  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/style.css'); ?>" rel="stylesheet">
 </head>
 
 <body>
@@ -63,7 +63,7 @@ $(document).ready(function(){
   <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
       <div class="nano">
           <div class="nano-content">
-              <div class="logo"><a href="<?= site_url('Dashboard/index')?>"><!-- <img src="assets/images/logo.png" alt="" /> --><span>Mister Administrador</span></a></div>
+              <div class="logo"><a href="<?= site_url('Dashboard/index')?>"><!-- <img src="assets/templateGrocery/images/logo.png" alt="" /> --><span>Mister Administrador</span></a></div>
 
               <ul>
                 <?php 
@@ -112,7 +112,7 @@ $(document).ready(function(){
                                       <ul>
                                           <li>
                                               <a href="#">
-                                                  <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
+                                                  <img class="pull-left m-r-10 avatar-img" src="assets/templateGrocery/images/avatar/3.jpg" alt="" />
                                                   <div class="notification-content">
                                                       <small class="notification-timestamp pull-right">02:34 PM</small>
                                                       <div class="notification-heading">Mr. John</div>
@@ -138,7 +138,7 @@ $(document).ready(function(){
                                       <ul>
                                           <li class="notification-unread">
                                               <a href="#">
-                                                  <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/1.jpg" alt="" />
+                                                  <!--<img class="pull-left m-r-10 avatar-img" src="assets/templateGrocery/images/avatar/1.jpg" alt="" />-->
                                                   <div class="notification-content">
                                                       <small class="notification-timestamp pull-right">02:34 PM</small>
                                                       <div class="notification-heading">Michael Qin</div>
@@ -252,6 +252,24 @@ $(document).ready(function(){
                       </div>
                   </div>
 
+  <div class="alert alert-success alert-dismissible fade m-2 d-none" id="alert-post-sucesso" role="alert">
+    <h4 class="alert-heading">Realizado com Sucesso!</h4>
+    <hr class="my-2">
+    <p class="p-0 m-0 text-light">Processo realizado com sucesso!</p> 
+    <button type="button" class="close" id="close-post-sucesso">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="alert alert-danger alert-dismissible fade m-2 d-none" id="alert-post-error" role="alert">
+    <h4 class="alert-heading">Realizado com Erro!</h4>
+    <hr class="my-2">
+    Processo realizado com erro. Em breve tente novamente!
+    <button type="button" class="close" id="close-post-error">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
                   <div class="row">
                     <div class="col-12 col-sm-12 col-lg-12">
                       <div class="accordion" id="accordionEstoque">
@@ -263,7 +281,7 @@ $(document).ready(function(){
                             </button>
                           </div>
 
-                          <div id="collapseEstoque" class="collapse" aria-labelledby="headingEstoque" data-parent="#accordionEstoque">
+                          <div id="collapseEstoque" class="collapse show" aria-labelledby="headingEstoque" data-parent="#accordionEstoque">
                             <table class="table">
                               <thead>
                                 <tr>
@@ -277,25 +295,31 @@ $(document).ready(function(){
                                 </tr>
                               </thead>
                               <tbody>
-                            <?php 
-                              foreach ($estoques as $estoq) {
-                                $alerta = $estoq['estoque_baixo'] == 1 ? "<span class='badge badge-danger pull-right'><i class='ti-alert'></i></span>" : "";
-                                echo "
-                                <tr>
-                                ".form_open($__CLASS__.'/postMoviEstoque', array())."
-                                  <input type='hidden' name='id_loja' value='".$estoq['id_loja']."'>
-                                  <input type='hidden' name='id_produto' value='".$estoq['id_produto']."'>
-                                  <td>".$estoq['nome_fantasia']."</td>
-                                  <td>{$alerta} ".$estoq['produto']."</td>
-                                  <td>".$estoq['qtde_total']."</td>
-                                  <td>".$estoq['qtde_minima']."</td>
-                                  <td><input type='numeric' name='qtde_movimentacao' class='form-control form-control-sm mb-2' placeholder='Nova Quantidade'></td>
-                                  <td><select class='custom-select' name='tipo_movimentacao'><option value='e' selected>Entrada</option><option value='s'>Saída</option></select></td>
-                                  <td><button type='submit' class='btn btn-sm btn-success btn-outline mb-2'>Enviar</button></td>
-                                </form>
-                                </tr>";
-                              } 
-                            ?>
+                              <?php 
+                                foreach ($estoques as $key => $estoq) {
+                                  $alerta = $estoq['estoque_baixo'] == 1 ? "<span class='badge badge-danger pull-right'><i class='ti-alert'></i></span>" : "";
+                                  echo "
+                                  <tr>
+                                  ".form_open($__CLASS__.'/postMoviEstoque', array('id' => 'movEstoque'))."
+                                      <input type='hidden' name='id_loja' value='".$estoq['id_loja']."'>
+                                      <input type='hidden' name='id_produto' value='".$estoq['id_produto']."'>
+                                      <input type='hidden' name='ativo' value='".$estoq['ativo']."'>
+                                      <input type='hidden' name='qtde_total' value='".$estoq['qtde_total']."'>
+                                      <td>".$estoq['nome_fantasia']."</td>
+                                      <td>{$alerta} ".$estoq['produto']."</td>
+                                      <td for='qtde_total'>".$estoq['qtde_total']."</td>
+                                      <td>".$estoq['qtde_minima']."</td>
+                                      <td for='qtde_movimentacao'>
+                                        <input type='numeric' name='qtde_movimentacao' class='form-control form-control-sm mb-2' placeholder='Nova Quantidade'>
+                                      </td>
+                                      <td for='tipo_movimentacao'>
+                                        <select class='custom-select' name='tipo_movimentacao'><option value='e' selected>Entrada</option><option value='s'>Saída</option></select>
+                                      </td>
+                                      <td><button type='submit' class='btn btn-sm btn-success btn-outline mb-2'>Enviar</button></td>
+                                    </form>
+                                  </tr>";
+                                } 
+                              ?>
                               </tbody>
                             </table>
                           </div>
@@ -463,9 +487,6 @@ $(document).ready(function(){
                   </div>
 
                 <?php endif; ?>
-
-                  
-
                   <div class="row">
                       <div class="col-lg-12">
                           <div class="footer">
@@ -484,85 +505,85 @@ $(document).ready(function(){
           <button type="submit" class="btn btn-primary">Search</button>
       </form>
   </div>
+
+
   <!-- jquery vendor -->
   
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/jquery.nanoscroller.min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/jquery.nanoscroller.min.js'); ?>"></script>
   <!-- nano scroller -->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/menubar/sidebar.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/preloader/pace.min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/menubar/sidebar.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/preloader/pace.min.js'); ?>"></script>
   <!-- sidebar -->
-  <!--<script src="<?= base_url('assets/tamplate_focus/assets/js/lib/bootstrap.min.js'); ?>"></script>-->
+  <!--<script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/bootstrap.min.js'); ?>"></script>-->
 
 
   <!-- bootstrap -->
 
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/circle-progress/circle-progress.min.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/circle-progress/circle-progress-init.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/circle-progress/circle-progress.min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/circle-progress/circle-progress-init.js'); ?>"></script>
 
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/morris-chart/raphael-min.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/morris-chart/morris.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/morris-chart/morris-init.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/morris-chart/raphael-min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/morris-chart/morris.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/morris-chart/morris-init.js'); ?>"></script>
 
   <!--  flot-chart js -->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/flot-chart/jquery.flot.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/flot-chart/jquery.flot.resize.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/flot-chart/flot-chart-init.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/flot-chart/jquery.flot.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/flot-chart/jquery.flot.resize.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/flot-chart/flot-chart-init.js'); ?>"></script>
   <!-- // flot-chart js -->
 
 
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/jquery.vmap.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/jquery.vmap.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/jquery.vmap.min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/jquery.vmap.min.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/jquery.vmap.sampledata.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/jquery.vmap.sampledata.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.world.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.world.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.algeria.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.algeria.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.argentina.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.argentina.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.brazil.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.brazil.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.france.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.france.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.germany.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.germany.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.greece.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.greece.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.iran.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.iran.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.iraq.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.iraq.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.russia.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.russia.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.tunisia.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.tunisia.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.europe.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.europe.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.usa.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/country/jquery.vmap.usa.js'); ?>"></script>
   <!-- scripit init-->
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/vector-map/vector.init.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/vector-map/vector.init.js'); ?>"></script>
 
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/weather/jquery.simpleWeather.min.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/weather/weather-init.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/owl-carousel/owl.carousel.min.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/lib/owl-carousel/owl.carousel-init.js'); ?>"></script>
-  <script src="<?= base_url('assets/tamplate_focus/assets/js/scripts.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/weather/jquery.simpleWeather.min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/weather/weather-init.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/owl-carousel/owl.carousel.min.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/owl-carousel/owl.carousel-init.js'); ?>"></script>
+  <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/scripts.js'); ?>"></script>
 
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
   <!-- scripit init-->
 
+  <script src="<?= base_url('assets/templateGrocery/js/grid_estoque.js'); ?>" ></script>
 
-    <?php foreach($js_files as $file): ?>
-        <script src="<?php echo $file; ?>"></script>
-    <?php endforeach; ?>
-
-
-
+<?php foreach($js_files as $file): ?>
+  <script src="<?php echo $file; ?>"></script>
+<?php endforeach; ?>
 
 </body>
 </html>

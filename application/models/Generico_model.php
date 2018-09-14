@@ -37,8 +37,7 @@ class Generico_model extends CI_Model {
 		return $menus;
 	}
 
-	public function gerarMovimentacao($id_loja, $id_produto, $tipo_movimentacao, $qtde_movimentacao, $id_item_pedido = ''){
-    
+	public function gerarMovimentacao($id_loja, $id_produto, $tipo_movimentacao, $qtde_movimentacao, $id_item_pedido = null){
 		$data_movimentacao = date("Y-m-d H:i:s");
 		$data = array(
     		'id_loja' => $id_loja,
@@ -78,7 +77,8 @@ class Generico_model extends CI_Model {
 			$data = array(
 		        'id_loja' => $id_loja,
 		        'id_produto' => $id_produto,
-		        'qtde_total' => $qtde_movimentacao
+		        'qtde_total' => $qtde_movimentacao,
+		        'ativo' => 's'
 			);		    
 
 	    	$this->db->insert('tbl_estoque', $data);
@@ -102,10 +102,12 @@ class Generico_model extends CI_Model {
 									       p.nome produto,
 									       e.qtde_total,
 									       e.qtde_minima,
-									       CASE WHEN e.qtde_total <= e.qtde_minima THEN 1 ELSE 0 END estoque_baixo
+									       CASE WHEN e.qtde_total <= e.qtde_minima THEN 1 ELSE 0 END estoque_baixo,
+									       e.ativo
 									  FROM tbl_estoque e
 									  LEFT JOIN tbl_produto p ON (e.id_produto = p.id_produto)
-									  LEFT JOIN tbl_loja l ON (l.id_loja = e.id_loja)");
+									  LEFT JOIN tbl_loja l ON (l.id_loja = e.id_loja)
+									  WHERE e.ativo = 's'");
 		return $query->result_array();
 	}
 
@@ -186,5 +188,54 @@ class Generico_model extends CI_Model {
 		$this->db->set('situacao', $situacao);
 		$this->db->where(array('id_pedido' => $id_pedido));
     	$this->db->update('tbl_pedido');
+	}
+
+	public function geraProximaContaAPagarFixa($key, $nrvezes = FALSE){
+		$query = $this->db->get_where('tbl_contas_apagar', array('id_contas_apagar' => $key));
+		$conta = $query->row();
+		$conta->dt_cadastro = date("Y-m-d H:i:s");
+		$conta->dt_venc = date('Y-m-d', strtotime("+1 month", strtotime($conta->dt_venc)));
+		$conta->situacao = 'a';
+		$conta->id_contas_apagar = null;
+		$conta->dt_pago = null;
+		$conta->valor_pgto = null;
+		$conta->valor_desconto = null;
+		$conta->valor_juros = null;
+		$conta->tipo_pagamento = null;
+		if ($nrvezes){
+			if ($conta->nr_vezes <> null)
+				if((int)$conta->nr_vezes >= 2){
+					$conta->nr_vezes = (int)$conta->nr_vezes - 1;
+					$this->db->insert('tbl_contas_apagar', $conta);
+				}
+		} else {
+			$conta->nr_vezes = null;
+			$this->db->insert('tbl_contas_apagar', $conta);
+		}
+	}
+
+	public function geraProximaContaAReceberFixa($key, $nrvezes){
+		$query = $this->db->get_where('tbl_contas_areceber', array('id_contas_areceber' => $key));
+		$conta = $query->row();
+		//log_message('error', json_encode($conta));
+		$conta->dt_cadastro = date("Y-m-d H:i:s");
+		$conta->dt_venc = date('Y-m-d', strtotime("+1 month", strtotime($conta->dt_venc)));
+		$conta->situacao = 'a';
+		$conta->id_contas_areceber = null;
+		$conta->dt_recebido = null;
+		$conta->valor_recebido = null;
+		$conta->valor_desconto = null;
+		$conta->valor_juros = null;
+		$conta->tipo_recebimento = null;
+		if ($nrvezes){
+			if ($conta->nr_vezes <> null)
+				if((int)$conta->nr_vezes >= 2){
+					$conta->nr_vezes = (int)$conta->nr_vezes - 1;
+					$this->db->insert('tbl_contas_areceber', $conta);
+				}
+		} else {
+			$conta->nr_vezes = null;
+			$this->db->insert('tbl_contas_areceber', $conta);
+		}
 	}
 }

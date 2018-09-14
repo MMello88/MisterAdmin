@@ -9,15 +9,15 @@
 	<meta name="description" content="">
 	<meta name="keywords" content="">
 	<meta name="author" content="">
-  <link rel="shortcut icon" sizes="32x32" href="<?= base_url('assets/ico/32.png'); ?>">
+  <link rel="shortcut icon" sizes="32x32" href="<?= base_url('assets/templateGrocery/ico/32.png'); ?>">
 
 	<!-- css -->
   <!-- Bootstrap core CSS-->
-  <link href="<?= base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet">
+  <link href="<?= base_url('assets/templateGrocery/css/bootstrap.min.css') ?>" rel="stylesheet">
   <!-- Custom fonts for this template-->
-  <link href="<?= base_url('assets/css/login/font-awesome.min.css') ?>" rel="stylesheet" type="text/css">
+  <link href="<?= base_url('assets/templateGrocery/css/login/font-awesome.min.css') ?>" rel="stylesheet" type="text/css">
   <!-- Custom styles for this template-->
-  <link href="<?= base_url('assets/css/login/sb-admin.min.css') ?>" rel="stylesheet">
+  <link href="<?= base_url('assets/templateGrocery/css/login/sb-admin.min.css') ?>" rel="stylesheet">
 </head>
 <body class="bg-dark pt-5">
 
