@@ -23,8 +23,7 @@
                     &copy;
                     <script>
                         document.write(new Date().getFullYear())
-                    </script>, Designed and Coded by
-                    <a href="https://www.facebook.com/Matheus.Melllo" target="_blank">Matheus Mello</a>.
+                    </script> Mister
                 </div>
             </div>
         </footer>

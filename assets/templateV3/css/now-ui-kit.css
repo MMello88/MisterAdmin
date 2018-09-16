@@ -5428,7 +5428,7 @@ Created using IcoMoon - icomoon.io
 
 .login-page .card-login.card-plain .form-group.form-group-no-border .form-control,
 .login-page .card-login.card-plain .input-group.form-group-no-border .form-control {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.3);
     color: #FFFFFF;
 }
 
@@ -5465,7 +5465,7 @@ Created using IcoMoon - icomoon.io
 
 .login-page .card-login.card-plain .form-group.form-group-no-border .input-group-addon,
 .login-page .card-login.card-plain .input-group.form-group-no-border .input-group-addon {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.3);
     border: none;
     color: #FFFFFF;
 }

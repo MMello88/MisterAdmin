@@ -22,9 +22,8 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
         <div class="container">
-            
             <div class="navbar-translate">
-                <a class="navbar-brand" href="<?= base_url() ?>" rel="tooltip" title="O Merlhor Melhor e o mais Rápido Gestor" data-placement="bottom">
+                <a class="navbar-brand" href="<?= base_url() ?>" rel="tooltip" title="O Melhor e o mais Rápido Gestor" data-placement="bottom">
                     Mister Web
                 </a>
                 <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,5 +64,5 @@
     </nav>
     <!-- End Navbar -->
 
-    <div class="page-header" filter-color="orange">
-        <div class="page-header-image" style="background-image:url(<?= base_url('assets/templateV3/img/login.jpg') ?>)"></div>
+    <div class="page-header clear-filter" filter-color="orange">
+        <div class="page-header-image" style="background-image:url(<?= base_url('assets/templateV3/img/coxinha.png') ?>)"></div>
