@@ -65,4 +65,3 @@
     <!-- End Navbar -->
 
     <div class="page-header clear-filter" filter-color="orange">
-        <div class="page-header-image" style="background-image:url(<?= base_url('assets/templateV3/img/coxinha.png') ?>)"></div>

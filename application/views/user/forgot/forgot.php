@@ -1,5 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-		<div class="page-header-image" style="background-image:url(<?= base_url('assets/templateV3/img/header.jpg') ?>)"></div>
+        <div class="page-header-image" style="background-image:url(<?= base_url('assets/templateV3/img/coxinha.png') ?>)"></div>
         <div class="container">
             <div class="col-md-4 content-center">
             <?php if (validation_errors()) : ?>
@@ -26,33 +25,17 @@
                             </div>
                         </div>
                         <div class="content">
-                
-                        	<div class="form-group form-group-no-border input-lg">
-								<label for="username">Nome</label>
-								<input type="text" class="form-control" id="username" name="username" placeholder="Informe seu Nome" required>
-							</div>
-							<div class="form-group form-group-no-border input-lg">
-								<label for="email">E-mail</label>
-								<input type="email" class="form-control" id="email" name="email" placeholder="Informe seu E-mail" required>
-							</div>
-							<div class="form-group form-group-no-border input-lg">
-								<div class="form-row">
-			              			<div class="col-md-6">
-										<label for="password">Senha</label>
-										<input type="password" class="input-lg form-control" id="password" name="password" placeholder="Informe sua Senha" required>
-									</div>
-									<div class="col-md-6">
-										<label for="password_confirm">Confirmar Senha</label>
-										<input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Confirma a Senha" required>
-									</div>
-								</div>
-							</div>
-							<div class="form-group input-lg">
-								<input type="submit" class="btn btn-primary btn-round btn-block" value="Register">
-							</div>
-
-                            
+                            <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons users_circle-08"></i>
+                                </span>
+                                <input type="text" class="form-control" id="user" name="user" placeholder="E-mail">
+                            </div>
+                            <div class="footer text-center">
+                                <input type="submit" class="btn btn-primary btn-round btn-lg btn-block" value="Recuperar">
+                            </div>
                         </div>
+                        
 
                     </form>
                 </div>

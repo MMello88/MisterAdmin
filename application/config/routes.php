@@ -52,7 +52,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['Portal/register'] = 'user/register';
 $route['Portal/login'] = 'user/login';
 $route['Portal/logout'] = 'user/logout';
-$route['Portal/login'] = 'user/login';
+$route['Portal/forgot'] = 'user/forgot';
+$route['Planos'] = 'bemvindo/planos';
 
 $route['default_controller'] = 'bemvindo';
 $route['404_override'] = '';

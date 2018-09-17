@@ -1,3 +1,4 @@
+        <div class="page-header-image" style="background-image:url(<?= base_url('assets/templateV3/img/coxinha.png') ?>)"></div>
         <div class="container">
             <div class="col-md-4 content-center">
             <?php if (validation_errors()) : ?>
@@ -42,12 +43,12 @@
                         </div>
                         <div class="pull-left">
                             <h6>
-                                <a href="#" class="link">Criar conta</a>
+                                <a href="<?= base_url('Portal/register') ?>" class="link">Criar conta</a>
                             </h6>
                         </div>
                         <div class="pull-right">
                             <h6>
-                                <a href="#" class="link">Esqueceu a Senha</a>
+                                <a href="<?= base_url('Portal/forgot') ?>" class="link">Esqueceu a Senha</a>
                             </h6>
                         </div>
                     </form>

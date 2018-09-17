@@ -23,6 +23,18 @@ class User extends CI_Controller {
 	public function index() {
 	}
 
+	public function register(){
+		$this->load->view('user/includes/headerV3');
+		$this->load->view('user/register/register');
+		$this->load->view('user/includes/footerV3');
+	}
+
+	public function forgot(){
+		$this->load->view('user/includes/headerV3');
+		$this->load->view('user/forgot/forgot');
+		$this->load->view('user/includes/footerV3');
+	}
+
 	/**
 	 * login function.
 	 * 

@@ -41,9 +41,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url() ?>">
+                        <a class="nav-link" href="<?= base_url('Planos') ?>">
                             <i class="now-ui-icons files_paper"></i>
-                            <p>Pacotes</p>
+                            <p>Planos</p>
                         </a>
                     </li>
                     <li class="nav-item">
