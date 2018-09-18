@@ -35,7 +35,7 @@
             <div class="collapse navbar-collapse justify-content-end" id="navigation" data-nav-image="./assets/img/blurred-image-1.jpg">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url() ?>" >
+                        <a class="nav-link" href="<?= base_url('Portal/register') ?>" >
                             <i class="now-ui-icons arrows-1_cloud-download-93"></i>
                             <p>Vamos comerçar?</p>
                         </a>

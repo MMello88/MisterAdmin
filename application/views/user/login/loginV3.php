@@ -17,25 +17,27 @@
                   </button>
                 </div>
             <?php endif; ?>
+
                 <div class="card card-login card-plain">
                     <?= form_open("", array("class" => "form")) ?>
                         <div class="header header-primary text-center">
-                            <div class="logo-container">
+                            <div class="logo-container mb-2">
                                 <img src="<?= base_url('assets/templateV3/img/avatar.png') ?>" alt="">
                             </div>
+                            <h4 class="h1-seo">Loginho</h4>
                         </div>
                         <div class="content">
                             <div class="input-group form-group-no-border input-lg">
                                 <span class="input-group-addon">
                                     <i class="now-ui-icons users_circle-08"></i>
                                 </span>
-                                <input type="text" class="form-control" id="user" name="user" placeholder="Usuário">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mail">
                             </div>
                             <div class="input-group form-group-no-border input-lg">
                                 <span class="input-group-addon">
                                     <i class="now-ui-icons text_caps-small"></i>
                                 </span>
-                                <input type="password" id="password" name="password" placeholder="Senha" class="form-control" />
+                                <input type="password" id="senha" name="senha" placeholder="Senha" class="form-control" />
                             </div>
                         </div>
                         <div class="footer text-center">
