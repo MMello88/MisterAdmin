@@ -702,7 +702,7 @@ a.dt-button.active:not(.disabled) {
 .header {
   background: #ffffff;
   z-index: 990;
-  margin-left: 250px;
+  margin-left: 200px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   transition: margin-left 300ms ease-in-out 0s;
 }
@@ -711,12 +711,12 @@ a.dt-button.active:not(.disabled) {
   display: inline-block;
   padding: 15px 0;
   text-align: center;
-  width: 250px;
+  width: 200px;
   transition: width 300ms ease-in-out;
 }
 .logo span {
   color: rgba(160, 180, 200, 0.85);
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
 }
 .sidebar-hide .logo {
@@ -3687,7 +3687,7 @@ tbody tr td:last-child {
 body {
   font-family: 'Roboto', sans-serif;
   background: rgba(88, 115, 254, 0.04);
-  font-size: 14px;
+  font-size: 13px;
 }
 a,
 button {

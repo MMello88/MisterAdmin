@@ -12,7 +12,7 @@
     top: 0px;
     left: 0;
     bottom: 0;
-    width: 250px;
+    width: 200px;
     background: #343957;
     /* font-size: 14px; */
     z-index: 100;
@@ -85,8 +85,8 @@
     display: block;
     cursor: pointer;
     color: #E3E3E8;
-    padding: 10px;
-    line-height: 30px;
+    padding: 5px;
+    line-height: 20px;
     border-bottom: none;
     /* background: rgba(255, 255, 255, 0.067); */
     text-decoration: none;
@@ -102,7 +102,7 @@
     float: right;
     margin-right: 5px;
     font-size: 10px;
-    margin-top: 10px;
+    margin-top: 5px;
     transition: -webkit-transform 0.3s ease;
     -webkit-transition: -webkit-transform 0.3s ease;
     transition: transform 0.3s ease;
@@ -137,8 +137,8 @@
 }
 
 .sidebar .nano-content>ul>li.label, .sidebar .nano-content>ul>li.content, .sidebar .nano-content>ul>li>a {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 html.rtl .sidebar .nano-content>ul>li.label, html.rtl .sidebar .nano-content>ul>li.content, html.rtl .sidebar .nano-content>ul>li>a {
@@ -301,7 +301,7 @@ body {
 /* Show with Shrink content */
 
 .sidebar.sidebar-shrink~.content-wrap {
-    margin-left: 250px;
+    margin-left: 200px;
     -webkit-transition: margin-left 300ms ease-in-out;
     transition: margin-left 300ms ease-in-out;
 }

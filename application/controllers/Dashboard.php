@@ -24,10 +24,12 @@ class Dashboard extends CI_Controller {
 			print_r(json_encode($this->data['PedidoAbertoFechado']));
 	}
 
-	public function _example_output($output = null)
+	public function _example_output($output = null, $layout = 'admin')
 	{
 		$output = array_merge($this->data,(array)$output);
-		$this->load->view('restrito/admin.php',$output);
+		$this->load->view('restrito/header_admin',$output);
+		$this->load->view("restrito/$layout",$output);
+		$this->load->view('restrito/footer_admin',$output);
 	}
 
 	public function index()
@@ -687,5 +689,12 @@ class Dashboard extends CI_Controller {
 			}
 			redirect(__CLASS__.'/index');
 		}
+	}
+
+	public function perfil(){
+		$usuario = $this->Usuario->getByEmail($this->session->userdata('email_user'));
+		$this->data['usuario'] = $usuario;
+		$this->_example_output(null, 'perfil');
+		
 	}
 }
