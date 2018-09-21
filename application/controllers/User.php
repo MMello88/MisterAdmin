@@ -26,13 +26,9 @@ class User extends CI_Controller {
 	}
 
 	public function register(){
-
-		/*if($this->session->userdata('id_usuario')){
-			if ($this->session->userdata('tipo') == "s")
-				redirect('AreaComercial/dashboard');
-			else
-				redirect('Perfil/index');
-		}*/
+		if($this->session->userdata('id_usuario')){
+			redirect('Dashboard/index');
+		}
 
 		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[tbl_usuario.email]');
 		$this->form_validation->set_rules('senha', 'Senha', 'trim|required|min_length[8]');
@@ -48,7 +44,7 @@ class User extends CI_Controller {
             $idUsuario = $this->Usuario->insert();
             if(is_numeric($idUsuario)){
 				$this->data['usuario'] = $this->Usuario;
-				$this->enviarEmailCofirmandoAcesso($this->Usuario->nome, $this->Usuario->email, $this->Usuario->hash);
+				$this->enviarEmailCofirmandoAcesso($this->Usuario->Values['nome'], $this->Usuario->Values['email'], $this->Usuario->Values['hash']);
 				$this->load->view('user/includes/headerV3', $this->data);
 				$this->load->view('user/register/register_success', $this->data);
 				$this->load->view('user/includes/footerV3', $this->data);
