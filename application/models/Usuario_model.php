@@ -3,8 +3,6 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Usuario_model extends MY_Model {
 
-    
-
     public function  __construct() {
         parent::__construct();
     }
@@ -41,16 +39,6 @@ class Usuario_model extends MY_Model {
     public function gerarNovoHash($id_usuario, $hash){
         return $this->setHashUsuario($id_usuario, $hash);
     }
-
-    /*public function update(){
-        if (isset($this->Values['senha'])) {
-            $this->Values['senha'] = do_hash($this->Values['senha'], 'md5');
-        }
-        $this->db->update('tbl_usuario', $this->Values, array('id_usuario' => $this->Values['id_usuario']));
-        if ($this->db->error()['code'] > 0)
-          return $this->db->error()['message'];
-        return 'Dados Atualizado com Sucesso';
-    }*/
 
     public function alterarSenha($id_usuario, $senha){
         return $this->setNovaSenha($id_usuario, $senha);

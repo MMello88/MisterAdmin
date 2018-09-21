@@ -13,7 +13,11 @@ class Empresa extends MY_Controller {
 		$this->_example_output(null, 'perfil/perfil');
 	}
 
-	public function edit(){
+	public function add(){
+		$this->_example_output(null, 'empresa/empresa_edit');
+	}
+
+	public function edit($id){
 		$this->form_validation->set_rules('telefone', 'Telefone', 'trim|required');
 		$this->form_validation->set_rules('end_completo', 'Endereço Completo', 'trim|required');
 		if ($this->form_validation->run() === TRUE)
@@ -23,6 +27,10 @@ class Empresa extends MY_Controller {
 		
 		$usuario = $this->Usuario->getByEmail($this->session->userdata('email_user'));
 		$this->data['usuario'] = $usuario;
-		$this->_example_output(null, 'perfil/perfil_edit');
+		$this->_example_output(null, 'empresa/empresa_edit');
+	}
+
+	public function salvar(){
+		
 	}
 }

@@ -64,7 +64,7 @@ class User extends CI_Controller {
 		if (empty($hash)){
 			$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
 			if ($this->form_validation->run() === TRUE){
-				$usuario = $this->Usuario->getByEmail($this->input->post('email'));
+				$usuario = $this->Usuario->getBy('email',$this->input->post('email'));
 				if (empty($usuario)){
 					$this->data['email_nao_encontrado'] = 'E-mail não foi encontrado em nossa base de dados. Verifique novamente!';
 				} else {
@@ -77,7 +77,7 @@ class User extends CI_Controller {
 		} else {
 			$this->form_validation->set_rules('senha', 'Senha', 'trim|required|min_length[8]');
 			if ($this->form_validation->run() === TRUE){
-				$usuario = $this->Usuario->getByHash($hash);
+				$usuario = $this->Usuario->getBy('hash', $hash);
 				if(!empty($usuario)){
 					$this->Usuario->alterarSenha($usuario->id_usuario, $this->input->post('senha'));
 					$this->Usuario->ativarUsuario($usuario->id_usuario);
@@ -129,7 +129,7 @@ class User extends CI_Controller {
 			$senha = $this->input->post('senha');
 			
 			$usuario = $this->resolve_user_login($email, $senha);
-			if (!empty($usuario)) {
+			if ($usuario !== null) {
 				$arrConfirm = array(
 					"is_loginho" => True,
 					"id_user"    => $usuario->id_usuario,
@@ -185,16 +185,17 @@ class User extends CI_Controller {
 
 	public function resolve_user_login($email, $senha)
 	{
-		$arrUserSenha = array('matheus' => '#@!mello', 'rogerio' => '1mister');
-		$usuario = $this->Usuario->getByEmail($email);
-	
+		$usuario = $this->Usuario->getBy('email',$email);
+		
+		if (empty($usuario)) return null;
+		
 		if ($usuario->email === $email && $usuario->senha === md5($senha))
 			return $usuario;
 		return null;
 	}
 
 	public function ativar($hash){
-		$usuario = $this->Usuario->getByHash($hash);
+		$usuario = $this->Usuario->getBy('hash', $hash);
 		if(!empty($usuario)){
 			if ($this->Usuario->ativarUsuario($usuario->id_usuario) === TRUE){
 				$this->data['usuario'] = $usuario;

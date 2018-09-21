@@ -165,7 +165,7 @@ $(document).ready(function(){
                                   </div>-->
                                   <div class="dropdown-content-body">
                                       <ul>
-                                          <li><a href="#"><i class="ti-user"></i> <span>Perfil</span></a></li>
+                                          <li><a href="<?= base_url('Perfil') ?>"><i class="ti-user"></i> <span>Perfil</span></a></li>
                                           <li><a href="<?= base_url('User/logout') ?>"><i class="ti-power-off"></i> <span>Logout</span></a></li>
                                       </ul>
                                   </div>

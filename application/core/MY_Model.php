@@ -26,7 +26,26 @@ abstract class MY_Model extends CI_Model {
     }
   }
 
+  private function setDefault(){
+    foreach ($this->ValuesDefault as $Campo => $Valor) {
+      $this->Values[$Campo] = $Valor;
+    }
+  }
+
+  private function setValueConfig(){
+    foreach ($this->ValuesConfig as $Campo => $function) {
+        if(preg_match('/(.*?)\[(.*)\]/', $function, $match)){
+          $function = $match[1];
+          $this->Values[$Campo] = $function($this->Values[$match[2]]);
+        } else {
+          $this->Values[$Campo] = $function($this->Values[$Campo]);
+        }
+    }
+  }
+
   public function insert(){
+    $this->setDefault();
+    $this->setValueConfig();
     if ($this->db->insert($this->Table, $this->Values)){
         $this->Values[$this->FieldId] = $this->db->insert_id();
         return $this->Values[$this->FieldId];
