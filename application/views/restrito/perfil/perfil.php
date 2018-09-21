@@ -17,14 +17,14 @@
                             <div class="tab-content">
                               <div role="tabpanel" class="tab-pane active" id="1">
                                 <div class="contact-information">
-                                  <h4>Contact information</h4>
+                                  <h4>Informação de Contato</h4>
                                   <div class="phone-content">
-                                    <span class="contact-title">Telfone de Contato:</span>
-                                    <span class="phone-number">+8801629599859</span>
+                                    <span class="contact-title">Telefone de Contato:</span>
+                                    <span class="phone-number"><?= $usuario->telefone ?></span>
                                   </div>
                                   <div class="address-content">
                                     <span class="contact-title">Endereço Completo:</span>
-                                    <span class="mail-address">123, Rajar Goli, South Mugda</span>
+                                    <span class="mail-address"><?= $usuario->end_completo ?></span>
                                   </div>
                                   <div class="email-content">
                                     <span class="contact-title">Email:</span>
@@ -40,6 +40,7 @@
                                 </div>
                               </div>
                             </div>
+                            <a href="<?= base_url('Perfil/edit'); ?>" class="btn btn-primary btn-outline btn-rounded">Editar Perfil</a>
                           </div>
                         </div>
                       </div>
@@ -88,7 +89,8 @@
                           </tr>
                           <tr>
                             <td>Kolor Tea Shirt For Man</td>
-                            <td><span class="badge badge-primary">Ongoing</span></td>
+                            <td><span class="badge badge-pr
+                              imary">Ongoing</span></td>
                             <td>January 22</td>
                             <td class="color-primary">$21.56</td>
                           </tr>
@@ -107,6 +109,7 @@
                         </tbody>
                       </table>
                     </div>
+                    <a href="<?= base_url('Empresa/add'); ?>" class="btn btn-primary btn-outline btn-rounded">Add Empresa</a>
                   </div>
                 </div>
               </div>

@@ -3,32 +3,35 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Usuario_model extends MY_Model {
 
-    public $id_usuario;
-    public $nome;
-    public $email;
-    public $senha;
-    public $hash;
-    public $ativo;
-    public $dt_cadastro;
+    
 
     public function  __construct() {
-        parent::__construct($this);
+        parent::__construct();
     }
 
-    public function insert() {
-        
-        $this->set_post($this);
-        $this->id_usuario = '';
-        $this->ativo = 'd';
-        $this->dt_cadastro = date("Y-m-d H:i:s");
-        $this->senha = md5($this->senha);
-        $this->hash = md5($this->email);
-        if ($this->db->insert('tbl_usuario', $this)){
-            $this->id_usuario = $this->db->insert_id();           
-            return $this->id_usuario;
+    /*
+    public function insert(){
+        $this->Values['id_usuario' ] = '';
+        $this->Values['ativo'      ] = 'd';
+        $this->Values['dt_cadastro'] = date("Y-m-d H:i:s");
+        $this->Values['senha'      ] = md5($this->Values['senha']);
+        $this->Values['hash'       ] = md5($this->Values['email']);
+        if ($this->db->insert('tbl_usuario', $this->Values)){
+            $this->Values['id_usuario'] = $this->db->insert_id();           
+            return $this->Values['id_usuario'];
         }
         else
             return $this->db->error()['message'];
+    }
+    */
+
+    protected function setConfigure(){
+        $this->Values = array();
+        $this->Fields = array('id_usuario', 'nome', 'email', 'senha', 'hash', 'ativo', 'dt_cadastro', 'telefone', 'end_completo');
+        $this->FieldId = 'id_usuario';
+        $this->Table = 'tbl_usuario';
+        $this->ValuesDefault = array('ativo' => 'd', 'dt_cadastro' => date("Y-m-d H:i:s"));
+        $this->ValuesConfig = array('senha' => 'md5', 'hash' => 'md5[email]');    
     }
 
     public function ativarUsuario($id_usuario){      
@@ -39,28 +42,18 @@ class Usuario_model extends MY_Model {
         return $this->setHashUsuario($id_usuario, $hash);
     }
 
-    public function update() {
-        $this->set_post($this);
-        $this->senha = do_hash($this->senha, 'md5');
-        $this->db->update('tbl_usuario', $this, array('id_usuario' => $this->id_usuario));
+    /*public function update(){
+        if (isset($this->Values['senha'])) {
+            $this->Values['senha'] = do_hash($this->Values['senha'], 'md5');
+        }
+        $this->db->update('tbl_usuario', $this->Values, array('id_usuario' => $this->Values['id_usuario']));
         if ($this->db->error()['code'] > 0)
           return $this->db->error()['message'];
         return 'Dados Atualizado com Sucesso';
-    }
-
-    public function delete() {
-        $this->set_post($this);
-        $this->db->delete('tbl_usuario', $this, array('id_usuario' => $this->id_usuario));
-        if ($this->db->error()['code'] > 0)
-          $this->set_log_error_db();
-        $this->set_response_db('Removido com sucesso');
-    }
+    }*/
 
     public function alterarSenha($id_usuario, $senha){
         return $this->setNovaSenha($id_usuario, $senha);
-    }
-
-    protected function get_config_prop(){
     }
 
     private function setHashUsuario($id_usuario, $hash, $ativo = FALSE){
@@ -79,13 +72,14 @@ class Usuario_model extends MY_Model {
 
     public function getByHash($hash) {
         $query = $this->db->get_where('tbl_usuario', array('hash' => $hash));
-        $result = $query->custom_result_object('usuario_model');       
+        $result = $query->result_object();
         return empty($result) ? "" : $result[0];
     }
 
     public function getByEmail($email) {
         $query = $this->db->get_where('tbl_usuario', array('email' => $email));
-        $result = $query->custom_result_object('usuario_model');       
+        $result = $query->result_object();
         return empty($result) ? "" : $result[0];
     }
 }
+
