@@ -26,6 +26,7 @@ class Empresa extends MY_Controller {
 		}
 		
 		$usuario = $this->Usuario->getByEmail($this->session->userdata('email_user'));
+
 		$this->data['usuario'] = $usuario;
 		$this->_example_output(null, 'empresa/empresa_edit');
 	}

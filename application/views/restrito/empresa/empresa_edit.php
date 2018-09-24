@@ -32,8 +32,8 @@
                             <?php endif; ?>
                             <div class="tab-content mt-3">
                               <div role="tabpanel" class="tab-pane active" id="1">
-                                <? if(!empty($usuario)) : ?>
-                                <?= form_open('Empresa/salvar') ?>
+                              <?php if (isset($usuario)) : ?>
+                                <?= form_open('Empresa/salvar'); ?>
                                   <input type="hidden" name="id_usuario" value="<?= $usuario->id_usuario ?>">
                                   <input type="hidden" name="nome" value="<?= $usuario->nome ?>">
                                   <div class="contact-information">
@@ -53,8 +53,9 @@
                                   </div>
                                   <a href="<?= base_url('Perfil'); ?>" class="btn btn-default btn-outline btn-rounded">Cancelar</a>
                                   <button type="submit" class="btn btn-warning btn-outline btn-rounded">Salvar</button>
-                                <? endif; ?>
-                                <?= form_close() ?>
+                                
+                                <?= form_close(); ?>
+                              <?php endif; ?>
                               </div>
                                 
                             </div>
