@@ -9,9 +9,66 @@ abstract class MY_Model extends CI_Model {
   public $Table = null;
   public $ValuesDefault = array();
   public $ValuesConfig = array();
+  public $Where = array();
 
   public function __construct() {
     $this->setConfigure();
+    $this->setValues();
+  }
+
+  /*
+    return array se houver erro;
+      Mensagem: $this->db->error()['message'];
+      Código: $this->db->error()['code']
+  */
+  public function insert(){
+    $this->setDefault();
+    $this->setValueConfig();
+    if ($this->db->insert($this->Table, $this->Values)){
+        $this->Values[$this->FieldId] = $this->db->insert_id();
+        return $this->Values[$this->FieldId];
+    }
+    else
+        return $this->db->error();
+  }
+
+  public function update(){
+    print_r($_POST);
+    print_r($this->Values);
+    $this->db->update($this->Table, $this->Values, array($this->FieldId => $this->Values[$this->FieldId]));
+    if ($this->db->error()['code'] > 0)
+      return $this->db->error();
+    return 'Dados Atualizado com Sucesso';
+  }
+
+  public function delete(){        
+    $this->db->delete($this->Table, array($this->FieldId => $this->Values[$this->FieldId]));
+    if ($this->db->error()['code'] > 0)
+        return $this->db->error();
+    return 'Dado Removido com Sucesso';
+  }
+
+  public function get($id_value = '', $where = array()){
+    $where = array_merge($where, $this->Where);
+    if (!empty($id_value))
+      $where[$this->FieldId] = $id_value;
+
+    $query = $this->db->get_where($this->Table, $where);
+    return $query->result_object();
+  }
+
+  public function getBy($field, $value){
+    $query = $this->db->get_where($this->Table, array($field => $value));
+    return $query->result_object();
+  }
+
+  public function setConfigMister($configFields){
+    $this->Table = $configFields['table']['nome'];
+    $this->FieldId = $configFields['table']['chave_pk'];
+    foreach ($configFields['columns'] as $coluna => $config) {
+      $this->Fields[] = $coluna;
+    }
+    $this->Where = $configFields['where'];
     $this->setValues();
   }
 
@@ -41,48 +98,5 @@ abstract class MY_Model extends CI_Model {
           $this->Values[$Campo] = $function($this->Values[$Campo]);
         }
     }
-  }
-
-  public function insert(){
-    $this->setDefault();
-    $this->setValueConfig();
-    if ($this->db->insert($this->Table, $this->Values)){
-        $this->Values[$this->FieldId] = $this->db->insert_id();
-        return $this->Values[$this->FieldId];
-    }
-    else
-        return $this->db->error()['message'];
-  }
-
-  public function update(){
-    $this->db->update($this->Table, $this->Values, array($this->FieldId => $this->Values[$this->FieldId]));
-    if ($this->db->error()['code'] > 0)
-      return $this->db->error()['message'];
-    return 'Dados Atualizado com Sucesso';
-  }
-
-  public function delete(){        
-    $this->db->delete($this->Table, array($this->FieldId => $this->Values[$this->FieldId]));
-    if ($this->db->error()['code'] > 0)
-      $this->set_log_error_db();
-    $this->set_response_db('Removido com sucesso');
-  }
-
-  public function get($id_value = ''){
-    if (empty($id_value)) {
-      $query = $this->db->get_where($this->Table, array($this->FieldId => $id_value));
-      $result = $query->result_object();
-      return empty($result) ? "" : $result[0];
-    } else {
-      $query = $this->db->get($this->Table);
-      $result = $query->result_object();
-      return empty($result) ? "" : $result;
-    }    
-  }
-
-  public function getBy($field, $value){
-    $query = $this->db->get_where($this->Table, array($field => $value));
-    $result = $query->result_object();
-    return empty($result) ? "" : $result[0];
   }
 }

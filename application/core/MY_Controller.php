@@ -5,20 +5,6 @@ class MY_Controller extends CI_Controller {
   
 	public $data = array();
 	public $set_config = array();
-	/* exemplo
-	$this->set_config = 
-		array(
-			'table' => 
-				array('nome'     => 'tbl_empresa', 
-					  'chave_pk' => 'id_empresa'
-					  'display'  => 'Empresa'),
-			'columns' => 
-				array('id_empresa' => 
-					array('Id Empresa', 'required', 'valordefailt', 'tratar_compo', 'apresenta na grid'),
-				),
-			'dropdown' => array(),
-		);
-	*/
 
 	public function __construct($checa_loginho = FALSE)
 	{
@@ -51,39 +37,60 @@ class MY_Controller extends CI_Controller {
 
 	public function execute(){
 
+		$this->data['segment_class'] = $this->uri->segment(1);
+		$this->data['segment_funct'] = $this->uri->segment(2);
+
+		$this->data['set_config'] = $this->set_config;
+
+		$this->Mister->setConfigMister($this->set_config);
 
 		$layout = "base/".$this->set_config['layout']['action'];
 
-		if(empty($this->set_config['layout']['action'])){
-			$this->data['rows'] = $this->Mister->get($this->set_config['layout']['value']);
-			$layout = "base/grid";
-			//configurar para a view grid
-		} else if($this->set_config['layout']['action'] == 'view'){
-			$this->data['row'] = $this->Mister->get($this->set_config['layout']['value']);
-			//tela para visualizar
-		} else if(in_array($this->set_config['layout']['action'], array('add', 'edit', 'delete'))){
-
-			//tela para edição e adição
-		}
-
-
 		foreach ($this->set_config['columns'] as $column => $rules) {
-			echo 'coluna:'. $column . '<br/>';
-
-			$this->form_validation->set_rules($column, $rules['display_column'], $rules['rules']);
-
-			//print_r($rules);
-			foreach ($rules as $rule => $value) {
-				if ($rule === 'rules'){
-					echo 'achou ';
-					echo $rule .' => '. $value .' / ';
-				}
-				//echo $rule .' => '. $value .' / ';
+			if (isset($rules['rules'])){
+				$this->form_validation->set_rules($column, $rules['display_column'], $rules['rules']);
 			}
-
 		}
+
+		if ($this->form_validation->run() === TRUE){
+			if($this->set_config['layout']['action'] == 'add')
+				$result = $this->Mister->insert();
+			if($this->set_config['layout']['action'] == 'edit')
+				$result = $this->Mister->update();
+			if($this->set_config['layout']['action'] == 'delete')
+				$result = $this->Mister->delete();
+
+			if (is_array($result)){
+				$this->data['erro_message'] = $result['message'];
+			} else {
+				$this->data['success_message'] = $result;
+			}
+		}
+
+		$this->data['rows'] = $this->Mister->get($this->set_config['layout']['value']);
 
 		$this->_example_output(null, $layout);
-
 	}
 }
+
+/*
+        $this->set_config = 
+            array(
+                'layout' => array('action' => $action, 'value' => $id),
+                'table' => 
+                    array('nome'     => 'tbl_empresa', 
+                          'chave_pk' => 'id_empresa',
+                          'display'  => 'Empresa'),
+                'columns' => 
+                    array('id_empresa' => 
+                        array('display_column' => 'Id Empresa', 
+                              'input' => array('type' => 'hidden', 'required' => ''),
+                              'rules' => 'required',
+                              'default_value' => '', 
+                              'costumer_value' => 'md5', 
+                              'display_grid' => 'true')
+                    ),
+                'where' => array('id_usuario' => $this->session->userdata('id_user'))/*,
+                'dropdown' => array(),
+            );
+*/

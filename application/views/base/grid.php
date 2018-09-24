@@ -1,45 +1,44 @@
+
                 <section id="main-content">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-title">
-                                    <h4>Table Basic </h4>
-                                    
+                                    <h4> <?= $set_config['table']['display']; ?> </h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
-                                                    <th>Name</th>
-                                                    <th>Status</th>
-                                                    <th>Date</th>
-                                                    <th>Price</th>
+                                                <?php 
+                                                    foreach ($set_config['columns'] as $campo => $config) {
+                                                        if(isset($config['display_grid']) && $config['display_grid'] == 'true')
+                                                            echo "<th>". $config['display_column'] ."</th> ";
+                                                    }
+                                                    echo "<th>#</th>";
+                                                ?>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>Kolor Tea Shirt For Man</td>
-                                                    <td><span class="badge badge-primary">Sale</span></td>
-                                                    <td>January 22</td>
-                                                    <td class="color-primary">$21.56</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">2</th>
-                                                    <td>Kolor Tea Shirt For Women</td>
-                                                    <td><span class="badge badge-success">Tax</span></td>
-                                                    <td>January 30</td>
-                                                    <td class="color-success">$55.32</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">3</th>
-                                                    <td>Blue Backpack For Baby</td>
-                                                    <td><span class="badge badge-danger">Extended</span></td>
-                                                    <td>January 25</td>
-                                                    <td class="color-danger">$14.85</td>
-                                                </tr>
+                                                <?php 
+                                                    $chave = $set_config['table']['chave_pk'];
+                                                    foreach ($rows as $obj) {
+                                                        echo "<tr>";
+                                                        foreach ($set_config['columns'] as $campo => $config)
+                                                            if(isset($config['display_grid']) && $config['display_grid'] == 'true')
+                                                                echo "<td>". $obj->$campo ."</td>"; 
+                                                        echo "<td>
+                                                            <span>
+                                                                <a href='".base_url("$segment_class/$segment_funct/view/".$obj->$chave)."'><i class='ti-eye color-primary m-l-6' title='Visualizar'></i></a>
+                                                                <a href='".base_url("$segment_class/$segment_funct/edit/".$obj->$chave)."'><i class='ti-pencil color-success m-l-6' title='Editar'></i></a>
+                                                                <a href='".base_url("$segment_class/$segment_funct/delete/".$obj->$chave)."'><i class='ti-close color-danger m-l-6' title='Deletar'></i></a>
+                                                                
+                                                            </span>
+                                                        </td>";
+                                                        echo "</tr>";
+                                                    } 
+                                                ?>
                                             </tbody>
                                         </table>
                                     </div>

@@ -10,7 +10,7 @@ class Perfil extends MY_Controller {
 	public function index(){
 		$usuario = $this->Usuario->getByEmail($this->session->userdata('email_user'));
 		$this->data['usuario'] = $usuario;
-		$this->_example_output(null, 'perfil/perfil');
+		$this->_example_output(null, 'restrito/perfil/perfil');
 	}
 
 	public function edit(){
@@ -23,6 +23,6 @@ class Perfil extends MY_Controller {
 		
 		$usuario = $this->Usuario->getByEmail($this->session->userdata('email_user'));
 		$this->data['usuario'] = $usuario;
-		$this->_example_output(null, 'perfil/perfil_edit');
+		$this->_example_output(null, 'restrito/perfil/perfil_edit');
 	}
 }
