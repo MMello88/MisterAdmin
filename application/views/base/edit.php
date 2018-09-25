@@ -11,7 +11,7 @@
                                 <div class="card-body">
                                     <?php if(isset($success_message)) : ?>
                                       <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        <strong>Ops!</strong> <?= $success_message ?>
+                                        <strong>Yes!</strong> <?= $success_message ?>
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                           <span aria-hidden="true">&times;</span>
                                         </button>
@@ -26,7 +26,8 @@
                                       </div>
                                     <?php endif; ?>
                                     <div class="basic-form">
-                                        <?= form_open("$segment_class/$segment_funct/edit/1") ?>
+                                        <?php $id = $set_config['layout']['value']; ?>
+                                        <?= form_open("$segment_class/$segment_funct/edit/$id") ?>
                                         <?php
                                           foreach ($set_config['columns'] as $campo => $config){
                                             $value = isset($obj->$campo) ? $obj->$campo : "";

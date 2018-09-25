@@ -8,7 +8,6 @@ class Mister extends MY_Controller {
 	}
 
 	public function Empresa($action = 'grid', $id = ''){
-		print_r($_POST);
 		$this->set_config = 
 			array(
 				'layout' => array('action' => $action, 'value' => $id),
@@ -37,6 +36,12 @@ class Mister extends MY_Controller {
 					  	array('display_column' => 'Nome Fantasia', 
 							  'input' => array('type' => 'text', 'required' => 'required'),
 							  'rules' => 'required',
+							  'display_grid' => 'true'),
+					  'id_usuario' =>
+					  	array('display_column' => 'Id Usuário', 
+							  'input' => array('type' => 'hidden', 'required' => ''),
+							  'rules' => 'required',
+							  'default_value' => $this->session->userdata('id_user'), 
 							  'display_grid' => 'true'),
 
 					),

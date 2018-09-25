@@ -47,27 +47,51 @@ class MY_Controller extends CI_Controller {
 		$layout = "base/".$this->set_config['layout']['action'];
 
 		foreach ($this->set_config['columns'] as $column => $rules) {
-			if (isset($rules['rules'])){
-				$this->form_validation->set_rules($column, $rules['display_column'], $rules['rules']);
+			if($this->set_config['layout']['action'] == 'delete'){
+				if ($column == $this->set_config['table']['chave_pk']){
+					$this->form_validation->set_rules($column, $rules['display_column'], 'required');
+				}
+			} else {
+				if (isset($rules['rules'])){
+					$this->form_validation->set_rules($column, $rules['display_column'], $rules['rules']);
+				}
 			}
 		}
 
+		$value = $this->set_config['layout']['value'];
+
 		if ($this->form_validation->run() === TRUE){
-			if($this->set_config['layout']['action'] == 'add')
+			if($this->set_config['layout']['action'] == 'add'){
 				$result = $this->Mister->insert();
+				if (is_numeric($result)){
+					$value = $result;
+					$result = "Dados inserido com sucesso!";
+				}
+
+				if($this->input->post('btnSalvarVoltar') === "Salvar e Voltar"){
+					$this->session->set_flashdata('msg_flash', $result);
+					redirect($this->uri->segment(1)."/".$this->uri->segment(2));
+				}
+			}
 			if($this->set_config['layout']['action'] == 'edit')
 				$result = $this->Mister->update();
-			if($this->set_config['layout']['action'] == 'delete')
+			if($this->set_config['layout']['action'] == 'delete') {
 				$result = $this->Mister->delete();
+				if (!is_array($result)){
+					$this->session->set_flashdata('msg_flash', $result);
+					redirect($this->uri->segment(1)."/".$this->uri->segment(2));
+				}
+			}
 
 			if (is_array($result)){
 				$this->data['erro_message'] = $result['message'];
 			} else {
 				$this->data['success_message'] = $result;
 			}
-		}
+		} 
 
-		$this->data['rows'] = $this->Mister->get($this->set_config['layout']['value']);
+		if($this->set_config['layout']['action'] !== 'add')
+			$this->data['rows'] = $this->Mister->get($value);
 
 		$this->_example_output(null, $layout);
 	}

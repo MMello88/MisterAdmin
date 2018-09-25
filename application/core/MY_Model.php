@@ -33,15 +33,13 @@ abstract class MY_Model extends CI_Model {
   }
 
   public function update(){
-    print_r($_POST);
-    print_r($this->Values);
     $this->db->update($this->Table, $this->Values, array($this->FieldId => $this->Values[$this->FieldId]));
     if ($this->db->error()['code'] > 0)
       return $this->db->error();
     return 'Dados Atualizado com Sucesso';
   }
 
-  public function delete(){        
+  public function delete(){
     $this->db->delete($this->Table, array($this->FieldId => $this->Values[$this->FieldId]));
     if ($this->db->error()['code'] > 0)
         return $this->db->error();
