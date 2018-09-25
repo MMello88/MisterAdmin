@@ -1,4 +1,4 @@
-          <?php $obj = $rows[0]; ?>
+          <?php $obj = isset($rows[0]) ? $rows[0] : new stdClass(); ?>
           <section id="main-content">
             <div class="row">
               <div class="col-lg-12">
@@ -17,15 +17,13 @@
                               <div role="tabpanel" class="tab-pane active" id="1">
                                 <div class="contact-information">
                                   <?php 
-                                    foreach ($rows as $obj) {
-
-                                        foreach ($set_config['columns'] as $campo => $config){
-                                          echo "<div class='basic-information'>";
-                                          echo "  <span class='contact-title'>".$config['display_column'].":</span>";
-                                          echo "  <span class='phone-number'>".$obj->$campo."</span>";
-                                          echo "</div>";
-                                        }
-                                    } 
+                                    foreach ($set_config['columns'] as $campo => $config){
+                                      $value = isset($obj->$campo) ? $obj->$campo : "";
+                                      echo "<div class='basic-information'>";
+                                      echo "  <span class='contact-title'>".$config['display_column'].":</span>";
+                                      echo "  <span class='phone-number'>".$value."</span>";
+                                      echo "</div>";
+                                    }
                                   ?>
                                   </div>
                                 </div>                                

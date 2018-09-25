@@ -185,7 +185,8 @@ class User extends CI_Controller {
 
 	public function resolve_user_login($email, $senha)
 	{
-		$usuario = $this->Usuario->getBy('email',$email);
+		$usuarios = $this->Usuario->getBy('email',$email);
+		$usuario = $usuarios[0];
 		
 		if (empty($usuario)) return null;
 		

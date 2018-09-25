@@ -5,6 +5,9 @@
                             <div class="card">
                                 <div class="card-title">
                                     <h4> <?= $set_config['table']['display']; ?> </h4>
+                                    <div class="my-3">
+                                        <a href="<?= base_url("$segment_class/$segment_funct/add"); ?>" class="btn btn-primary btn-outline btn-rounded">Add <?= $set_config['table']['display']; ?></a>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
