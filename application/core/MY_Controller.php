@@ -61,26 +61,29 @@ class MY_Controller extends CI_Controller {
 		$value = $this->set_config['layout']['value'];
 
 		if ($this->form_validation->run() === TRUE){
+
 			if($this->set_config['layout']['action'] == 'add'){
 				$result = $this->Mister->insert();
 				if (is_numeric($result)){
 					$value = $result;
 					$result = "Dados inserido com sucesso!";
 				}
-
-				if($this->input->post('btnSalvarVoltar') === "Salvar e Voltar"){
-					$this->session->set_flashdata('msg_flash', $result);
-					redirect($this->uri->segment(1)."/".$this->uri->segment(2));
-				}
 			}
+
 			if($this->set_config['layout']['action'] == 'edit')
 				$result = $this->Mister->update();
+
 			if($this->set_config['layout']['action'] == 'delete') {
 				$result = $this->Mister->delete();
 				if (!is_array($result)){
 					$this->session->set_flashdata('msg_flash', $result);
 					redirect($this->uri->segment(1)."/".$this->uri->segment(2));
 				}
+			}
+
+			if($this->input->post('btnSalvarVoltar') === "Salvar e Voltar"){
+				$this->session->set_flashdata('msg_flash', $result);
+				redirect($this->uri->segment(1)."/".$this->uri->segment(2));
 			}
 
 			if (is_array($result)){

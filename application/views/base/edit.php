@@ -53,7 +53,8 @@
                                               echo "</div>";
                                           }
                                         ?>
-                                            <button type="submit" class="btn btn-success btn-outline btn-rounded">Salvar</button>
+                                            <input type="submit" class="btn btn-success btn-outline btn-rounded" name="btnSalvar" value="Salvar">
+                                            <input type="submit" class="btn btn-success btn-outline btn-rounded" name="btnSalvarVoltar" value="Salvar e Voltar">
                                             <a href="<?= base_url("$segment_class/$segment_funct"); ?>" class="btn btn-primary btn-outline btn-rounded">Voltar</a>
                                         </form>
                                     </div>
