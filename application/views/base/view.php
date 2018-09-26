@@ -19,6 +19,10 @@
                                   <?php 
                                     foreach ($set_config['columns'] as $campo => $config){
                                       $value = isset($obj->$campo) ? $obj->$campo : "";
+                                      if(isset($config['select']) && !empty($value)){
+                                        $value = $config['select'][$value];
+                                      }
+                                      
                                       echo "<div class='basic-information'>";
                                       echo "  <span class='contact-title'>".$config['display_column'].":</span>";
                                       echo "  <span class='phone-number'>".$value."</span>";

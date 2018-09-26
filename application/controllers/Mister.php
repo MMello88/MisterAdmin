@@ -43,6 +43,12 @@ class Mister extends MY_Controller {
 							  'rules' => 'required',
 							  'default_value' => $this->session->userdata('id_user'), 
 							  'display_grid' => 'true'),
+					  	'id_tipo' =>
+					  	array('display_column' => 'Filial', 
+							  'select' => array('1' => 'Principal', '2' => 'Filial'),
+							  'rules' => 'required',
+							  'default_value' => '', 
+							  'display_grid' => 'true'),
 
 					),
 				'where' => array('id_usuario' => $this->session->userdata('id_user'))/*,

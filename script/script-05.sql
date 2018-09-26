@@ -34,3 +34,7 @@ CREATE TABLE `miste872_prod`.`tbl_empresa`(
   PRIMARY KEY (`id_empresa`),
   CONSTRAINT `fk_empresa_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`)
 );
+
+ALTER TABLE `miste872_prod`.`tbl_empresa`   
+  ADD COLUMN `id_tipo` INT(11) NULL AFTER `id_usuario`,
+  ADD CONSTRAINT `fk_empresa_tipo` FOREIGN KEY (`id_tipo`) REFERENCES `miste872_prod`.`tbl_tipo`(`id_tipo`);

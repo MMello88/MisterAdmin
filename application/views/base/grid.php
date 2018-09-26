@@ -44,8 +44,12 @@
                                                     foreach ($rows as $obj) {
                                                         echo "<tr>";
                                                         foreach ($set_config['columns'] as $campo => $config)
-                                                            if(isset($config['display_grid']) && $config['display_grid'] == 'true')
+                                                            if(isset($config['display_grid']) && $config['display_grid'] == 'true'){
+                                                                if(isset($config['select']) && !empty($obj->$campo)){
+                                                                    $obj->$campo = $config['select'][$obj->$campo];
+                                                                }
                                                                 echo "<td>". $obj->$campo ."</td>"; 
+                                                            }
                                                         echo "<td>
                                                             <span>
                                                                 <a href='".base_url("$segment_class/$segment_funct/view/".$obj->$chave)."'><i class='ti-eye color-primary m-l-6' title='Visualizar'></i></a>
