@@ -38,3 +38,6 @@ CREATE TABLE `miste872_prod`.`tbl_empresa`(
 ALTER TABLE `miste872_prod`.`tbl_empresa`   
   ADD COLUMN `id_tipo` INT(11) NULL AFTER `id_usuario`,
   ADD CONSTRAINT `fk_empresa_tipo` FOREIGN KEY (`id_tipo`) REFERENCES `miste872_prod`.`tbl_tipo`(`id_tipo`);
+
+ALTER TABLE `miste872_prod`.`tbl_empresa`   
+  ADD COLUMN `sn_filial` CHAR(1) NULL  COMMENT 's - é filial / n - não é filial' AFTER `id_tipo`;

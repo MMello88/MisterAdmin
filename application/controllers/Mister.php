@@ -9,51 +9,57 @@ class Mister extends MY_Controller {
 
 	public function Empresa($action = 'grid', $id = ''){
 		$this->set_config = 
-			array(
-				'layout' => array('action' => $action, 'value' => $id),
+			[
+				'layout' => ['action' => $action, 'value' => $id],
 				'table' => 
-					array('nome'     => 'tbl_empresa', 
-						  'chave_pk' => 'id_empresa',
-						  'display'  => 'Empresa'),
+					['nome'     => 'tbl_empresa', 
+					 'chave_pk' => 'id_empresa',
+					 'display'  => 'Empresa'],
 				'columns' => 
-					array(
+					[
 					  'id_empresa' => 
-						array('display_column' => 'Id', 
-							  'input' => array('type' => 'text', 'required' => 'readonly'),
+						['display_column' => 'Id', 
+							  'input' => ['type' => 'text', 'required' => 'readonly'],
 							  'rules' => '',
-							  'display_grid' => 'true'),
+							  'display_grid' => 'true'],
 					  'nome' =>
-					  	array('display_column' => 'Nome', 
-							  'input' => array('type' => 'text', 'required' => ''),
+					  	['display_column' => 'Nome', 
+							  'input' => ['type' => 'text', 'required' => ''],
 							  'rules' => 'required',
-							  'display_grid' => 'true'),
+							  'display_grid' => 'true'],
 					  'razao_social' =>
-					  	array('display_column' => 'Razão Social', 
-							  'input' => array('type' => 'text', 'required' => 'required'),
+					  	['display_column' => 'Razão Social', 
+							  'input' => ['type' => 'text', 'required' => 'required'],
 							  'rules' => 'required',
-							  'display_grid' => 'true'),
+							  'display_grid' => 'true'],
 					  'nome_fantasia' =>
-					  	array('display_column' => 'Nome Fantasia', 
-							  'input' => array('type' => 'text', 'required' => 'required'),
+					  	['display_column' => 'Nome Fantasia', 
+							  'input' => ['type' => 'text', 'required' => 'required'],
 							  'rules' => 'required',
-							  'display_grid' => 'true'),
+							  'display_grid' => 'true'],
 					  'id_usuario' =>
-					  	array('display_column' => 'Id Usuário', 
-							  'input' => array('type' => 'hidden', 'required' => ''),
+					  	['display_column' => 'Id Usuário', 
+							  'input' => ['type' => 'text', 'required' => 'readonly'],
 							  'rules' => 'required',
 							  'default_value' => $this->session->userdata('id_user'), 
-							  'display_grid' => 'true'),
-					  	'id_tipo' =>
-					  	array('display_column' => 'Filial', 
-							  'select' => array('1' => 'Principal', '2' => 'Filial'),
+							  'display_grid' => 'true'],
+					  'sn_filial' =>
+					  	['display_column' => 'Filial', 
+							  'select' => ['s' => 'Sim', 'n' => 'Não'],
 							  'rules' => 'required',
 							  'default_value' => '', 
-							  'display_grid' => 'true'),
+							  'display_grid' => 'true'],
+					  'id_tipo' =>
+					  	['display_column' => 'Filial', 
+							  'select' => ['relacional' => ['campo', 'tbl_tipo',]],
+							  'rules' => 'required',
+							  'default_value' => '', 
+							  'display_grid' => 'true'],
 
-					),
-				'where' => array('id_usuario' => $this->session->userdata('id_user'))/*,
+					],
+				'where' => ['id_usuario' => $this->session->userdata('id_user')]/*,
 				'dropdown' => array(),*/
-			);
+			];
 		$this->execute();
 	}
 }

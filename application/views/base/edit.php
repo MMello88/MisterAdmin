@@ -29,28 +29,42 @@
                                         <?php $id = $set_config['layout']['value']; ?>
                                         <?= form_open("$segment_class/$segment_funct/edit/$id") ?>
                                         <?php
-                                          foreach ($set_config['columns'] as $campo => $config){
+                                          foreach ($set_config['columns'] as $campo => $config)
+                                          {
                                             $value = isset($obj->$campo) ? $obj->$campo : "";
-                                              echo "<div class='form-group'>";
+                                            
+                                            echo "<div class='form-group'>";
+                                            if ($config['input']['type'] !== "hidden")
                                               echo "  <label>".$config['display_column']."</label>";
-                                              if(!isset($config['input']))
-                                                  echo "  <input type='text' 
-                                                                 class='form-control' 
-                                                                 name='".$campo."'
-                                                                 placeholder='".$config['display_column']."' 
-                                                                 value='".$value."'>";
-                                              else
-                                                  echo "  <input type='".$config['input']['type']."' 
-                                                                 class='form-control'
-                                                                 name='".$campo."'
-                                                                 placeholder='".$config['display_column']."' 
-                                                                 value='".$value."' 
-                                                                 ".$config['input']['required'].">";
-                                              if(form_error($campo) !== null)
-                                                  echo "<div class='invalid-feedback d-block'>
-                                                          ".form_error($campo, '<p class="text-danger">', '</p>')."
-                                                        </div>";
-                                              echo "</div>";
+                                            
+                                            if(isset($config['input']))
+                                            {
+                                                echo "  <input type='".$config['input']['type']."' 
+                                                               class='form-control'
+                                                               name='".$campo."'
+                                                               placeholder='".$config['display_column']."'
+                                                               value='".$value."' 
+                                                               ".$config['input']['required'].">";
+                                            }
+                                            if(isset($config['select']))
+                                            {
+                                              echo "<select class='custom-select'
+                                                            name='$campo'>";
+                                              echo "<option value=''></option>";
+                                                foreach ($config['select'] as $key_option => $val_option) {
+                                                  if($value === $key_option)
+                                                    echo "<option value='$key_option' selected>$val_option</option>";
+                                                  else
+                                                    echo "<option value='$key_option'>$val_option</option>";
+                                                }
+                                              echo "</select>";
+                                            }
+
+                                            if(form_error($campo) !== null)
+                                                echo "<div class='invalid-feedback d-block'>
+                                                        ".form_error($campo, '<p class="text-danger">', '</p>')."
+                                                      </div>";
+                                            echo "</div>";
                                           }
                                         ?>
                                             <input type="submit" class="btn btn-success btn-outline btn-rounded" name="btnSalvar" value="Salvar">
