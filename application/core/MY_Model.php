@@ -55,6 +55,15 @@ abstract class MY_Model extends CI_Model {
     return $query->result_object();
   }
 
+  public function get_where($tabela = '', $where = null){
+    if ($where == null) {
+      $query = $this->db->get($tabela);
+    } else {
+      $query = $this->db->get_where($tabela, $where);
+    }
+    return $query->result_object();
+  }
+
   public function getBy($field, $value){
     $query = $this->db->get_where($this->Table, array($field => $value));
     return $query->result_object();

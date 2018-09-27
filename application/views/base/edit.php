@@ -34,7 +34,7 @@
                                             $value = isset($obj->$campo) ? $obj->$campo : "";
                                             
                                             echo "<div class='form-group'>";
-                                            if ($config['input']['type'] !== "hidden")
+                                            if ((isset($config['input']) && $config['input']['type'] !== "hidden") || isset($config['select']))
                                               echo "  <label>".$config['display_column']."</label>";
                                             
                                             if(isset($config['input']))
@@ -52,7 +52,7 @@
                                                             name='$campo'>";
                                               echo "<option value=''></option>";
                                                 foreach ($config['select'] as $key_option => $val_option) {
-                                                  if($value === $key_option)
+                                                  if($value == $key_option)
                                                     echo "<option value='$key_option' selected>$val_option</option>";
                                                   else
                                                     echo "<option value='$key_option'>$val_option</option>";

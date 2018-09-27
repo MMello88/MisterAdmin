@@ -40,6 +40,19 @@ class MY_Controller extends CI_Controller {
 		$this->data['segment_class'] = $this->uri->segment(1);
 		$this->data['segment_funct'] = $this->uri->segment(2);
 
+		foreach ($this->set_config['columns'] as $key => $config) {
+			if(isset($config['select_relacional'])){
+				$rows = $this->Mister->get_where($config['select_relacional'][1], $config['select_relacional'][3]);
+				$campo_id = $config['select_relacional'][0];
+				$campo_valor = $config['select_relacional'][2];
+				$select = array();
+				foreach ($rows as $row) {
+					$select[$row->$campo_id] = $row->$campo_valor;
+				}
+				$this->set_config['columns'][$key]['select'] = $select;
+			}
+		}
+
 		$this->data['set_config'] = $this->set_config;
 
 		$this->Mister->setConfigMister($this->set_config);
