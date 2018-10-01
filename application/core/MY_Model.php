@@ -46,20 +46,22 @@ abstract class MY_Model extends CI_Model {
     return 'Dado Removido com Sucesso';
   }
 
-  public function get($id_value = '', $where = array()){
+  public function get($id_value = '', $where = array(), $start = null, $limit = null){
     $where = array_merge($where, $this->Where);
     if (!empty($id_value))
       $where[$this->FieldId] = $id_value;
 
-    $query = $this->db->get_where($this->Table, $where);
+    $query = $this->db->get_where($this->Table, $where, $start, $limit);
+    echo $this->db->last_query();
+
     return $query->result_object();
   }
 
-  public function get_where($tabela = '', $where = null){
+  public function get_where($tabela = '', $where = null, $start = null, $limit = null){
     if ($where == null) {
-      $query = $this->db->get($tabela);
+      $query = $this->db->get($tabela, $start, $limit);
     } else {
-      $query = $this->db->get_where($tabela, $where);
+      $query = $this->db->get_where($tabela, $where, $start, $limit);
     }
     return $query->result_object();
   }

@@ -19,9 +19,38 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-title">
-                                    <h4> <?= $set_config['table']['display']; ?> </h4>
-                                    <div class="my-3">
-                                        <a href="<?= base_url("$segment_class/$segment_funct/add"); ?>" class="btn btn-primary btn-outline btn-rounded">Add <?= $set_config['table']['display']; ?></a>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h4> <?= $set_config['table']['display']; ?> </h4>
+                                            <div class="my-3">
+                                                <a href="<?= base_url("$segment_class/$segment_funct/add"); ?>" class="btn btn-primary btn-outline btn-rounded">Add <?= $set_config['table']['display']; ?></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 ml-auto">
+                                            <?= form_open(base_url("$segment_class/$segment_funct/search")); ?>
+                                                <div class="row">
+                                                    <div class="col-5">
+                                                        <select class="form-control" name="search_field">
+                                                            <?php 
+                                                                echo "<option value=''>Pesquisar por: </option>";
+                                                                foreach ($set_config['columns'] as $campo => $conf) {
+                                                                    if ($conf['display_grid'] === 'true') {
+                                                                        echo "<option value='$campo'>".$conf['display_column']."</option>";
+                                                                    }
+                                                                }
+                                                            ?>
+                                                            
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-7">
+                                                        <div class="input-group input-group-default">
+                                                            <input type="text" placeholder="Search Default" name="search_value" class="form-control">
+                                                            <span class="input-group-btn btn-group-right"><button class="btn btn-primary" type="submit"><i class="ti-search"></i></button></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?= form_close(); ?>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -66,17 +95,10 @@
                                     </div>
 
                                 </div>
-                                <nav aria-label="...">
+                                
+                                <nav>
                                   <ul class="pagination">
-                                    <li class="page-item disabled">
-                                      <span class="page-link">Previous</span>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item "><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                      <a class="page-link" href="#">Next</a>
-                                    </li>
+                                    <?php echo $this->pagination->create_links(); ?>
                                   </ul>
                                 </nav>
                             </div>

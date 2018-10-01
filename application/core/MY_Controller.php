@@ -37,6 +37,9 @@ class MY_Controller extends CI_Controller {
 
 	public function execute(){
 
+		if ($this->set_config['layout']['action'] == 'list')
+			$this->set_config['layout']['action'] = 'grid';
+
 		$this->data['segment_class'] = $this->uri->segment(1);
 		$this->data['segment_funct'] = $this->uri->segment(2);
 
@@ -59,12 +62,17 @@ class MY_Controller extends CI_Controller {
 
 		$layout = "base/".$this->set_config['layout']['action'];
 
+		if($this->set_config['layout']['action'] == 'search'){
+			$layout = "base/grid";
+		}
+		
+
 		foreach ($this->set_config['columns'] as $column => $rules) {
 			if($this->set_config['layout']['action'] == 'delete'){
 				if ($column == $this->set_config['table']['chave_pk']){
 					$this->form_validation->set_rules($column, $rules['display_column'], 'required');
 				}
-			} else {
+			} else if($this->set_config['layout']['action'] !== 'search') {
 				if (isset($rules['rules'])){
 					$this->form_validation->set_rules($column, $rules['display_column'], $rules['rules']);
 				}
@@ -99,6 +107,14 @@ class MY_Controller extends CI_Controller {
 				redirect($this->uri->segment(1)."/".$this->uri->segment(2));
 			}
 
+			if($this->set_config['layout']['action'] == 'search'){
+				$where = array($this->input->post('search_field') . " LIKE " => "%".$this->input->post('search_value')."%");
+				print_r($where);
+				$this->data['rows'] = $this->Mister->get('', $where);
+				$result = "Não foi encontrado nenhum resultado!";
+				$result = "Consulta realizada com sucesso!";
+			}
+
 			if (is_array($result)){
 				$this->data['erro_message'] = $result['message'];
 			} else {
@@ -106,8 +122,32 @@ class MY_Controller extends CI_Controller {
 			}
 		} 
 
-		if($this->set_config['layout']['action'] !== 'add')
-			$this->data['rows'] = $this->Mister->get($value);
+		if($this->set_config['layout']['action'] !== 'add'){
+			
+			if ($this->set_config['layout']['action'] == 'grid') {
+				if(empty($value)){
+					$value = '0';
+				}
+				$this->data['rows'] = $this->Mister->get('', array(), 10, $value);
+
+				$pagin['attributes'] = array('class' => 'page-link');
+				$pagin['prev_tag_open'] = '<li class="page-item">';
+				$pagin['prev_tag_close'] = '</li>';
+				$pagin['next_tag_open'] = '<li class="page-item">';
+				$pagin['next_tag_close'] = '</li>';
+				$pagin['cur_tag_open'] = '<li class="page-item active"><span class="page-link">';
+				$pagin['cur_tag_close'] = '</span></li>'; 
+				$pagin['num_tag_open'] = '<li class="page-item">';
+				$pagin['num_tag_close'] = '</li>'; 
+				$pagin['base_url'] = base_url($this->uri->segment(1)."/".$this->uri->segment(2)."/list");
+				$pagin['total_rows'] = count($this->Mister->get());
+				$pagin['per_page'] = 10;
+				$pagin['num_links'] = 5;
+				$this->pagination->initialize($pagin);
+			} else {
+				$this->data['rows'] = $this->Mister->get($value);
+			}
+		}
 
 		$this->_example_output(null, $layout);
 	}
