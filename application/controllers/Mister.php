@@ -57,11 +57,52 @@ class Mister extends MY_Controller {
 						 'display_grid' => 'true'],
 					],
 				'where' => ['id_usuario' => $this->session->userdata('id_user')],
-				'childrens' => ["display" => "Teste",
-							    "config_funct" => ["name_funct" => "teste",
-												   "param" => "id_empresa"]
-							   ]
+				'dropdown' => [['function' => 'teste', 'param' => 'id_empresa', 'display' => 'Realizar Teste'],
+							   ['function' => 'abc', 'param' => '', 'display' => 'Teste Abc']]
 			];
 		$this->execute();
+	}
+
+	public function teste($idEmpresa){
+		$this->set_config = 
+		   ['table' => 
+				['nome'     => 'tbl_teste', 
+				 'chave_pk' => 'id_teste',
+				 'display'  => 'Teste'],
+			'columns' => 
+				[
+				  'id_teste' => 
+					['display_column' => 'Id', 
+					 'input' => ['type' => 'text', 'required' => 'readonly'],
+					 'rules' => '',
+					 'display_grid' => 'true'],
+				  'id_empresa' => 
+					['display_column' => 'Id', 
+					 'input' => ['type' => 'text', 'required' => 'readonly'],
+					 'rules' => '',
+					 'default_value' => $idEmpresa,
+					 'display_grid' => 'false'],
+				  'descricao' =>
+				  	['display_column' => 'Nome', 
+					 'input' => ['type' => 'text', 'required' => ''],
+					 'rules' => 'required',
+					 'display_grid' => 'true'],
+				  'id_usuario' =>
+				  	['display_column' => 'Id Usuário', 
+					 'input' => ['type' => 'text', 'required' => 'readonly'],
+					 'rules' => 'required',
+					 'default_value' => $this->session->userdata('id_user'), 
+					 'display_grid' => 'true'],
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user'), 'id_empresa' => $idEmpresa],
+			'dropdown' => [['function' => 'teste', 'param' => 'id_empresa', 'display' => 'Realizar Teste'],
+						   ['function' => 'abc', 'param' => '', 'display' => 'Teste Abc']]
+			];
+		$this->execute();
+		//echo $idEmpresa;
+	}
+
+	public function abc(){
+		echo "string";
 	}
 }

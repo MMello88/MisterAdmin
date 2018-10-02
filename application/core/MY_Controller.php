@@ -34,6 +34,12 @@ class MY_Controller extends CI_Controller {
 		$action = $this->uri->segment(3);
 		$valor  = $this->uri->segment(4);
 
+		if (!in_array($action,['grid','edit','add','view'])) {
+			$valor = $action;
+			$action = '';
+		}
+		echo "$class / $funct / $action / $valor";
+
 		$action = empty($action) ? "grid" : $action == "list" ? "grid" : $action;
 
 		$this->set_config['layout']['action'] = $action;
@@ -121,10 +127,17 @@ class MY_Controller extends CI_Controller {
 					$result = ['message' => "Não foi encontrado nenhum resultado!"];
 				}
 			}
+
+			if (is_array($result)){
+				$this->data['erro_message'] = $result['message'];
+			} else {
+				$this->data['success_message'] = $result;
+			}
 		}
 	}
 
 	private function doFormValidation(){
+		$result = "";
 		$value = $this->set_config['layout']['value'];
 
 		if ($this->form_validation->run() === TRUE){

@@ -41,3 +41,13 @@ ALTER TABLE `miste872_prod`.`tbl_empresa`
 
 ALTER TABLE `miste872_prod`.`tbl_empresa`   
   ADD COLUMN `sn_filial` CHAR(1) NULL  COMMENT 's - é filial / n - não é filial' AFTER `id_tipo`;
+
+CREATE TABLE `miste872_prod`.`tbl_teste`(  
+  `id_teste` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_empresa` INT(11) NOT NULL,
+  `descricao` VARCHAR(150) NOT NULL,
+  `id_usuario` INT(11) NOT NULL,
+  PRIMARY KEY (`id_teste`),
+  CONSTRAINT `fk_teste_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `miste872_prod`.`tbl_empresa`(`id_empresa`),
+  CONSTRAINT `fk_teste_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`)
+) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
