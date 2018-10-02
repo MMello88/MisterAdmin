@@ -6,7 +6,15 @@
                     </button>
                   </div>
                 <?php endif; ?>
-                 <?php if(isset($erro_message)) : ?>
+                <?php if(isset($success_message)) : ?>
+                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Yes!</strong> <?= $success_message ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php endif; ?>
+                <?php if(isset($erro_message)) : ?>
                   <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Ops!</strong> <?= $erro_message ?>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -14,6 +22,14 @@
                     </button>
                   </div>
                 <?php endif; ?>
+                <?php if (validation_errors()) : ?>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  <strong>Ops!</strong> <?= validation_errors() ?>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              <?php endif; ?>
                 <section id="main-content">
                     <div class="row">
                         <div class="col-lg-12">
@@ -50,6 +66,14 @@
                                                     </div>
                                                 </div>
                                             <?= form_close(); ?>
+                                            <?php 
+                                                if ($this->set_config['layout']['action'] == 'search') {
+                                                    echo "
+                                                    <div class='d-flex justify-content-end mt-3'>
+                                                        <a href='".base_url("$segment_class/$segment_funct")."' class='btn btn-danger btn-outline btn-rounded'>Limpar Pesquisa</a>
+                                                    </div>";
+                                                }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -70,25 +94,27 @@
                                             <tbody>
                                                 <?php 
                                                     $chave = $set_config['table']['chave_pk'];
-                                                    foreach ($rows as $obj) {
-                                                        echo "<tr>";
-                                                        foreach ($set_config['columns'] as $campo => $config)
-                                                            if(isset($config['display_grid']) && $config['display_grid'] == 'true'){
-                                                                if(isset($config['select']) && !empty($obj->$campo)){
-                                                                    $obj->$campo = $config['select'][$obj->$campo];
+                                                    if(isset($rows)){
+                                                        foreach ($rows as $obj) {
+                                                            echo "<tr>";
+                                                            foreach ($set_config['columns'] as $campo => $config)
+                                                                if(isset($config['display_grid']) && $config['display_grid'] == 'true'){
+                                                                    if(isset($config['select']) && !empty($obj->$campo)){
+                                                                        $obj->$campo = $config['select'][$obj->$campo];
+                                                                    }
+                                                                    echo "<td>". $obj->$campo ."</td>"; 
                                                                 }
-                                                                echo "<td>". $obj->$campo ."</td>"; 
-                                                            }
-                                                        echo "<td>
-                                                            <span>
-                                                                <a href='".base_url("$segment_class/$segment_funct/view/".$obj->$chave)."'><i class='ti-eye color-primary m-l-6' title='Visualizar'></i></a>
-                                                                <a href='".base_url("$segment_class/$segment_funct/edit/".$obj->$chave)."'><i class='ti-pencil color-success m-l-6' title='Editar'></i></a>
-                                                                <a href='".base_url("$segment_class/$segment_funct/delete/".$obj->$chave)."'><i class='ti-close color-danger m-l-6' title='Deletar'></i></a>
-                                                                
-                                                            </span>
-                                                        </td>";
-                                                        echo "</tr>";
-                                                    } 
+                                                            echo "<td>
+                                                                <span>
+                                                                    <a href='".base_url("$segment_class/$segment_funct/view/".$obj->$chave)."'><i class='ti-eye color-primary m-l-6' title='Visualizar'></i></a>
+                                                                    <a href='".base_url("$segment_class/$segment_funct/edit/".$obj->$chave)."'><i class='ti-pencil color-success m-l-6' title='Editar'></i></a>
+                                                                    <a href='".base_url("$segment_class/$segment_funct/delete/".$obj->$chave)."'><i class='ti-close color-danger m-l-6' title='Deletar'></i></a>
+                                                                    
+                                                                </span>
+                                                            </td>";
+                                                            echo "</tr>";
+                                                        }
+                                                    }
                                                 ?>
                                             </tbody>
                                         </table>

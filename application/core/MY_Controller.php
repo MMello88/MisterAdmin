@@ -5,6 +5,7 @@ class MY_Controller extends CI_Controller {
   
 	public $data = array();
 	public $set_config = array();
+	private $view;
 
 	public function __construct($checa_loginho = FALSE)
 	{
@@ -27,27 +28,35 @@ class MY_Controller extends CI_Controller {
 			print_r(json_encode($this->data['PedidoAbertoFechado']));
 	}
 
-	public function _example_output($output = null, $layout = 'restrito/admin')
-	{
-		$output = array_merge($this->data,(array)$output);
-		$this->load->view('restrito/header_admin',$output);
-		$this->load->view("$layout",$output);
-		$this->load->view('restrito/footer_admin',$output);
+	private function defineSegment(){
+		$class  = $this->uri->segment(1);
+		$funct  = $this->uri->segment(2);
+		$action = $this->uri->segment(3);
+		$valor  = $this->uri->segment(4);
+
+		$action = empty($action) ? "grid" : $action == "list" ? "grid" : $action;
+
+		$this->set_config['layout']['action'] = $action;
+		$this->set_config['layout']['value'] = $valor;
+
+		$this->data['segment_class'] = $class;
+		$this->data['segment_funct'] = $funct;
+
+		$this->view = $action == "search" ? "base/grid" : "base/$action";
 	}
 
-	public function execute(){
-
-		if ($this->set_config['layout']['action'] == 'list')
-			$this->set_config['layout']['action'] = 'grid';
-
-		$this->data['segment_class'] = $this->uri->segment(1);
-		$this->data['segment_funct'] = $this->uri->segment(2);
-
+	private function doConfigInputSelect(){
 		foreach ($this->set_config['columns'] as $key => $config) {
+
 			if(isset($config['select_relacional'])){
-				$rows = $this->Mister->get_where($config['select_relacional'][1], $config['select_relacional'][3]);
+
 				$campo_id = $config['select_relacional'][0];
+				$table = $config['select_relacional'][1];
 				$campo_valor = $config['select_relacional'][2];
+				$where = $config['select_relacional'][3];
+
+				$rows = $this->Mister->get_where($table, $where);
+
 				$select = array();
 				foreach ($rows as $row) {
 					$select[$row->$campo_id] = $row->$campo_valor;
@@ -57,28 +66,65 @@ class MY_Controller extends CI_Controller {
 		}
 
 		$this->data['set_config'] = $this->set_config;
+	}
 
-		$this->Mister->setConfigMister($this->set_config);
-
-		$layout = "base/".$this->set_config['layout']['action'];
-
-		if($this->set_config['layout']['action'] == 'search'){
-			$layout = "base/grid";
-		}
-		
-
+	private function doRules(){
 		foreach ($this->set_config['columns'] as $column => $rules) {
 			if($this->set_config['layout']['action'] == 'delete'){
-				if ($column == $this->set_config['table']['chave_pk']){
+				if ($column == $this->set_config['table']['chave_pk'])
 					$this->form_validation->set_rules($column, $rules['display_column'], 'required');
-				}
-			} else if($this->set_config['layout']['action'] !== 'search') {
-				if (isset($rules['rules'])){
+			} else if(in_array($this->set_config['layout']['action'], ['grid','search'])) {
+				$this->form_validation->set_rules('search_field', 'Pesquisar por:', 'required');
+				$this->form_validation->set_rules('search_value', 'Valor da Pesquisa', 'required');
+			} else {
+				if (isset($rules['rules']))
 					$this->form_validation->set_rules($column, $rules['display_column'], $rules['rules']);
+			}
+		}
+	}
+
+	private function getRows($value){
+		if(!in_array($this->set_config['layout']['action'],['add','search'])){
+
+			if ($this->set_config['layout']['action'] == 'grid') {
+
+				if(empty($value)){
+					$value = '0';
+				}
+
+				$this->data['rows'] = $this->Mister->get('', array(), 10, $value);
+
+				$pagin['attributes'] = array('class' => 'page-link');
+				$pagin['prev_tag_open'] = '<li class="page-item">';
+				$pagin['prev_tag_close'] = '</li>';
+				$pagin['next_tag_open'] = '<li class="page-item">';
+				$pagin['next_tag_close'] = '</li>';
+				$pagin['cur_tag_open'] = '<li class="page-item active"><span class="page-link">';
+				$pagin['cur_tag_close'] = '</span></li>'; 
+				$pagin['num_tag_open'] = '<li class="page-item">';
+				$pagin['num_tag_close'] = '</li>'; 
+				$pagin['base_url'] = base_url($this->uri->segment(1)."/".$this->uri->segment(2)."/list");
+				$pagin['total_rows'] = count($this->Mister->get());
+				$pagin['per_page'] = 10;
+				$pagin['num_links'] = 5;
+				$this->pagination->initialize($pagin);
+			} else {
+				$this->data['rows'] = $this->Mister->get($value);
+			}
+		} else if($this->set_config['layout']['action'] == 'search') {
+
+			if ($this->form_validation->run() === TRUE){
+				$where = array($this->input->post('search_field') . " LIKE " => "%".$this->input->post('search_value')."%");
+				$this->data['rows'] = $this->Mister->get('', $where);
+				$result = "Consulta realizada com sucesso!";
+				if (empty($this->data['rows'])) {
+					$result = ['message' => "Não foi encontrado nenhum resultado!"];
 				}
 			}
 		}
+	}
 
+	private function doFormValidation(){
 		$value = $this->set_config['layout']['value'];
 
 		if ($this->form_validation->run() === TRUE){
@@ -107,49 +153,38 @@ class MY_Controller extends CI_Controller {
 				redirect($this->uri->segment(1)."/".$this->uri->segment(2));
 			}
 
-			if($this->set_config['layout']['action'] == 'search'){
-				$where = array($this->input->post('search_field') . " LIKE " => "%".$this->input->post('search_value')."%");
-				print_r($where);
-				$this->data['rows'] = $this->Mister->get('', $where);
-				$result = "Não foi encontrado nenhum resultado!";
-				$result = "Consulta realizada com sucesso!";
-			}
-
 			if (is_array($result)){
 				$this->data['erro_message'] = $result['message'];
 			} else {
 				$this->data['success_message'] = $result;
 			}
-		} 
-
-		if($this->set_config['layout']['action'] !== 'add'){
-			
-			if ($this->set_config['layout']['action'] == 'grid') {
-				if(empty($value)){
-					$value = '0';
-				}
-				$this->data['rows'] = $this->Mister->get('', array(), 10, $value);
-
-				$pagin['attributes'] = array('class' => 'page-link');
-				$pagin['prev_tag_open'] = '<li class="page-item">';
-				$pagin['prev_tag_close'] = '</li>';
-				$pagin['next_tag_open'] = '<li class="page-item">';
-				$pagin['next_tag_close'] = '</li>';
-				$pagin['cur_tag_open'] = '<li class="page-item active"><span class="page-link">';
-				$pagin['cur_tag_close'] = '</span></li>'; 
-				$pagin['num_tag_open'] = '<li class="page-item">';
-				$pagin['num_tag_close'] = '</li>'; 
-				$pagin['base_url'] = base_url($this->uri->segment(1)."/".$this->uri->segment(2)."/list");
-				$pagin['total_rows'] = count($this->Mister->get());
-				$pagin['per_page'] = 10;
-				$pagin['num_links'] = 5;
-				$this->pagination->initialize($pagin);
-			} else {
-				$this->data['rows'] = $this->Mister->get($value);
-			}
 		}
+		return $value;
+	}
 
-		$this->_example_output(null, $layout);
+	public function _example_output($output = null, $view = 'restrito/admin')
+	{
+		$output = array_merge($this->data,(array)$output);
+		$this->load->view('restrito/header_admin',$output);
+		$this->load->view("$view",$output);
+		$this->load->view('restrito/footer_admin',$output);
+	}
+
+	public function execute(){
+		
+		$this->defineSegment();		
+
+		$this->doConfigInputSelect();
+		
+		$this->Mister->setConfigMister($this->set_config);
+
+		$this->doRules();	
+
+		$value = $this->doFormValidation();
+		
+		$this->getRows($value);
+
+		$this->_example_output(null, $this->view);
 	}
 }
 

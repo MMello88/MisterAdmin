@@ -7,10 +7,10 @@ class Mister extends MY_Controller {
 		parent::__construct(FALSE);
 	}
 
-	public function Empresa($action = 'grid', $id = ''){
+	public function Empresa(){
 		$this->set_config = 
 			[
-				'layout' => ['action' => $action, 'value' => $id],
+				
 				'table' => 
 					['nome'     => 'tbl_empresa', 
 					 'chave_pk' => 'id_empresa',
@@ -56,8 +56,11 @@ class Mister extends MY_Controller {
 						 'default_value' => '', 
 						 'display_grid' => 'true'],
 					],
-				'where' => ['id_usuario' => $this->session->userdata('id_user')]/*,
-				'dropdown' => array(),*/
+				'where' => ['id_usuario' => $this->session->userdata('id_user')],
+				'childrens' => ["display" => "Teste",
+							    "config_funct" => ["name_funct" => "teste",
+												   "param" => "id_empresa"]
+							   ]
 			];
 		$this->execute();
 	}

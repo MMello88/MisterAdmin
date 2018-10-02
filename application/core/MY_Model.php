@@ -52,7 +52,7 @@ abstract class MY_Model extends CI_Model {
       $where[$this->FieldId] = $id_value;
 
     $query = $this->db->get_where($this->Table, $where, $start, $limit);
-    echo $this->db->last_query();
+    //echo $this->db->last_query();
 
     return $query->result_object();
   }
