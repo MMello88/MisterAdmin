@@ -67,7 +67,7 @@
                                                 </div>
                                             <?= form_close(); ?>
                                             <?php 
-                                                if ($this->set_config['layout']['action'] == 'search') {
+                                                if ($this->set_config['layout']['view'] == 'search') {
                                                     echo "
                                                     <div class='d-flex justify-content-end mt-3'>
                                                         <a href='".base_url("$segment_class/$segment_funct")."' class='btn btn-danger btn-outline btn-rounded'>Limpar Pesquisa</a>

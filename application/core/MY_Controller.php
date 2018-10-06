@@ -31,24 +31,31 @@ class MY_Controller extends CI_Controller {
 	private function defineSegment(){
 		$class  = $this->uri->segment(1);
 		$funct  = $this->uri->segment(2);
-		$action = $this->uri->segment(3);
+		$view   = $this->uri->segment(3);
 		$valor  = $this->uri->segment(4);
 
-		if (!in_array($action,['grid','edit','add','view'])) {
-			$valor = $action;
-			$action = '';
+		if (in_array($view,['edit','view','delete'])) {
+			$this->set_config['layout']['value'] = $valor;
 		}
-		echo "$class / $funct / $action / $valor";
 
-		$action = empty($action) ? "grid" : $action == "list" ? "grid" : $action;
+		if (in_array($view,['list'])) {
+			$this->set_config['layout']['limit'] = $valor;
+		}
 
-		$this->set_config['layout']['action'] = $action;
-		$this->set_config['layout']['value'] = $valor;
+		if (in_array($view,['','search','list'])) {
+			if(empty($view))
+				$this->set_config['layout']['limit'] = 0;
+			$this->view = "grid";
+		}
+		//echo "$class / $funct / $view / $valor";
 
+		$this->set_config['layout']['view'] = $this->view;
+		
 		$this->data['segment_class'] = $class;
 		$this->data['segment_funct'] = $funct;
 
-		$this->view = $action == "search" ? "base/grid" : "base/$action";
+		$this->view = "base/".$this->view;
+
 	}
 
 	private function doConfigInputSelect(){
@@ -76,10 +83,10 @@ class MY_Controller extends CI_Controller {
 
 	private function doRules(){
 		foreach ($this->set_config['columns'] as $column => $rules) {
-			if($this->set_config['layout']['action'] == 'delete'){
+			if($this->set_config['layout']['view'] == 'delete'){
 				if ($column == $this->set_config['table']['chave_pk'])
 					$this->form_validation->set_rules($column, $rules['display_column'], 'required');
-			} else if(in_array($this->set_config['layout']['action'], ['grid','search'])) {
+			} else if(in_array($this->set_config['layout']['view'], ['grid','search'])) {
 				$this->form_validation->set_rules('search_field', 'Pesquisar por:', 'required');
 				$this->form_validation->set_rules('search_value', 'Valor da Pesquisa', 'required');
 			} else {
@@ -89,35 +96,32 @@ class MY_Controller extends CI_Controller {
 		}
 	}
 
-	private function getRows($value){
-		if(!in_array($this->set_config['layout']['action'],['add','search'])){
+	private function getRows(){
+		if (in_array($this->set_config['layout']['view'],['view','edit', 'delete'])) {
+			$this->data['rows'] = $this->Mister->get($this->set_config['layout']['value']);
+		}
 
-			if ($this->set_config['layout']['action'] == 'grid') {
+		if(in_array($this->set_config['layout']['view'],['grid'])){
 
-				if(empty($value)){
-					$value = '0';
-				}
+			$this->data['rows'] = $this->Mister->get('', array(), 10, $this->set_config['layout']['limit']);
 
-				$this->data['rows'] = $this->Mister->get('', array(), 10, $value);
+			$pagin['attributes'] = array('class' => 'page-link');
+			$pagin['prev_tag_open'] = '<li class="page-item">';
+			$pagin['prev_tag_close'] = '</li>';
+			$pagin['next_tag_open'] = '<li class="page-item">';
+			$pagin['next_tag_close'] = '</li>';
+			$pagin['cur_tag_open'] = '<li class="page-item active"><span class="page-link">';
+			$pagin['cur_tag_close'] = '</span></li>'; 
+			$pagin['num_tag_open'] = '<li class="page-item">';
+			$pagin['num_tag_close'] = '</li>'; 
+			$pagin['base_url'] = base_url($this->uri->segment(1)."/".$this->uri->segment(2)."/list");
+			$pagin['total_rows'] = count($this->Mister->get());
+			$pagin['per_page'] = 10;
+			$pagin['num_links'] = 5;
+			$this->pagination->initialize($pagin);
+		}
 
-				$pagin['attributes'] = array('class' => 'page-link');
-				$pagin['prev_tag_open'] = '<li class="page-item">';
-				$pagin['prev_tag_close'] = '</li>';
-				$pagin['next_tag_open'] = '<li class="page-item">';
-				$pagin['next_tag_close'] = '</li>';
-				$pagin['cur_tag_open'] = '<li class="page-item active"><span class="page-link">';
-				$pagin['cur_tag_close'] = '</span></li>'; 
-				$pagin['num_tag_open'] = '<li class="page-item">';
-				$pagin['num_tag_close'] = '</li>'; 
-				$pagin['base_url'] = base_url($this->uri->segment(1)."/".$this->uri->segment(2)."/list");
-				$pagin['total_rows'] = count($this->Mister->get());
-				$pagin['per_page'] = 10;
-				$pagin['num_links'] = 5;
-				$this->pagination->initialize($pagin);
-			} else {
-				$this->data['rows'] = $this->Mister->get($value);
-			}
-		} else if($this->set_config['layout']['action'] == 'search') {
+		if($this->set_config['layout']['view'] == 'search') {
 
 			if ($this->form_validation->run() === TRUE){
 				$where = array($this->input->post('search_field') . " LIKE " => "%".$this->input->post('search_value')."%");
@@ -126,34 +130,32 @@ class MY_Controller extends CI_Controller {
 				if (empty($this->data['rows'])) {
 					$result = ['message' => "Não foi encontrado nenhum resultado!"];
 				}
-			}
 
-			if (is_array($result)){
-				$this->data['erro_message'] = $result['message'];
-			} else {
-				$this->data['success_message'] = $result;
+				if (is_array($result)){
+					$this->data['erro_message'] = $result['message'];
+				} else {
+					$this->data['success_message'] = $result;
+				}
 			}
 		}
 	}
 
 	private function doFormValidation(){
 		$result = "";
-		$value = $this->set_config['layout']['value'];
 
 		if ($this->form_validation->run() === TRUE){
 
-			if($this->set_config['layout']['action'] == 'add'){
+			if($this->set_config['layout']['view'] == 'add'){
 				$result = $this->Mister->insert();
 				if (is_numeric($result)){
-					$value = $result;
 					$result = "Dados inserido com sucesso!";
 				}
 			}
 
-			if($this->set_config['layout']['action'] == 'edit')
+			if($this->set_config['layout']['view'] == 'edit')
 				$result = $this->Mister->update();
 
-			if($this->set_config['layout']['action'] == 'delete') {
+			if($this->set_config['layout']['view'] == 'delete') {
 				$result = $this->Mister->delete();
 				if (!is_array($result)){
 					$this->session->set_flashdata('msg_flash', $result);
@@ -172,7 +174,6 @@ class MY_Controller extends CI_Controller {
 				$this->data['success_message'] = $result;
 			}
 		}
-		return $value;
 	}
 
 	public function _example_output($output = null, $view = 'restrito/admin')
@@ -193,9 +194,9 @@ class MY_Controller extends CI_Controller {
 
 		$this->doRules();	
 
-		$value = $this->doFormValidation();
+		$this->doFormValidation();
 		
-		$this->getRows($value);
+		$this->getRows();
 
 		$this->_example_output(null, $this->view);
 	}

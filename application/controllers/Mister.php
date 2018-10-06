@@ -66,9 +66,10 @@ class Mister extends MY_Controller {
 	public function teste($idEmpresa){
 		$this->set_config = 
 		   ['table' => 
-				['nome'     => 'tbl_teste', 
-				 'chave_pk' => 'id_teste',
-				 'display'  => 'Teste'],
+				['nome'      => 'tbl_teste', 
+				 'chave_pk'  => 'id_teste',
+				 'chave_ref' => 'id_empresa',
+				 'display'   => 'Teste'],
 			'columns' => 
 				[
 				  'id_teste' => 
