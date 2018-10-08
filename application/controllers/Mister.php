@@ -68,7 +68,7 @@ class Mister extends MY_Controller {
 		   ['table' => 
 				['nome'      => 'tbl_teste', 
 				 'chave_pk'  => 'id_teste',
-				 'chave_ref' => 'id_empresa',
+				 'chave_pai' => 'id_empresa',
 				 'display'   => 'Teste'],
 			'columns' => 
 				[
@@ -78,7 +78,7 @@ class Mister extends MY_Controller {
 					 'rules' => '',
 					 'display_grid' => 'true'],
 				  'id_empresa' => 
-					['display_column' => 'Id', 
+					['display_column' => 'Id Empresa', 
 					 'input' => ['type' => 'text', 'required' => 'readonly'],
 					 'rules' => '',
 					 'default_value' => $idEmpresa,

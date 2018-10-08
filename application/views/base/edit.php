@@ -69,7 +69,7 @@
                                         ?>
                                             <input type="submit" class="btn btn-success btn-outline btn-rounded" name="btnSalvar" value="Salvar">
                                             <input type="submit" class="btn btn-success btn-outline btn-rounded" name="btnSalvarVoltar" value="Salvar e Voltar">
-                                            <a href="<?= base_url("$segment_class/$segment_funct"); ?>" class="btn btn-primary btn-outline btn-rounded">Voltar</a>
+                                            <a href="<?= base_url("$segment_class/$segment_funct/$link_chave_pai"); ?>" class="btn btn-primary btn-outline btn-rounded">Voltar</a>
                                         </form>
                                     </div>
                                 </div>

@@ -29,10 +29,21 @@ class MY_Controller extends CI_Controller {
 	}
 
 	private function defineSegment(){
-		$class  = $this->uri->segment(1);
-		$funct  = $this->uri->segment(2);
-		$view   = $this->uri->segment(3);
-		$valor  = $this->uri->segment(4);
+		if(isset($this->set_config['table']['chave_pai'])){
+		    $class  = $this->uri->segment(1);
+			$funct  = $this->uri->segment(2);
+			$view   = $this->uri->segment(4);
+			$valor  = $this->uri->segment(5);
+		} else {
+			$class  = $this->uri->segment(1);
+			$funct  = $this->uri->segment(2);
+			$view   = $this->uri->segment(3);
+			$valor  = $this->uri->segment(4);
+		}
+
+		$this->set_config['layout']['limit'] = 0;
+		$this->set_config['layout']['view'] = $view;
+		$this->view = $view;
 
 		if (in_array($view,['edit','view','delete'])) {
 			$this->set_config['layout']['value'] = $valor;
@@ -43,18 +54,35 @@ class MY_Controller extends CI_Controller {
 		}
 
 		if (in_array($view,['','search','list'])) {
-			if(empty($view))
+			if(empty($view)){
 				$this->set_config['layout']['limit'] = 0;
+				$this->set_config['layout']['view'] = 'grid';
+			}
 			$this->view = "grid";
 		}
-		//echo "$class / $funct / $view / $valor";
 
-		$this->set_config['layout']['view'] = $this->view;
+		if (!in_array($view,['add','edit','view','delete', 'list', 'search'])) {
+			$valor = $view;
+			$this->view = "grid";
+			$this->set_config['layout']['value'] = $valor;
+		}
+
+		//echo "$class / $funct / $view / $valor <br/>";
 		
 		$this->data['segment_class'] = $class;
 		$this->data['segment_funct'] = $funct;
 
 		$this->view = "base/".$this->view;
+
+		$this->data['chave_pai'] = "";
+		$this->data['link_chave_pai'] = "";
+		if(isset($this->set_config['table']['chave_pai'])){
+			$key = $this->set_config['table']['chave_pai'];
+		    $value_pai = $this->set_config['columns'][$key]['default_value'];
+		    $this->data['chave_pai'] = $value_pai;
+		    $this->data['link_chave_pai'] = "$value_pai/";
+		}
+
 
 	}
 
@@ -125,6 +153,7 @@ class MY_Controller extends CI_Controller {
 
 			if ($this->form_validation->run() === TRUE){
 				$where = array($this->input->post('search_field') . " LIKE " => "%".$this->input->post('search_value')."%");
+
 				$this->data['rows'] = $this->Mister->get('', $where);
 				$result = "Consulta realizada com sucesso!";
 				if (empty($this->data['rows'])) {

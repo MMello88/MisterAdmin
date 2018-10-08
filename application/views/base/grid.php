@@ -39,7 +39,7 @@
                                         <div class="col-lg-6">
                                             <h4> <?= $set_config['table']['display']; ?> </h4>
                                             <div class="my-3">
-                                                <a href="<?= base_url("$segment_class/$segment_funct/add"); ?>" class="btn btn-primary btn-outline btn-rounded">Add <?= $set_config['table']['display']; ?></a>
+                                                <a href="<?= base_url("$segment_class/$segment_funct/{$link_chave_pai}add"); ?>" class="btn btn-primary btn-outline btn-rounded">Add <?= $set_config['table']['display']; ?></a>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 ml-auto">
@@ -70,7 +70,7 @@
                                                 if ($this->set_config['layout']['view'] == 'search') {
                                                     echo "
                                                     <div class='d-flex justify-content-end mt-3'>
-                                                        <a href='".base_url("$segment_class/$segment_funct")."' class='btn btn-danger btn-outline btn-rounded'>Limpar Pesquisa</a>
+                                                        <a href='".base_url("$segment_class/$segment_funct/$link_chave_pai")."' class='btn btn-danger btn-outline btn-rounded'>Limpar Pesquisa</a>
                                                     </div>";
                                                 }
                                             ?>
@@ -106,9 +106,9 @@
                                                                 }
                                                             echo "<td>
                                                                 <span>
-                                                                    <a href='".base_url("$segment_class/$segment_funct/view/".$obj->$chave)."'><i class='ti-eye color-primary m-l-6' title='Visualizar'></i></a>
-                                                                    <a href='".base_url("$segment_class/$segment_funct/edit/".$obj->$chave)."'><i class='ti-pencil color-success m-l-6' title='Editar'></i></a>
-                                                                    <a href='".base_url("$segment_class/$segment_funct/delete/".$obj->$chave)."'><i class='ti-close color-danger m-l-6' title='Deletar'></i></a>
+                                                                    <a href='".base_url("$segment_class/$segment_funct/{$link_chave_pai}view/".$obj->$chave)."'><i class='ti-eye color-primary m-l-6' title='Visualizar'></i></a>
+                                                                    <a href='".base_url("$segment_class/$segment_funct/{$link_chave_pai}edit/".$obj->$chave)."'><i class='ti-pencil color-success m-l-6' title='Editar'></i></a>
+                                                                    <a href='".base_url("$segment_class/$segment_funct/{$link_chave_pai}delete/".$obj->$chave)."'><i class='ti-close color-danger m-l-6' title='Deletar'></i></a>
 
                                                                     <div class='btn-group m-l-6'>
                                                                       <button type='button' class='btn btn-info dropdown-toggle btn-sm' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
