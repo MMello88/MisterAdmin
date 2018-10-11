@@ -43,7 +43,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 ml-auto">
-                                            <?= form_open(base_url("$segment_class/$segment_funct/search")); ?>
+                                            <?= form_open(base_url("$segment_class/$segment_funct/{$link_chave_pai}search")); ?>
                                                 <div class="row">
                                                     <div class="col-5">
                                                         <select class="form-control" name="search_field">

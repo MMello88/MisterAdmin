@@ -68,7 +68,7 @@ class MY_Controller extends CI_Controller {
 		}
 
 		//echo "$class / $funct / $view / $valor <br/>";
-		
+		//print_r($this->set_config['layout']);
 		$this->data['segment_class'] = $class;
 		$this->data['segment_funct'] = $funct;
 
@@ -129,7 +129,7 @@ class MY_Controller extends CI_Controller {
 			$this->data['rows'] = $this->Mister->get($this->set_config['layout']['value']);
 		}
 
-		if(in_array($this->set_config['layout']['view'],['grid'])){
+		if(in_array($this->set_config['layout']['view'],['grid', 'list'])){
 
 			$this->data['rows'] = $this->Mister->get('', array(), 10, $this->set_config['layout']['limit']);
 
@@ -142,7 +142,7 @@ class MY_Controller extends CI_Controller {
 			$pagin['cur_tag_close'] = '</span></li>'; 
 			$pagin['num_tag_open'] = '<li class="page-item">';
 			$pagin['num_tag_close'] = '</li>'; 
-			$pagin['base_url'] = base_url($this->uri->segment(1)."/".$this->uri->segment(2)."/list");
+			$pagin['base_url'] = base_url($this->uri->segment(1)."/".$this->uri->segment(2)."/".$this->data['link_chave_pai']."/list");
 			$pagin['total_rows'] = count($this->Mister->get());
 			$pagin['per_page'] = 10;
 			$pagin['num_links'] = 5;
@@ -173,7 +173,6 @@ class MY_Controller extends CI_Controller {
 		$result = "";
 
 		if ($this->form_validation->run() === TRUE){
-
 			if($this->set_config['layout']['view'] == 'add'){
 				$result = $this->Mister->insert();
 				if (is_numeric($result)){
@@ -188,13 +187,13 @@ class MY_Controller extends CI_Controller {
 				$result = $this->Mister->delete();
 				if (!is_array($result)){
 					$this->session->set_flashdata('msg_flash', $result);
-					redirect($this->uri->segment(1)."/".$this->uri->segment(2));
+					redirect($this->uri->segment(1)."/".$this->uri->segment(2)."/".$this->data['link_chave_pai']);
 				}
 			}
 
 			if($this->input->post('btnSalvarVoltar') === "Salvar e Voltar"){
 				$this->session->set_flashdata('msg_flash', $result);
-				redirect($this->uri->segment(1)."/".$this->uri->segment(2));
+				redirect($this->uri->segment(1)."/".$this->uri->segment(2)."/".$this->data['link_chave_pai']);
 			}
 
 			if (is_array($result)){

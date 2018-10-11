@@ -27,7 +27,7 @@
                                     <?php endif; ?>
                                     <div class="basic-form">
                                         <?php $id = $set_config['layout']['value']; ?>
-                                        <?= form_open("$segment_class/$segment_funct/edit/$id") ?>
+                                        <?= form_open("$segment_class/$segment_funct/{$link_chave_pai}edit/$id") ?>
                                         <?php
                                           foreach ($set_config['columns'] as $campo => $config)
                                           {

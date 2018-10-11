@@ -32,7 +32,7 @@
                                     </div>
                                   <?php endif; ?>
                                     <div class="basic-form">
-                                        <?= form_open("$segment_class/$segment_funct/add") ?>
+                                        <?= form_open("$segment_class/$segment_funct/{$link_chave_pai}add") ?>
                                         <?php
                                           foreach ($set_config['columns'] as $campo => $config){
                                             $value = "";

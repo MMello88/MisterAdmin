@@ -62,7 +62,7 @@
                       </div>
                       <div class="modal-footer">
                         <?php $id = $set_config['layout']['value']; ?>
-                        <?= form_open("$segment_class/$segment_funct/delete/$id") ?>
+                        <?= form_open("$segment_class/$segment_funct/{$link_chave_pai}delete/$id") ?>
                             <input type="hidden" name="<?= $chave ?>" value="<?= $obj->$chave ?>">
                             <button type="submit" class="btn btn-danger btn-outline btn-rounded">Deletar</button>
                             <button type="button" class="btn btn-secondary btn-outline btn-rounded" data-dismiss="modal">Cancelar</button>
