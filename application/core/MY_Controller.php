@@ -212,7 +212,24 @@ class MY_Controller extends CI_Controller {
 		$this->load->view('restrito/footer_admin',$output);
 	}
 
+	public function doLinkBack(){
+		$arrLinkBack = array();
+		if(!$_POST){
+			if($this->session->userdata("arrLinkBack") === null){
+				
+					$arrLinkBack[] = $this->uri->uri_string();
+			} else {
+				$arrLinkBack = $this->session->userdata("arrLinkBack");
+				if(in_array($this->uri->uri_string(), $arrLinkBack)){
+					
+				}
+			}
+		}
+	}
+
 	public function execute(){
+
+		$this->doLinkBack();
 		
 		$this->defineSegment();		
 
