@@ -213,15 +213,27 @@ class MY_Controller extends CI_Controller {
 	}
 
 	public function doLinkBack(){
+		$this->data['LinkGoBack'] = "";
 		$arrLinkBack = array();
 		if(!$_POST){
 			if($this->session->userdata("arrLinkBack") === null){
-				
-					$arrLinkBack[] = $this->uri->uri_string();
+				$arrLinkBack[] = $this->uri->uri_string();
+				$this->session->set_userdata("arrLinkBack", $arrLinkBack);
 			} else {
 				$arrLinkBack = $this->session->userdata("arrLinkBack");
 				if(in_array($this->uri->uri_string(), $arrLinkBack)){
-					
+					foreach ($arrLinkBack as $key => $value) {
+						if($value == $this->uri->uri_string())
+							break;
+					}
+					if ($key == 0) 
+						$this->data['LinkGoBack'] = "";
+					else 
+						$this->data['LinkGoBack'] = $arrLinkBack[$key-1];
+				} else {
+					$this->data['LinkGoBack'] = end($arrLinkBack);
+					$arrLinkBack[] = $this->uri->uri_string();
+					$this->session->set_userdata("arrLinkBack", $arrLinkBack);
 				}
 			}
 		}
