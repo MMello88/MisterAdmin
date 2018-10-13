@@ -138,7 +138,9 @@ class User extends CI_Controller {
 				$this->session->set_userdata($arrConfirm);
 				
 				// user login ok
-				redirect('Dashboard/index');
+				//**ANTIGO AREA DASHBOARD**//
+				//redirect('Dashboard/index');
+				redirect('Mister/Empresa');
 				
 			} else {
 				

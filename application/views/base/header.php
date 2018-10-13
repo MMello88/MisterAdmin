@@ -33,21 +33,6 @@
 
   <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/jquery.min.js'); ?>"></script>
 
-<script type="text/javascript">
-
-
-$(document).ready(function(){
-  setInterval(function() { // Do this
-    $.get("<?= base_url($__CLASS__."/getStatusPedido"); ?>", function(data){
-      data = jQuery.parseJSON(data);
-      $("#result_aberto").html(data.aberto);
-      $("#result_fechado").html(data.fechado);
-    })
-  }, 30000);
-});
- 
-</script>
-
   <!-- Styles -->
 
   <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/weather-icons.css'); ?>" rel="stylesheet" />
@@ -107,58 +92,55 @@ $(document).ready(function(){
 
                   <div class="float-right">
                       <ul>
-						  <!--
                           <li class="header-icon dib"><i class="ti-bell"></i>
-                              <div class="drop-down">
-                                  <div class="dropdown-content-heading">
-                                      <span class="text-left">Recent Notifications</span>
-                                  </div>
-                                  <div class="dropdown-content-body">
-                                      <ul>
-                                          <li>
-                                              <a href="#">
-                                                  <img class="pull-left m-r-10 avatar-img" src="assets/templateGrocery/images/avatar/3.jpg" alt="" />
-                                                  <div class="notification-content">
-                                                      <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                      <div class="notification-heading">Mr. John</div>
-                                                      <div class="notification-text">5 members joined today </div>
-                                                  </div>
-                                              </a>
-                                          </li>
-                                          <li class="text-center">
-                                              <a href="#" class="more-link">See All</a>
-                                          </li>
-                                      </ul>
-                                  </div>
+                            <!--<div class="drop-down">
+                              <div class="dropdown-content-heading">
+                                <span class="text-left">Recent Notifications</span>
                               </div>
+                              <div class="dropdown-content-body">
+                                <ul>
+                                  <li>
+                                    <a href="#">
+                                      <img class="pull-left m-r-10 avatar-img" src="assets/templateGrocery/images/avatar/3.jpg" alt="" />
+                                      <div class="notification-content">
+                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                        <div class="notification-heading">Mr. John</div>
+                                        <div class="notification-text">5 members joined today </div>
+                                      </div>
+                                    </a>
+                                  </li>
+                                  <li class="text-center">
+                                    <a href="#" class="more-link">See All</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>-->
                           </li>
                           <li class="header-icon dib"><i class="ti-email"></i>
-						  
-                              <div class="drop-down">
-                                  <div class="dropdown-content-heading">
-                                      <span class="text-left">2 New Messages</span>
-                                      <a href="email.html"><i class="ti-pencil-alt pull-right"></i></a>
-                                  </div>
-                                  <div class="dropdown-content-body">
-                                      <ul>
-                                          <li class="notification-unread">
-                                              <a href="#">
-                                                  <!--<img class="pull-left m-r-10 avatar-img" src="assets/templateGrocery/images/avatar/1.jpg" alt="" />--
-                                                  <div class="notification-content">
-                                                      <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                      <div class="notification-heading">Michael Qin</div>
-                                                      <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                  </div>
-                                              </a>
-                                          </li>
-                                          <li class="text-center">
-                                              <a href="#" class="more-link">See All</a>
-                                          </li>
-                                      </ul>
-                                  </div>
+                            <!--<div class="drop-down">
+                              <div class="dropdown-content-heading">
+                                  <span class="text-left">2 New Messages</span>
+                                  <a href="email.html"><i class="ti-pencil-alt pull-right"></i></a>
                               </div>
-
-                          </li>-->
+                              <div class="dropdown-content-body">
+                                <ul>
+                                  <li class="notification-unread">
+                                      <a href="#">
+                                          <img class="pull-left m-r-10 avatar-img" src="assets/templateGrocery/images/avatar/1.jpg" alt="" />
+                                          <div class="notification-content">
+                                              <small class="notification-timestamp pull-right">02:34 PM</small>
+                                              <div class="notification-heading">Michael Qin</div>
+                                              <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                          </div>
+                                      </a>
+                                  </li>
+                                  <li class="text-center">
+                                      <a href="#" class="more-link">See All</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>-->
+                          </li>
                           <li class="header-icon dib"><span class="user-avatar"><?= $this->session->userdata('nome_user'); ?> <i class="ti-angle-down f-s-10"></i></span>
                               <div class="drop-down dropdown-profile">
                                   <!--<div class="dropdown-content-heading">
@@ -180,36 +162,34 @@ $(document).ready(function(){
   <!-- /# cabeçalho -->
     <div class="content-wrap">
       <div class="main">
-          <div class="container-fluid">
-            
-              <!-- /# main titulo -->
-              <div class="row"> 
-                  <div class="col-lg-8 p-r-0 title-margin-right">
-                      <div class="page-header">
-                          <div class="page-title">
-                              <h1><?= $this->session->userdata('nome_user'); ?>, <span>Seja bem vindo</span></h1>
-                          </div>
-                      </div>
-                  </div>
-                  <!-- /# column -->
-
-                  <div class="col-lg-4 p-l-0 title-margin-left">
-                    <div class="page-header">
+        <div class="container-fluid">
+          <!-- /# main titulo -->
+          <div class="row"> 
+              <div class="col-lg-8 p-r-0 title-margin-right">
+                  <div class="page-header">
                       <div class="page-title">
-                        <ol class="breadcrumb">
-                          <li class="breadcrumb-item">
-                          <?php if(isset($set_config)) : ?>
-                              <?php if($set_config['layout']['view'] == "grid") : ?>
-                                <?php if(!empty($LinkGoBack)) : ?>
-                                  <a href="<?= base_url($LinkGoBack); ?>">Voltar</a>
-                                <?php endif; ?>
-                              <?php endif; ?>
-                            <?php endif; ?>
-                          </li>
-                        </ol>
+                          <h1><?= $this->session->userdata('nome_user'); ?>, <span>Seja bem vindo</span></h1>
                       </div>
-                    </div>
                   </div>
-                  <!-- /# column -->
               </div>
-              <!-- /# fim main titulo -->
+              <!-- /# column -->
+              <div class="col-lg-4 p-l-0 title-margin-left">
+                <div class="page-header">
+                  <div class="page-title">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        <?php if(isset($set_config)) : ?>
+                          <?php if($set_config['layout']['view'] == "grid") : ?>
+                            <?php if(!empty($LinkGoBack)) : ?>
+                              <a href="<?= base_url($LinkGoBack); ?>">Voltar</a>
+                            <?php endif; ?>
+                          <?php endif; ?>
+                        <?php endif; ?>
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+              <!-- /# column -->
+          </div>
+          <!-- /# fim main titulo -->

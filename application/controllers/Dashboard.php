@@ -5,7 +5,25 @@ class Dashboard extends MY_Controller {
 	public function __construct($checa_loginho = FALSE)
 	{
 		parent::__construct(TRUE);
-	}	
+		
+		$this->data['__CLASS__'] = __CLASS__;
+		$this->getStatusPedido(False);
+		$this->getMenus();
+	}
+
+	public function getStatusPedido($param = True){
+		$this->data['PedidoAbertoFechado'] = $this->Pedidos->getQtdAbertoFechado();
+		if($param === True)
+			print_r(json_encode($this->data['PedidoAbertoFechado']));
+	}
+
+	public function _example_output($output = null, $view = 'restrito/admin')
+	{
+		$output = array_merge($this->data,(array)$output);
+		$this->load->view('restrito/header_admin',$output);
+		$this->load->view("$view",$output);
+		$this->load->view('restrito/footer_admin',$output);
+	}
 
 	public function index()
 	{

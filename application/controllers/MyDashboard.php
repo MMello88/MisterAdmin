@@ -1,20 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class MyDashboard extends CI_Controller {
-	public $data = array();
+class MyDashboard extends MY_Controller {
 
-	public function __construct()
+	public function __construct($checa_loginho = FALSE)
 	{
-		parent::__construct();
-		if ($this->session->userdata('is_loginho') === null)
-			redirect('/');
+		parent::__construct(TRUE);
+		
 		$this->data['__CLASS__'] = __CLASS__;
 		$this->getStatusPedido(False);
 		$this->getMenus();
-	}
-
-	public function getMenus(){
-		$this->data['menus'] = $this->Generico->getAllMenus();
 	}
 
 	public function getStatusPedido($param = True){
@@ -23,10 +17,12 @@ class MyDashboard extends CI_Controller {
 			print_r(json_encode($this->data['PedidoAbertoFechado']));
 	}
 
-	public function _example_output($output = null)
+	public function _example_output($output = null, $view = 'restrito/admin')
 	{
 		$output = array_merge($this->data,(array)$output);
-		$this->load->view('restrito/admin.php',$output);
+		$this->load->view('restrito/header_admin',$output);
+		$this->load->view("$view",$output);
+		$this->load->view('restrito/footer_admin',$output);
 	}
 
 	public function index()
@@ -84,7 +80,7 @@ class MyDashboard extends CI_Controller {
 		$crud->set_table('tbl_cliente');
 		$crud->set_subject('Cadastro de Cliente');
 		$crud->columns('nome','email','endereco','tipo');
-		$crud->fields('id_cliente','nome','cpf_cnpj','email','senha','telefone','endereco','numero','bairro',
+		$crud->fields('id_cliente','nome','cpf_cnpj','email','senha','telefone','endereco','numero','bairro',                     
 					  'complemento','situacao','tipo','ganho_unitario','ativo', 'dt_cadastro');
 		
 		$crud->display_as('nome','Nome');
@@ -146,44 +142,19 @@ class MyDashboard extends CI_Controller {
  
 		$crud->set_table('tbl_fornecedor');
 		$crud->set_subject('Cadastro de Fornecedor');
-		$crud->columns('nome', 'apelido', 'whatsapp', 'email','site');
-		$crud->fields('nome','apelido','telefone','celular','whatsapp','email','site','observacao',
-				 	  'tipo_pessoa','cpf_cnpj','rg','inscr_municipal','inscr_estadual','tipo_ie','cep',
-					  'endereco','numero','bairro','complemento','banco','agencia','digito_ag','conta_corrente','digito_cc');
+		$crud->columns('nome', 'ramo', 'whatsapp');
+		$crud->fields('nome', 'ramo', 'descricao', 'whatsapp', 'celular', 'telefone');
 		
 		$crud->display_as('id_fornecedor','Id Fornecedor');
-		$crud->display_as('nome','Nome');
-		$crud->display_as('apelido','Apelido/ Razão Social'); 
+		$crud->display_as('nome','Nome Fornecedor');
+		$crud->display_as('ramo','Ramo Profissional');
+		$crud->display_as('descricao','Descrição');
 		$crud->display_as('whatsapp','Whatsapp');
 		$crud->display_as('celular','Celular');	
 		$crud->display_as('telefone','Telefone');
-		$crud->display_as('email','E-mail');
-		$crud->display_as('site','Site');
-		$crud->display_as('tipo_pessoa','Fisíca/Juridica');
-		$crud->display_as('cpf_cnpj','CPF / CNPJ');
-		$crud->display_as('rg','RG');
-		$crud->display_as('inscr_municipal','Inscrição Municipal');
-		$crud->display_as('inscr_estadual','Inscrição Estadual');
-		$crud->display_as('tipo_ie','Indicador IE');
-		$crud->display_as('cep','CEP');
-		$crud->display_as('endereco','Endereço');
-		$crud->display_as('numero','Nr.');
-		$crud->display_as('bairro','Bairro');
-		$crud->display_as('complemento','Complemento');
-		$crud->display_as('banco','Banco');
-		$crud->display_as('agencia','Agência');
-		$crud->display_as('digito_ag','Digito');
-		$crud->display_as('conta_corrente','Conta Corrente');
-		$crud->display_as('digito_cc','Digito');
 
-		$crud->display_as('observacao','Descrição');
-
-		$crud->set_relation('banco','tbl_tipo','descricao', array('campo' => 'banco'));
-		$crud->set_relation('tipo_ie','tbl_tipo','descricao', array('campo' => 'tipo_ie'));
-
-		$crud->unset_texteditor('observacao');
-
-
+		$crud->unset_texteditor('descricao');
+		
 		$output = $crud->render();
 		 
 		$this->_example_output($output);
@@ -561,25 +532,23 @@ class MyDashboard extends CI_Controller {
 		echo json_encode($arr);
 	}
 
-    public function estoque(){
+	public function estoque(){
 		$crud = new grocery_CRUD();
  
 		$crud->set_table('tbl_estoque');
 		$crud->set_subject('Consulta de Estoque');
-		$crud->columns('id_loja','id_produto', 'qtde_minima', 'qtde_total', 'ativo');
-		$crud->edit_fields('qtde_minima', 'ativo');
+		$crud->columns('id_loja','id_produto', 'qtde_minima', 'qtde_total');
+		$crud->edit_fields('qtde_minima');
 		
 		$crud->display_as('id_loja','Loja');
 		$crud->display_as('id_produto','Produto');
 		$crud->display_as('qtde_minima','Qtde Estoque Minimo');
 		$crud->display_as('qtde_total','Qtde Disponível');
-		$crud->display_as('ativo','Ativo');
 
 		$crud->set_relation('id_loja', 'tbl_loja', 'nome_fantasia');
 		$crud->set_relation('id_produto', 'tbl_produto', 'nome');
 
 		$crud->field_type('tipo_movimentacao','dropdown', array('e' => 'Entrada', 's' => 'Saída', 'a' => 'Ajuste', 't' => 'Transferência'));
-		$crud->field_type('ativo','dropdown', array('s' => 'Sim', 'n' => 'Não'));
 
 		$crud->unset_add();
 		$crud->unset_delete();
@@ -663,6 +632,7 @@ class MyDashboard extends CI_Controller {
 	public function postMoviEstoque(){
 		if($_POST){
 			$this->Generico->gerarMovimentacao($_POST['id_loja'], $_POST['id_produto'], $_POST['tipo_movimentacao'], $_POST['qtde_movimentacao']);
+			redirect(__CLASS__.'/index');
 		}
 	}
 
@@ -714,351 +684,9 @@ class MyDashboard extends CI_Controller {
 		}
 	}
 
-	public function ContasAPagar(){
-		$crud = new grocery_CRUD();
- 
-		$crud->set_table('tbl_contas_apagar');
-		$crud->where('situacao', 'a');
-		$crud->set_subject('Cadastrar Contas A Pagar');
-		$crud->columns('id_contas_apagar', 'id_fornecedor', 'id_conta_gerencial', 'dt_venc', 'valor_apagar');
-		$crud->fields('id_conta_gerencial','dt_cadastro', 'id_fornecedor', 'dt_venc', 'valor_apagar', 'conta_fixa', 'nr_vezes', 'obs', 'situacao');
-		
-		$crud->display_as('id_conta_gerencial','Conta Gerencial');
-		$crud->display_as('id_fornecedor','Fornecedor');
-		$crud->display_as('dt_venc','Data Vencimento');
-		$crud->display_as('valor_apagar','Valor A Pagar');
-		$crud->display_as('conta_fixa','Conta Fixa');
-		$crud->display_as('nr_vezes','Nr. Vezes');
-		$crud->display_as('obs','Observação');
-
-		$crud->field_type('dt_cadastro','hidden', date("Y-m-d H:i:s"));
-		$crud->field_type('situacao','hidden', 'a');
-		$crud->field_type('conta_fixa','dropdown', array('s' => 'Sim', 'n' => 'Não'));
-		$crud->field_type('nr_vezes','dropdown', 
-			array('1' => '1x', '2' => '2x', '3' => '3x', '4' => '4x', '5' => '5x', '6' => '6x', '7' => '7x', '8' => '8x',
-			'9' => '9x'  , '10' => '10x', '11' => '11x', '12' => '12x', '13' => '13x', '14' => '14x', '15' => '15x', '16' => '16x',
-			'17' => '17x', '18' => '18x', '19' => '19x', '20' => '20x', '21' => '21x', '22' => '22x', '23' => '23x', '24' => '24x',
-			'25' => '25x', '26' => '26x', '27' => '27x', '28' => '28x', '29' => '29x', '30' => '30x', '31' => '31x', '32' => '32x',
-			'33' => '33x', '34' => '34x', '35' => '35x', '36' => '36x'));
-
-		$crud->required_fields('id_conta_gerencial', 'dt_venc', 'valor_apagar', 'conta_fixa');
-
-		$crud->set_relation('id_conta_gerencial','tbl_conta_gerencial','nome_conta_gerencial');
-		$crud->set_relation('id_fornecedor','tbl_fornecedor','apelido');
-
-		$output = $crud->render();
- 
-		$this->_example_output($output);
+	public function perfil(){
+		$usuario = $this->Usuario->getByEmail($this->session->userdata('email_user'));
+		$this->data['usuario'] = $usuario;
+		$this->_example_output(null, 'perfil');
 	}
-
-	public function PagarAConta(){
-		$crud = new grocery_CRUD();
- 
-		$crud->set_table('tbl_contas_apagar');
-		$crud->where('situacao', 'a');
-		$crud->set_subject('Pagar A Contas');
-		$crud->columns('id_fornecedor', 'id_conta_gerencial', 'dt_venc', 'valor_apagar');
-		$crud->fields('id_contas_apagar', 'tipo_pagamento', 'dt_venc', 'dt_pago', 'id_conta_corrente', 'valor_apagar', 
-			'valor_pgto', 'valor_desconto', 'valor_juros', 'conta_fixa', 'nr_vezes', 'situacao', 'id_fornecedor', 'id_conta_gerencial');
-		
-		$crud->display_as('id_conta_gerencial','Conta Gerencial');
-		$crud->display_as('id_fornecedor','Fornecedor');
-		$crud->display_as('dt_venc','Data Vencimento');
-		$crud->display_as('valor_apagar','Valor A Pagar');
-		$crud->display_as('conta_fixa','Conta Fixa');
-		$crud->display_as('nr_vezes','Nr. Parcela');
-		$crud->display_as('obs','Observação');
-
-		$crud->display_as('dt_pago','Data Pagamento'); 
-		$crud->display_as('id_conta_corrente','Conta corrente');
-		$crud->display_as('valor_pgto','Valor Pago');
-		$crud->display_as('valor_desconto','Valor Desconto');
-		$crud->display_as('valor_juros','Valor Juros');
-		$crud->display_as('tipo_pagamento','Tipo Pagamento');
-
-		$crud->set_relation('id_conta_gerencial','tbl_conta_gerencial','nome_conta_gerencial');
-		$crud->set_relation('id_conta_corrente','tbl_conta_corrente','nome_conta_corrente');
-		$crud->set_relation('tipo_pagamento','tbl_tipo','descricao', array('campo' => 'tipo_pagamento'));
-		$crud->set_relation('id_fornecedor','tbl_fornecedor','apelido');
-
-		$crud->field_type('conta_fixa','hidden');
-		$crud->field_type('nr_vezes','readonly');
-		$crud->field_type('situacao','hidden', 'p');
-		$crud->field_type('id_contas_apagar','hidden');
-		$crud->field_type('id_fornecedor','readonly');
-		$crud->field_type('id_conta_gerencial','readonly');
-		$crud->field_type('dt_venc','readonly');
-		$crud->field_type('valor_apagar','readonly');
-
-		$crud->required_fields('tipo_pagamento', 'dt_pago', 'valor_pgto', 'id_conta_corrente');
-
-
-		$crud->unset_add();
-		$crud->unset_delete();
-
-		$crud->callback_after_update(array($this, 'after_update_contas_apagar'));
-
-		$output = $crud->render();
- 
-		$this->_example_output($output);
-	}
-
-	public function after_update_contas_apagar($post_array,$primary_key){
-		if ($post_array['conta_fixa'] == 's')
-			$this->Generico->geraProximaContaAPagarFixa($primary_key);
-		else 
-			$this->Generico->geraProximaContaAPagarFixa($primary_key, TRUE);		
-	}
-
-	public function ContasPagas(){
-		$crud = new grocery_CRUD();
- 
-		$crud->set_table('tbl_contas_apagar');
-		$crud->where('situacao', 'p');
-		$crud->order_by('dt_pago', 'desc');
-		$crud->set_subject('Contas Pagas');
-		$crud->columns('id_fornecedor', 'id_conta_gerencial', 'dt_venc', 'valor_apagar', 'tipo_pagamento', 'dt_pago', 'valor_pgto');
-		$crud->fields('id_contas_apagar', 'tipo_pagamento', 'dt_venc', 'dt_pago', 'id_conta_corrente', 'valor_apagar', 
-			'valor_pgto', 'valor_desconto', 'valor_juros', 'conta_fixa', 'nr_vezes', 'situacao', 'id_fornecedor', 'id_conta_gerencial');
-		
-		$crud->display_as('id_conta_gerencial','Conta Gerencial');
-		$crud->display_as('id_fornecedor','Fornecedor');
-		$crud->display_as('dt_venc','Data Vencimento');
-		$crud->display_as('valor_apagar','Valor A Pagar');
-		$crud->display_as('conta_fixa','Conta Fixa');
-		$crud->display_as('nr_vezes','Nr. Parcela');
-		$crud->display_as('obs','Observação');
-
-		$crud->display_as('dt_pago','Data Pagamento');
-		$crud->display_as('id_conta_corrente','Conta Corrente');
-		$crud->display_as('valor_pgto','Valor Pago');
-		$crud->display_as('valor_desconto','Valor Desconto');
-		$crud->display_as('valor_juros','Valor Juros');
-		$crud->display_as('tipo_pagamento','Tipo Pagamento');
-		$crud->display_as('situacao','Situação');
-
-		$crud->field_type('nr_vezes','readonly');
-		$crud->field_type('conta_fixa','dropdown', array('s' => 'Sim', 'n' => 'Não'));
-		$crud->field_type('situacao','dropdown', array('a' => 'Aberto', 'p' => 'Pago'));
-
-		$crud->set_relation('id_conta_gerencial','tbl_conta_gerencial','nome_conta_gerencial');
-		$crud->set_relation('id_conta_corrente','tbl_conta_corrente','nome_conta_corrente');
-		$crud->set_relation('tipo_pagamento','tbl_tipo','descricao', array('campo' => 'tipo_pagamento'));
-		$crud->set_relation('id_fornecedor','tbl_fornecedor','apelido');
-		
-		$crud->unset_add();
-		$crud->unset_edit();
-		$crud->unset_delete();
-
-		$output = $crud->render();
- 
-		$this->_example_output($output);
-	}
-
-	public function conta_gerencial(){
-		$crud = new grocery_CRUD();
- 
-		$crud->set_table('tbl_conta_gerencial');
-		$crud->set_subject('Contas Gerenciais');
-		$crud->columns('nome_conta_gerencial', 'tipo_conta', 'id_conta_dre');
-		$crud->fields('nome_conta_gerencial', 'tipo_conta', 'id_conta_dre',
-					  'cc_debito', 'cc_credito', 'permite_compras', 'ativo');
-		
-		$crud->display_as('id_contas_apagar','Id Conta Gerencial');
-		$crud->display_as('nome_conta_gerencial','Nome');
-		$crud->display_as('tipo_conta','Tipo');
-		$crud->display_as('id_conta_dre','Conta DRE');
-		$crud->display_as('cc_debito','Conta Débito');
-		$crud->display_as('cc_credito','Conta Crédito');
-		$crud->display_as('permite_compras','Permite Compra');
-		$crud->display_as('ativo','Ativo');
-
-		$crud->required_fields('nome_conta_gerencial', 'tipo_conta', 'permite_compras', 'ativo');
-
-		$crud->field_type('tipo_conta','dropdown', array('e' => 'Entrada', 's' => 'Saída'));
-		$crud->field_type('permite_compras','dropdown', array('S' => 'Sim', 'n' => 'Não'));
-		$crud->field_type('ativo','dropdown', array('a' => 'Ativo', 'n' => 'Desativado'));
-
-		$crud->set_relation('id_conta_dre','tbl_tipo','descricao', array('campo' => 'id_conta_dre'));
-
-		$output = $crud->render();
- 
-		$this->_example_output($output);
-	}
-
-	public function conta_corrente(){
-		$crud = new grocery_CRUD();
- 
-		$crud->set_table('tbl_conta_corrente');
-		$crud->set_subject('Contas Corrente');
-		$crud->columns('nome_conta_corrente', 'interna', 'banco', 'principal');
-		$crud->fields('nome_conta_corrente', 'interna', 'banco', 'agencia', 'digito_ag', 
-			'conta_corrente', 'digito_cc', 'principal', 'ativo');
-		
-		$crud->display_as('id_conta_corrente','Id Conta Corrente');
-		$crud->display_as('nome_conta_corrente','Nome');
-		$crud->display_as('interna','Interna');
-		$crud->display_as('banco','Banco');
-		$crud->display_as('agencia','Nr. Agência');
-		$crud->display_as('digito_ag','Digito Ag');
-		$crud->display_as('conta_corrente','Nr. Conta Corrente');
-		$crud->display_as('digito_cc','Digíto Cc');
-		$crud->display_as('principal','Principal');
-		$crud->display_as('ativo','Ativo');
-
-		$crud->required_fields('nome_conta_corrente', 'interna');
-
-		$crud->field_type('interna','dropdown', array('S' => 'Sim', 'n' => 'Não'));
-		$crud->field_type('ativo','dropdown', array('a' => 'Ativo', 'n' => 'Desativado'));
-		$crud->field_type('principal','dropdown', array('s' => 'Sim', 'n' => 'Não'));
-		
-		$crud->set_relation('banco','tbl_tipo','descricao', array('campo' => 'banco'));
-
-		$output = $crud->render();
- 
-		$this->_example_output($output);
-	}
-
-	public function ContasAReceber(){
-		$crud = new grocery_CRUD();
- 
-		$crud->set_table('tbl_contas_areceber');
-		$crud->where('situacao', 'a');
-		$crud->set_subject('Cadastrar Contas A Receber');
-		$crud->columns('id_contas_areceber', 'id_fornecedor', 'id_conta_gerencial', 'dt_venc', 'valor_areceber');
-		$crud->fields('id_conta_gerencial','dt_cadastro', 'id_fornecedor', 'dt_venc', 'valor_areceber', 'conta_fixa', 'nr_vezes', 'obs', 'situacao');
-		
-		$crud->display_as('id_conta_gerencial','Conta Gerencial');
-		$crud->display_as('id_fornecedor','Fornecedor');
-		$crud->display_as('dt_venc','Data Vencimento');
-		$crud->display_as('valor_areceber','Valor A Receber');
-		$crud->display_as('conta_fixa','Conta Fixa');
-		$crud->display_as('nr_vezes','Nr. Vezes');
-		$crud->display_as('obs','Observação');
-
-		$crud->field_type('dt_cadastro','hidden', date("Y-m-d H:i:s"));
-		$crud->field_type('situacao','hidden', 'a');
-		$crud->field_type('conta_fixa','dropdown', array('s' => 'Sim', 'n' => 'Não'));
-		$crud->field_type('nr_vezes','dropdown', 
-			array('1' => '1x', '2' => '2x', '3' => '3x', '4' => '4x', '5' => '5x', '6' => '6x', '7' => '7x', '8' => '8x',
-			'9' => '9x'  , '10' => '10x', '11' => '11x', '12' => '12x', '13' => '13x', '14' => '14x', '15' => '15x', '16' => '16x',
-			'17' => '17x', '18' => '18x', '19' => '19x', '20' => '20x', '21' => '21x', '22' => '22x', '23' => '23x', '24' => '24x',
-			'25' => '25x', '26' => '26x', '27' => '27x', '28' => '28x', '29' => '29x', '30' => '30x', '31' => '31x', '32' => '32x',
-			'33' => '33x', '34' => '34x', '35' => '35x', '36' => '36x'));
-
-		$crud->required_fields('id_conta_gerencial', 'dt_venc', 'valor_areceber', 'conta_fixa');
-
-		$crud->set_relation('id_conta_gerencial','tbl_conta_gerencial','nome_conta_gerencial');
-		$crud->set_relation('id_fornecedor','tbl_fornecedor','apelido');
-
-		$output = $crud->render();
- 
-		$this->_example_output($output);
-	}
-
-	public function ReceberAConta(){
-		$crud = new grocery_CRUD();
- 
-		$crud->set_table('tbl_contas_areceber');
-		$crud->where('situacao', 'a');
-		$crud->set_subject('Receber A Contas');
-		$crud->columns('id_fornecedor', 'id_conta_gerencial', 'dt_venc', 'valor_areceber');
-		$crud->fields('id_contas_areceber', 'tipo_recebimento', 'dt_venc', 'dt_recebido', 'id_conta_corrente', 
-			'valor_areceber', 'valor_recebido', 'valor_desconto', 'valor_juros', 'conta_fixa', 'nr_vezes', 'situacao', 
-			'id_fornecedor', 'id_conta_gerencial');
-		
-		$crud->display_as('id_conta_gerencial','Conta Gerencial');
-		$crud->display_as('id_fornecedor','Fornecedor');
-		$crud->display_as('dt_venc','Data Vencimento');
-		$crud->display_as('valor_areceber','Valor A Receber');
-		$crud->display_as('conta_fixa','Conta Fixa');
-		$crud->display_as('nr_vezes','Nr. Parcela');
-		$crud->display_as('obs','Observação');
-
-		$crud->display_as('dt_recebido','Data Recebimento'); 
-		$crud->display_as('id_conta_corrente','Conta corrente');
-		$crud->display_as('valor_recebido','Valor Recebido');
-		$crud->display_as('valor_desconto','Valor Desconto');
-		$crud->display_as('valor_juros','Valor Juros');
-		$crud->display_as('tipo_recebimento','Tipo Recebimento');
-
-		$crud->set_relation('id_conta_gerencial','tbl_conta_gerencial','nome_conta_gerencial');
-		$crud->set_relation('id_conta_corrente','tbl_conta_corrente','nome_conta_corrente');
-		$crud->set_relation('tipo_recebimento','tbl_tipo','descricao', array('campo' => 'tipo_pagamento'));
-		$crud->set_relation('id_fornecedor','tbl_fornecedor','apelido');
-
-		$crud->field_type('conta_fixa','hidden');
-		$crud->field_type('nr_vezes','readonly');
-		$crud->field_type('situacao','hidden', 'r');
-		$crud->field_type('id_contas_areceber','hidden');
-		$crud->field_type('id_fornecedor','readonly');
-		$crud->field_type('id_conta_gerencial','readonly');
-		$crud->field_type('dt_venc','readonly');
-		$crud->field_type('valor_areceber','readonly');
-
-		$crud->required_fields('tipo_recebimento', 'dt_recebido', 'valor_recebido', 'id_conta_corrente');
-
-
-		$crud->unset_add();
-		$crud->unset_delete();
-
-		$crud->callback_after_update(array($this, 'after_update_contas_areceber'));
-
-		$output = $crud->render();
- 
-		$this->_example_output($output);
-	}
-
-	public function after_update_contas_areceber($post_array,$primary_key){
-		if ($post_array['conta_fixa'] == 's')
-			$this->Generico->geraProximaContaAReceberFixa($primary_key);
-		else 
-			$this->Generico->geraProximaContaAReceberFixa($primary_key, TRUE);
-	}
-
-	public function ContasRecebidas(){
-		$crud = new grocery_CRUD();
- 
-		$crud->set_table('tbl_contas_areceber');
-		$crud->where('situacao', 'r');
-		$crud->order_by('dt_recebido', 'desc');
-		$crud->set_subject('Contas Recebidas');
-		$crud->columns('id_fornecedor', 'id_conta_gerencial', 'dt_venc', 'valor_areceber', 'tipo_recebimento', 'dt_recebido', 'valor_recebido');
-		$crud->fields('id_contas_apagar', 'tipo_recebimento', 'dt_venc', 'dt_recebido', 'id_conta_corrente', 'valor_apagar', 
-			'valor_pgto', 'valor_desconto', 'valor_juros', 'conta_fixa', 'nr_vezes', 'situacao', 'id_fornecedor', 'id_conta_gerencial');
-		
-		$crud->display_as('id_conta_gerencial','Conta Gerencial');
-		$crud->display_as('id_fornecedor','Fornecedor');
-		$crud->display_as('dt_venc','Data Vencimento');
-		$crud->display_as('valor_apagar','Valor A Receber');
-		$crud->display_as('conta_fixa','Conta Fixa');
-		$crud->display_as('nr_vezes','Nr. Parcela');
-		$crud->display_as('obs','Observação');
-
-		$crud->display_as('dt_recebido','Data Recebimento');
-		$crud->display_as('id_conta_corrente','Conta Corrente');
-		$crud->display_as('valor_pgto','Valor Pago');
-		$crud->display_as('valor_desconto','Valor Desconto');
-		$crud->display_as('valor_juros','Valor Juros');
-		$crud->display_as('tipo_recebimento','Tipo Recebimento');
-		$crud->display_as('situacao','Situação');
-
-		$crud->field_type('nr_vezes','readonly');
-		$crud->field_type('conta_fixa','dropdown', array('s' => 'Sim', 'n' => 'Não'));
-		$crud->field_type('situacao','dropdown', array('a' => 'Aberto', 'r' => 'Recebido'));
-
-		$crud->set_relation('id_conta_gerencial','tbl_conta_gerencial','nome_conta_gerencial');
-		$crud->set_relation('id_conta_corrente','tbl_conta_corrente','nome_conta_corrente');
-		$crud->set_relation('tipo_recebimento','tbl_tipo','descricao', array('campo' => 'tipo_pagamento'));
-		$crud->set_relation('id_fornecedor','tbl_fornecedor','apelido');
-		
-		$crud->unset_add();
-		$crud->unset_edit();
-		$crud->unset_delete();
-
-		$output = $crud->render();
- 
-		$this->_example_output($output);
-	}
-
 }

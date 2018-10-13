@@ -10,22 +10,20 @@ class MY_Controller extends CI_Controller {
 	public function __construct($checa_loginho = FALSE)
 	{
 		parent::__construct();
-		if ($checa_loginho) 
-			if ($this->session->userdata('is_loginho') === null) redirect('/');
-		
-		$this->data['__CLASS__'] = __CLASS__;
-		$this->getStatusPedido(False);
+		if (($checa_loginho) && ($this->session->userdata('is_loginho') === null)) redirect('/');
 		$this->getMenus();
+	}
+
+	public function _output_view($output = null, $view = '')
+	{
+		$output = array_merge($this->data,(array)$output);
+		$this->load->view('base/header',$output);
+		$this->load->view("base/$view",$output);
+		$this->load->view('base/footer',$output);
 	}
 
 	public function getMenus(){
 		$this->data['menus'] = $this->Generico->getAllMenus();
-	}
-
-	public function getStatusPedido($param = True){
-		$this->data['PedidoAbertoFechado'] = $this->Pedidos->getQtdAbertoFechado();
-		if($param === True)
-			print_r(json_encode($this->data['PedidoAbertoFechado']));
 	}
 
 	private function defineSegment(){
@@ -72,7 +70,7 @@ class MY_Controller extends CI_Controller {
 		$this->data['segment_class'] = $class;
 		$this->data['segment_funct'] = $funct;
 
-		$this->view = "base/".$this->view;
+		$this->view = $this->view;
 
 		$this->data['chave_pai'] = "";
 		$this->data['link_chave_pai'] = "";
@@ -204,14 +202,6 @@ class MY_Controller extends CI_Controller {
 		}
 	}
 
-	public function _example_output($output = null, $view = 'restrito/admin')
-	{
-		$output = array_merge($this->data,(array)$output);
-		$this->load->view('restrito/header_admin',$output);
-		$this->load->view("$view",$output);
-		$this->load->view('restrito/footer_admin',$output);
-	}
-
 	public function doLinkBack(){
 		$this->data['LinkGoBack'] = "";
 		$arrLinkBack = array();
@@ -255,7 +245,7 @@ class MY_Controller extends CI_Controller {
 		
 		$this->getRows();
 
-		$this->_example_output(null, $this->view);
+		$this->_output_view(null, $this->view);
 	}
 }
 

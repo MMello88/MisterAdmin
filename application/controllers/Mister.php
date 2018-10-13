@@ -4,13 +4,12 @@ class Mister extends MY_Controller {
 	
 	public function __construct()
 	{
-		parent::__construct(FALSE);
+		parent::__construct(TRUE);
 	}
 
 	public function Empresa(){
 		$this->set_config = 
 			[
-				
 				'table' => 
 					['nome'     => 'tbl_empresa', 
 					 'chave_pk' => 'id_empresa',
