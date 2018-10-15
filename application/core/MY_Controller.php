@@ -80,8 +80,6 @@ class MY_Controller extends CI_Controller {
 		    $this->data['chave_pai'] = $value_pai;
 		    $this->data['link_chave_pai'] = "$value_pai/";
 		}
-
-
 	}
 
 	private function doConfigInputSelect(){
@@ -229,7 +227,30 @@ class MY_Controller extends CI_Controller {
 		}
 	}
 
+	public function PaginasAnteriores(){
+		$this->data['PagAnterior'] = "";
+		if($this->session->userdata("arrPaginas") === null){
+			$arrPaginas[] = $this->uri->uri_string();
+			$this->session->set_userdata("arrPaginas", $arrPaginas);
+		} else {
+			$arrPaginas = $this->session->userdata("arrPaginas");
+			if(in_array($this->uri->uri_string(), $arrPaginas)){
+				print_r($arrPaginas);
+				$keyAtual = array_search($this->uri->uri_string(), $arrPaginas);
+				if($keyAtual > 0)
+					$this->data['PagAnterior'] = $arrPaginas[$keyAtual-1];
+				unset($arrPaginas[$keyAtual+1]);
+			} else {
+				$this->data['PagAnterior'] = end($arrPaginas);
+				$arrPaginas[] = $this->uri->uri_string();
+				$this->session->set_userdata("arrPaginas", $arrPaginas);
+			}
+		}
+	}
+
 	public function execute(){
+
+		$this->PaginasAnteriores(); echo $this->data['PagAnterior'];
 
 		$this->doLinkBack();
 		
