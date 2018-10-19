@@ -202,55 +202,49 @@ class MY_Controller extends CI_Controller {
 
 	public function doLinkBack(){
 		$this->data['LinkGoBack'] = "";
-		$arrLinkBack = array();
-		if(!$_POST){
-			if($this->session->userdata("arrLinkBack") === null){
+		$arrLinkBack = $this->session->userdata("arrLinkBack");
+		if($arrLinkBack === null){
+			$arrLinkBack = array();
+			array_push($arrLinkBack,$this->uri->uri_string());
+		} else {
+			$key = array_search($this->uri->uri_string(), $arrLinkBack);
+			if ($key === FALSE){
+				$this->data['LinkGoBack'] = $arrLinkBack[count($arrLinkBack) == 1 ? 0 : count($arrLinkBack)-1];
 				$arrLinkBack[] = $this->uri->uri_string();
-				$this->session->set_userdata("arrLinkBack", $arrLinkBack);
-			} else {
-				$arrLinkBack = $this->session->userdata("arrLinkBack");
-				if(in_array($this->uri->uri_string(), $arrLinkBack)){
-					foreach ($arrLinkBack as $key => $value) {
-						if($value == $this->uri->uri_string())
-							break;
-					}
-					if ($key == 0) 
-						$this->data['LinkGoBack'] = "";
-					else 
-						$this->data['LinkGoBack'] = $arrLinkBack[$key-1];
-				} else {
-					$this->data['LinkGoBack'] = end($arrLinkBack);
-					$arrLinkBack[] = $this->uri->uri_string();
-					$this->session->set_userdata("arrLinkBack", $arrLinkBack);
-				}
+
+			}
+			else {
+				$arrLinkBack = array_slice($arrLinkBack, -count($arrLinkBack), $key+1);
+				$this->data['LinkGoBack'] = $key == 0 ? "" : $arrLinkBack[$key-1];
 			}
 		}
+		$this->session->set_userdata("arrLinkBack", $arrLinkBack);
 	}
 
 	public function PaginasAnteriores(){
 		$this->data['PagAnterior'] = "";
-		if($this->session->userdata("arrPaginas") === null){
-			$arrPaginas[] = $this->uri->uri_string();
-			$this->session->set_userdata("arrPaginas", $arrPaginas);
+		 $arrPaginas = $this->session->userdata("arrPaginas");
+		if($arrPaginas === null){
+			$arrPaginas = array();
+			array_push($arrPaginas,$this->uri->uri_string());
 		} else {
-			$arrPaginas = $this->session->userdata("arrPaginas");
-			if(in_array($this->uri->uri_string(), $arrPaginas)){
-				print_r($arrPaginas);
-				$keyAtual = array_search($this->uri->uri_string(), $arrPaginas);
-				if($keyAtual > 0)
-					$this->data['PagAnterior'] = $arrPaginas[$keyAtual-1];
-				unset($arrPaginas[$keyAtual+1]);
-			} else {
-				$this->data['PagAnterior'] = end($arrPaginas);
+			$key = array_search($this->uri->uri_string(), $arrPaginas);
+			if ($key === FALSE){
+				$this->data['PagAnterior'] = $arrPaginas[count($arrPaginas) == 1 ? 0 : count($arrPaginas)-1];
 				$arrPaginas[] = $this->uri->uri_string();
-				$this->session->set_userdata("arrPaginas", $arrPaginas);
+
+			}
+			else {
+				$arrPaginas = array_slice($arrPaginas, -count($arrPaginas), $key+1);
+				$this->data['PagAnterior'] = $key == 0 ? "" : $arrPaginas[$key-1];
 			}
 		}
+		$this->session->set_userdata("arrPaginas", $arrPaginas);
 	}
 
 	public function execute(){
 
-		$this->PaginasAnteriores(); echo $this->data['PagAnterior'];
+		$this->PaginasAnteriores();
 
 		$this->doLinkBack();
 		
