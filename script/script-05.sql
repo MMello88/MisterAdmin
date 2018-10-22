@@ -51,3 +51,6 @@ CREATE TABLE `miste872_prod`.`tbl_teste`(
   CONSTRAINT `fk_teste_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `miste872_prod`.`tbl_empresa`(`id_empresa`),
   CONSTRAINT `fk_teste_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`)
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
+
+ALTER TABLE `miste872_prod`.`tbl_cliente`   
+  ADD COLUMN `id_usuario` INT(11) NULL  COMMENT 'id do usuário' AFTER `dt_cadastro`;
