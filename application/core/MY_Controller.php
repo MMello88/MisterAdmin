@@ -200,27 +200,6 @@ class MY_Controller extends CI_Controller {
 		}
 	}
 
-	public function doLinkBack(){
-		$this->data['LinkGoBack'] = "";
-		$arrLinkBack = $this->session->userdata("arrLinkBack");
-		if($arrLinkBack === null){
-			$arrLinkBack = array();
-			array_push($arrLinkBack,$this->uri->uri_string());
-		} else {
-			$key = array_search($this->uri->uri_string(), $arrLinkBack);
-			if ($key === FALSE){
-				$this->data['LinkGoBack'] = $arrLinkBack[count($arrLinkBack) == 1 ? 0 : count($arrLinkBack)-1];
-				$arrLinkBack[] = $this->uri->uri_string();
-
-			}
-			else {
-				$arrLinkBack = array_slice($arrLinkBack, -count($arrLinkBack), $key+1);
-				$this->data['LinkGoBack'] = $key == 0 ? "" : $arrLinkBack[$key-1];
-			}
-		}
-		$this->session->set_userdata("arrLinkBack", $arrLinkBack);
-	}
-
 	public function PaginasAnteriores(){
 		$this->data['PagAnterior'] = "";
 		 $arrPaginas = $this->session->userdata("arrPaginas");
@@ -245,8 +224,6 @@ class MY_Controller extends CI_Controller {
 	public function execute(){
 
 		$this->PaginasAnteriores();
-
-		$this->doLinkBack();
 		
 		$this->defineSegment();		
 

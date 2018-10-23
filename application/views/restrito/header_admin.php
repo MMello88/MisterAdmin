@@ -199,11 +199,11 @@ $(document).ready(function(){
                         <ol class="breadcrumb">
                           <li class="breadcrumb-item">
                           <?php if(isset($set_config)) : ?>
-                              <?php if($set_config['layout']['view'] == "grid") : ?>
-                                <?php if(!empty($LinkGoBack)) : ?>
-                                  <a href="<?= base_url($LinkGoBack); ?>">Voltar</a>
+                              
+                                <?php if(!empty($PagAnterior)) : ?>
+                                  <a href="<?= base_url($PagAnterior); ?>">Voltar</a>
                                 <?php endif; ?>
-                              <?php endif; ?>
+                              
                             <?php endif; ?>
                           </li>
                         </ol>
