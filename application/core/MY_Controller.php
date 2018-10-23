@@ -183,13 +183,13 @@ class MY_Controller extends CI_Controller {
 				$result = $this->Mister->delete();
 				if (!is_array($result)){
 					$this->session->set_flashdata('msg_flash', $result);
-					redirect($this->uri->segment(1)."/".$this->uri->segment(2)."/".$this->data['link_chave_pai']);
+					redirect($this->data['PagAnterior']);
 				}
 			}
 
 			if($this->input->post('btnSalvarVoltar') === "Salvar e Voltar"){
 				$this->session->set_flashdata('msg_flash', $result);
-				redirect($this->uri->segment(1)."/".$this->uri->segment(2)."/".$this->data['link_chave_pai']);
+				redirect($this->data['PagAnterior']);
 			}
 
 			if (is_array($result)){

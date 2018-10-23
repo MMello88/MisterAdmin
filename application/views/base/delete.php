@@ -37,7 +37,7 @@
                           <button type="button" class="btn btn-warning btn-outline btn-rounded" data-toggle="modal" data-target="#exampleModal">
                                 Deletar
                           </button>
-                          <a href="<?= base_url("$segment_class/$segment_funct/$link_chave_pai"); ?>" class="btn btn-primary btn-outline btn-rounded">Voltar</a>
+                          <a href="<?= base_url("$PagAnterior"); ?>" class="btn btn-primary btn-outline btn-rounded">Voltar</a>
                       </div>
                   </div>
               </div>
