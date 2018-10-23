@@ -146,22 +146,22 @@ class MY_Controller extends CI_Controller {
 		}
 
 		if($this->set_config['layout']['view'] == 'search') {
-
+			$where = array();
 			if ($this->form_validation->run() === TRUE){
 				$where = array($this->input->post('search_field') . " LIKE " => "%".$this->input->post('search_value')."%");
-
-				$this->data['rows'] = $this->Mister->get('', $where);
-				$result = "Consulta realizada com sucesso!";
-				if (empty($this->data['rows'])) {
-					$result = ['message' => "Não foi encontrado nenhum resultado!"];
-				}
-
-				if (is_array($result)){
-					$this->data['erro_message'] = $result['message'];
-				} else {
-					$this->data['success_message'] = $result;
+				$this->session->set_userdata('search_field', $this->input->post('search_field'));
+				$this->session->set_userdata('search_value', $this->input->post('search_value'));
+			} else {
+				if($this->session->userdata('search_field') !== null && $this->session->userdata('search_value') !== null){
+					$where = array($this->session->userdata('search_field') . " LIKE " => "%".$this->session->userdata('search_value')."%");	
 				}
 			}
+
+			$this->data['rows'] = $this->Mister->get('', $where);
+			if (empty($this->data['rows']))
+				$this->data['erro_message'] = "Não foi encontrado nenhum resultado!";
+			else
+				$this->data['success_message'] = "Consulta realizada com sucesso!";
 		}
 	}
 

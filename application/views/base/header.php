@@ -193,8 +193,3 @@
               <!-- /# column -->
           </div>
           <!-- /# fim main titulo -->
-          <?php 
-            echo $PagAnterior; 
-            print_r($this->session->userdata("arrPaginas"));
-            //$this->session->set_userdata("arrPaginas", null);
-          ?>
