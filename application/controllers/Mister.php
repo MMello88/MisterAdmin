@@ -92,28 +92,12 @@ class Mister extends MY_Controller {
 						 'select' => ['1' => 'True', '0' => 'False'],
 						 'rules' => '',
 						 'display_grid' => 'false'],
-
-					  /*
-					  'sn_filial' =>
-					  	['display_column' => 'Filial', 
-						 'select' => ['s' => 'Sim', 'n' => 'Não'],
-						 'rules' => 'required',
-						 'default_value' => '', 
-						 'display_grid' => 'true'],
-					  'id_tipo' =>
-					  	['display_column' => 'Tipo', 
-						 'select_relacional' => ['id_tipo','tbl_tipo', 'descricao', ['campo' =>'forma_pgto']],
-						 'rules' => 'required',
-						 'default_value' => '', 
-						 'display_grid' => 'true'],
-					  */
 					],
 				'where' => ['id_usuario' => $this->session->userdata('id_user')],
-				'dropdown' => [['function' => 'teste', 'param' => 'id_empresa', 'display' => 'Realizar Teste'],
-							   ['function' => 'abc', 'param' => '', 'display' => 'Teste Abc']]
+				'dropdown' => []
 			];
 		if (!empty($idCliente)) {
-			$this->set_config['where'] = ['id_cliente' => $idCliente];
+			$this->set_config['where'] = array_merge_recursive($this->set_config['where'], ['id_cliente' => $idCliente]);
 		}
 		$this->execute();
 	}

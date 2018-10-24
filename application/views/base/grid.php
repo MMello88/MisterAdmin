@@ -109,29 +109,32 @@
                                                                 <span>
                                                                     <a href='".base_url("$segment_class/$segment_funct/{$link_chave_pai}view/".$obj->$chave)."'><i class='ti-eye color-primary m-l-6' title='Visualizar'></i></a>
                                                                     <a href='".base_url("$segment_class/$segment_funct/{$link_chave_pai}edit/".$obj->$chave)."'><i class='ti-pencil color-success m-l-6' title='Editar'></i></a>
-                                                                    <a href='".base_url("$segment_class/$segment_funct/{$link_chave_pai}delete/".$obj->$chave)."'><i class='ti-close color-danger m-l-6' title='Deletar'></i></a>
-
-                                                                    <div class='btn-group m-l-6'>
-                                                                      <button type='button' class='btn btn-info dropdown-toggle btn-sm' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                                                                        Mais
-                                                                      </button>
-                                                                      <div class='dropdown-menu'>
-                                                                    ";
-                                                            foreach ($set_config['dropdown'] as $dropdown) {
-                                                                  $function = $dropdown['function'];
-                                                                  $param = $dropdown['param'];
-                                                                  if(!empty($param))
-                                                                    $param = $obj->$param;
-                                                                  $link = base_url("$segment_class/$function/$param");
-                                                                  $display = $dropdown['display'];
-                                                                  echo "<a class='dropdown-item' href='$link'>$display</a>
-                                                                    <div class='dropdown-divider'></div>";
-                                                              }  
-                                                            echo "  </div>
-                                                                  </div>
-                                                                </span>
-                                                            </td>";
-                                                            echo "</tr>";
+                                                                    <a href='".base_url("$segment_class/$segment_funct/{$link_chave_pai}delete/".$obj->$chave)."'><i class='ti-close color-danger m-l-6' title='Deletar'></i></a>";
+                                                            if(isset($set_config['dropdown']) && !empty($set_config['dropdown'])){
+                                                                echo "
+                                                                        <div class='btn-group m-l-6'>
+                                                                          <button type='button' class='btn btn-info dropdown-toggle btn-sm' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                                                                            Mais
+                                                                          </button>
+                                                                          <div class='dropdown-menu'>
+                                                                        ";
+                                                                foreach ($set_config['dropdown'] as $dropdown) {
+                                                                      $function = $dropdown['function'];
+                                                                      $param = $dropdown['param'];
+                                                                      if(!empty($param))
+                                                                        $param = $obj->$param;
+                                                                      $link = base_url("$segment_class/$function/$param");
+                                                                      $display = $dropdown['display'];
+                                                                      echo "<a class='dropdown-item' href='$link'>$display</a>
+                                                                        <div class='dropdown-divider'></div>";
+                                                                  }
+                                                                echo "  </div>
+                                                                  </div>";
+                                                            }
+                                                            echo "  
+                                                                    </span>
+                                                                </td>
+                                                            </tr>";
                                                         }
                                                     }
                                                 ?>

@@ -62,6 +62,7 @@ class MY_Controller extends CI_Controller {
 		if (!in_array($view,['add','edit','view','delete', 'list', 'search'])) {
 			$valor = $view;
 			$this->view = "grid";
+			$this->set_config['layout']['view'] = "grid";
 			$this->set_config['layout']['value'] = $valor;
 		}
 
@@ -158,6 +159,7 @@ class MY_Controller extends CI_Controller {
 			}
 
 			$this->data['rows'] = $this->Mister->get('', $where);
+			echo "string2";
 			if (empty($this->data['rows']))
 				$this->data['erro_message'] = "Não foi encontrado nenhum resultado!";
 			else
