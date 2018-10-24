@@ -54,3 +54,29 @@ CREATE TABLE `miste872_prod`.`tbl_teste`(
 
 ALTER TABLE `miste872_prod`.`tbl_cliente`   
   ADD COLUMN `id_usuario` INT(11) NULL  COMMENT 'id do usuário' AFTER `dt_cadastro`;
+
+ALTER TABLE `miste872_prod`.`tbl_cliente`  
+  ADD CONSTRAINT `FK_CLIENTE_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`);
+
+ALTER TABLE `miste872_prod`.`tbl_cidade`   
+  ADD COLUMN `id_usuario` INT(11) NULL  COMMENT 'id do usuário';
+
+ALTER TABLE `miste872_prod`.`tbl_cidade`  
+  ADD CONSTRAINT `FK_CIDADE_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`);
+
+ALTER TABLE `miste872_prod`.`tbl_fornecedor`   
+  ADD COLUMN `id_usuario` INT(11) NULL  COMMENT 'id do usuário';
+
+ALTER TABLE `miste872_prod`.`tbl_fornecedor`  
+  ADD CONSTRAINT `FK_FORNECEDOR_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`);
+
+RENAME TABLE `miste872_prod`.`tbl_categoria_produto` TO `miste872_prod`.`tbl_categoria`;
+
+ALTER TABLE `miste872_prod`.`tbl_categoria`   
+  CHANGE `id_categoria_produto` `id_categoria` INT(11) NOT NULL AUTO_INCREMENT  COMMENT 'CategoriasProduto';
+
+ALTER TABLE `miste872_prod`.`tbl_cidade_categoria`   
+  CHANGE `id_categoria_produto` `id_categoria` INT(11) NOT NULL;
+
+ALTER TABLE `miste872_prod`.`tbl_item_pedido`   
+  CHANGE `id_categoria_produto` `id_categoria` INT(11) NOT NULL  COMMENT 'categoria';

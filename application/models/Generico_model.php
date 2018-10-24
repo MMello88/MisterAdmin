@@ -89,8 +89,8 @@ class Generico_model extends CI_Model {
 	    }
 	}
 
-	public function getprodutoByCategoria($id_categoria_produto) {
-	    $query = $this->db->get_where('tbl_produto', array('id_categoria_produto' => $id_categoria_produto));
+	public function getprodutoByCategoria($id_categoria) {
+	    $query = $this->db->get_where('tbl_produto', array('id_categoria' => $id_categoria));
 	    return $query->result_array();
 	}
 
@@ -179,7 +179,7 @@ class Generico_model extends CI_Model {
 									       i.qtde
 									  FROM tbl_item_pedido i
 									  LEFT JOIN tbl_produto p ON (p.id_produto = i.id_produto)
-									  LEFT JOIN tbl_categoria_produto c ON (c.id_categoria_produto = i.id_categoria_produto)
+									  LEFT JOIN tbl_categoria c ON (c.id_categoria = i.id_categoria)
 									 WHERE i.id_pedido = $id_pedido");
 		return $query->result_array();
 	}

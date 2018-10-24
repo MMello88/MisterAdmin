@@ -182,10 +182,10 @@ class Dashboard extends MY_Controller {
 	{
 		$crud = new grocery_CRUD();
  
-		$crud->set_table('tbl_categoria_produto');
+		$crud->set_table('tbl_categoria');
 		$crud->set_subject('Cadastro da Categoria do Produto');
 		$crud->columns('nome','situacao');
-		$crud->fields('id_categoria_produto','nome','situacao');
+		$crud->fields('id_categoria','nome','situacao');
 		
 		$crud->display_as('Nome','Nome da Categoria');
 		$crud->display_as('situacao','Situação');
@@ -227,16 +227,16 @@ class Dashboard extends MY_Controller {
 		$crud->set_table('tbl_valor_produto');
 		$crud->where('tbl_valor_produto.id_produto', $id_produto);
 		$crud->set_subject('Cadastro de Valor do Produto');
-		$crud->columns('id_produto','id_categoria_produto', 'data_atualizacao','preco', 'tipo_cliente');
-		$crud->fields('id_valor_produto','id_produto','id_categoria_produto', 'data_atualizacao','preco', 'tipo_cliente');
+		$crud->columns('id_produto','id_categoria', 'data_atualizacao','preco', 'tipo_cliente');
+		$crud->fields('id_valor_produto','id_produto','id_categoria', 'data_atualizacao','preco', 'tipo_cliente');
 		
 		$crud->display_as('id_produto','Nome do Produto');
-		$crud->display_as('id_categoria_produto','Categoria');
+		$crud->display_as('id_categoria','Categoria');
 		$crud->display_as('data_atualizacao','Data Atualização');
 		$crud->display_as('preco','Preço');
 
 	 	$crud->set_relation('id_produto','tbl_produto','nome');
-	 	$crud->set_relation('id_categoria_produto','tbl_categoria_produto','nome', array('situacao' => 'a'));
+	 	$crud->set_relation('id_categoria','tbl_categoria','nome', array('situacao' => 'a'));
 
 	 	$crud->field_type('tipo_cliente','dropdown', array('c' => 'Cliente', 'r' => 'Revendedor', 's' => 'Representante', 'p' => 'Parceiro'));
 
