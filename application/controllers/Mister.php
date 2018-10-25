@@ -334,4 +334,49 @@ class Mister extends MY_Controller {
 		}
 		$this->execute();
 	}
+
+	public function categorias($idCategoria = ''){
+		$this->set_config = 
+			[
+				'table' => 
+					['nome'     => 'tbl_categoria', 
+					 'chave_pk' => 'id_categoria',
+					 'display'  => 'Categorias'],
+				'columns' => 
+					[
+					  'id_fornecedor' => 
+						['display_column' => 'Id', 
+						 'input' => ['type' => 'text', 'required' => 'readonly'],
+						 'rules' => '',
+						 'display_grid' => 'false'],
+					  'nome' =>
+					  	['display_column' => 'Fornecedore', 
+						 'input' => ['type' => 'text', 'required' => 'required'],
+						 'rules' => 'required',
+						 'display_grid' => 'true'],
+					  'apelido' =>
+					  	['display_column' => 'Apelido', 
+						 'input' => ['type' => 'text', 'required' => ''],
+						 'rules' => '',
+						 'display_grid' => 'false'],
+					  'tipo_pessoa' =>
+					  	['display_column' => 'Tipo Pessoa', 
+						 'select' => ['f' => 'Fisíca', 'j' => 'Juridica'],
+						 'rules' => '',
+						 'display_grid' => 'true'],
+					  'id_usuario' =>
+					  	['display_column' => 'Id Usuário', 
+						 'input' => ['type' => 'text', 'required' => 'readonly'],
+						 'rules' => 'required',
+						 'default_value' => $this->session->userdata('id_user'), 
+						 'display_grid' => 'false'],
+					],
+				'where' => ['id_usuario' => $this->session->userdata('id_user')],
+				'dropdown' => []
+			];
+		if (!empty($idFornecedor)) {
+			$this->set_config['where'] = array_merge_recursive($this->set_config['where'], ['id_fornecedor' => $idFornecedor]);
+		}
+		$this->execute();
+	}
 }
