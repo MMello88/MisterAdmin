@@ -156,6 +156,7 @@ class MyDashboard extends CI_Controller {
 		$crud->display_as('telefone','Telefone');
 		$crud->display_as('email','E-mail');
 		$crud->display_as('site','Site');
+		
 		$crud->display_as('tipo_pessoa','Fisíca/Juridica');
 		$crud->display_as('cpf_cnpj','CPF / CNPJ');
 		$crud->display_as('rg','RG');

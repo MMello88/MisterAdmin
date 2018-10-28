@@ -71,6 +71,16 @@ abstract class MY_Model extends CI_Model {
     return $query->result_object();
   }
 
+  public function get_show_columns($table_name, $column_name = '')
+  {
+    $sql = "SHOW COLUMNS FROM $table_name ";
+    if (!empty($column_name))
+      $sql .= " WHERE FIELD = '$column_name'";
+      //echo $sql;
+    $query = $this->db->query($sql);
+    return $query->result_array();
+  }
+
   public function setConfigMister($configFields){
     $this->Table = $configFields['table']['nome'];
     $this->FieldId = $configFields['table']['chave_pk'];

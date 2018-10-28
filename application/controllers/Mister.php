@@ -255,7 +255,7 @@ class Mister extends MY_Controller {
 		$this->execute();
 	}
 
-	public function Fornecedores($idFornecedor = ''){
+	public function Fornecedores1($idFornecedor = ''){
 		$this->set_config = 
 			[
 				'table' => 
@@ -303,12 +303,7 @@ class Mister extends MY_Controller {
 					  	['display_column' => 'Telefone', 
 						 'input' => ['type' => 'text', 'required' => ''],
 						 'rules' => '',
-						 'display_grid' => 'false'],
-					  'observacao' =>
-					  	['display_column' => 'Observação', 
-						 'input' => ['type' => 'text', 'required' => ''],
-						 'rules' => '',
-						 'display_grid' => 'false'],
+						 'display_grid' => 'false'],					  
 					  'tipo_pessoa' =>
 					  	['display_column' => 'Tipo Pessoa', 
 						 'select' => ['f' => 'Fisíca', 'j' => 'Juridica'],
@@ -316,6 +311,26 @@ class Mister extends MY_Controller {
 						 'display_grid' => 'true'],
 					  'cpf_cnpj' =>
 					  	['display_column' => 'CPF ou CNPJ', 
+						 'input' => ['type' => 'text', 'required' => ''],
+						 'rules' => '',
+						 'display_grid' => 'false'],
+					  'rg'  =>
+					  	['display_column' => 'RG', 
+						 'input' => ['type' => 'text', 'required' => ''],
+						 'rules' => '',
+						 'display_grid' => 'false'],
+					  'inscr_municipal'  =>
+					  	['display_column' => 'Inscrição Municipal', 
+						 'input' => ['type' => 'text', 'required' => ''],
+						 'rules' => '',
+						 'display_grid' => 'false'],
+					  'inscr_estadual'  =>
+					  	['display_column' => 'Inscrição Estadual', 
+						 'input' => ['type' => 'text', 'required' => ''],
+						 'rules' => '',
+						 'display_grid' => 'false'],
+					  'observacao' =>
+					  	['display_column' => 'Observação', 
 						 'input' => ['type' => 'text', 'required' => ''],
 						 'rules' => '',
 						 'display_grid' => 'false'],
@@ -379,4 +394,210 @@ class Mister extends MY_Controller {
 		}
 		$this->execute();
 	}
+
+	public function fornecedor($id_fornecedor = ''){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_fornecedor',
+				 'chave_pk' => 'id_fornecedor',
+				 'display'  => 'nome_da_tela'],
+			'columns' =>
+				[
+				  
+			 'id_fornecedor' =>
+				['display_column' => 'id_fornecedor', 
+				 'input' => ['type' => 'text', 'required' => 'readonly'],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'nome' =>
+				['display_column' => 'nome', 
+				 'input' => ['type' => 'text', 'required' => 'required'],
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'apelido' =>
+				['display_column' => 'apelido', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'telefone' =>
+				['display_column' => 'telefone', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'celular' =>
+				['display_column' => 'celular', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'whatsapp' =>
+				['display_column' => 'whatsapp', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'email' =>
+				['display_column' => 'email', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'site' =>
+				['display_column' => 'site', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'observacao' =>
+				['display_column' => 'observacao', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'tipo_pessoa' =>
+				['display_column' => 'tipo_pessoa', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'cpf_cnpj' =>
+				['display_column' => 'cpf_cnpj', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'rg' =>
+				['display_column' => 'rg', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'inscr_municipal' =>
+				['display_column' => 'inscr_municipal', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'inscr_estadual' =>
+				['display_column' => 'inscr_estadual', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'tipo_ie' =>
+				['display_column' => 'tipo_ie', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'cep' =>
+				['display_column' => 'cep', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'endereco' =>
+				['display_column' => 'endereco', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'numero' =>
+				['display_column' => 'numero', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'bairro' =>
+				['display_column' => 'bairro', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'complemento' =>
+				['display_column' => 'complemento', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'banco' =>
+				['display_column' => 'banco', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'agencia' =>
+				['display_column' => 'agencia', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'digito_ag' =>
+				['display_column' => 'digito_ag', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'conta_corrente' =>
+				['display_column' => 'conta_corrente', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'digito_cc' =>
+				['display_column' => 'digito_cc', 
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_usuario' =>
+				['display_column' => 'id_usuario', 
+				 'input' => ['type' => 'text', 'required' => 'readonly'],
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		if (!empty($id_fornecedor)) {
+			$this->set_config['where'] = array_merge_recursive($this->set_config['where'], ['id_fornecedor' => $id_fornecedor]);
+		}
+		$this->execute();
+	}
+
 }
+
