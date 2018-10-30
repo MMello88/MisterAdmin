@@ -8,6 +8,16 @@ class MisterThor extends MY_Controller {
 	}
 
 	public function index(){
+		$script = "";
+		$tabela = "";
+
+
+		$all_tables = $this->Mister->get_all_table();
+		$tables = ["" => ""];
+		foreach ($all_tables as $table) {
+			$tables[$table['TABLE_NAME']] = $table['TABLE_NAME'];
+		}
+		$data['all_tables'] = $tables;
 		
 		if ($_POST){
 			$table = $this->input->post('tabela');
@@ -75,7 +85,9 @@ class MisterThor extends MY_Controller {
 	}
 ";
 		}
+
 		$data['script'] = $script;
-		$this->load->view('thor/thor', $data);
+		//$this->load->view('thor/thor', $data);
+		$this->_output_view($data, 'thor/thor');
 	}
 }

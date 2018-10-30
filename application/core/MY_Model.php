@@ -81,6 +81,12 @@ abstract class MY_Model extends CI_Model {
     return $query->result_array();
   }
 
+  public function get_all_table(){
+    $sql = "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'miste872_prod'";
+    $query = $this->db->query($sql);
+    return $query->result_array();
+  }
+
   public function setConfigMister($configFields){
     $this->Table = $configFields['table']['nome'];
     $this->FieldId = $configFields['table']['chave_pk'];
