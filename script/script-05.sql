@@ -96,3 +96,7 @@ ALTER TABLE `miste872_prod`.`tbl_afazer`
 ALTER TABLE `miste872_prod`.`tbl_afazer`   
   ADD COLUMN `id_usuario` INT(11) NULL  COMMENT 'display_column:Usuário' AFTER `realizado`,
   ADD CONSTRAINT `FK_AFAZER_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_afazer`(`id_afazer`);
+
+ALTER TABLE `miste872_prod`.`tbl_afazer` DROP FOREIGN KEY `FK_AFAZER_USUARIO`;
+
+ALTER TABLE `miste872_prod`.`tbl_afazer` ADD CONSTRAINT `FK_AFAZER_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`);

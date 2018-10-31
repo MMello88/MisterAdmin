@@ -613,7 +613,7 @@ class Mister extends MY_Controller {
 			 'id_afazer' =>
 				['display_column' => 'Id', 
 				 'select' => [],
-				 'input' => ['type' => 'text', 'required' => 'readonly'],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
 				 'rules' => '',
 				 'default_value' => '', 
 				 'costumer_value' => '',
@@ -629,7 +629,7 @@ class Mister extends MY_Controller {
 			 'dt_inicio' =>
 				['display_column' => 'Dt. Inicio', 
 				 'select' => [],
-				 'input' => ['type' => 'text', 'required' => 'required'],
+				 'input' => ['type' => 'date', 'required' => 'required'],
 				 'rules' => 'required',
 				 'default_value' => '', 
 				 'costumer_value' => '',
@@ -637,7 +637,7 @@ class Mister extends MY_Controller {
 			 'dt_fim' =>
 				['display_column' => 'Dt. Fim', 
 				 'select' => [],
-				 'input' => ['type' => 'text', 'required' => ''],
+				 'input' => ['type' => 'date', 'required' => ''],
 				 'rules' => '',
 				 'default_value' => '', 
 				 'costumer_value' => '',
@@ -653,7 +653,7 @@ class Mister extends MY_Controller {
 			 'id_usuario' =>
 				['display_column' => 'Usuário', 
 				 'select' => [],
-				 'input' => ['type' => 'text', 'required' => 'readonly'],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
 				 'rules' => '',
 				 'default_value' => $this->session->userdata("id_user"), 
 				 'costumer_value' => '',

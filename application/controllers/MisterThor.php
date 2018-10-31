@@ -20,7 +20,7 @@ class MisterThor extends MY_Controller {
 			$nome_tabela = $tabela[0]['TABLE_NAME'];
 			list($nome_var, $display_tabela) = explode(":", $tabela[0]['TABLE_COMMENT']);
 			$columns = $this->Mister->get_show_columns($this->input->post('tabela'));
-
+			//print_r($columns);
 			$campo = "";
 			$campos = "\n";
 			foreach ($columns as $key => $value) {
@@ -31,6 +31,16 @@ class MisterThor extends MY_Controller {
 				$rules = "";
 				$display_grid = "";
 				$default_value = "'{$columns[$key]['COLUMN_DEFAULT']}'";
+
+				if(in_array($columns[$key]['DATA_TYPE'], ["date"])){
+					$type = "date";
+				} else if (in_array($columns[$key]['DATA_TYPE'], ["datetime"])){
+					$type = "datetime-local";
+				} else if if (in_array($columns[$key]['DATA_TYPE'], ["decimal", "float", "int", "double"])){
+					$type = "number";
+				} else {
+					$type = "text";
+				}
 
 				if($columns[$key]['COLUMN_KEY'] == "PRI"){
 					$campo = $columns[$key]['COLUMN_NAME'];
@@ -56,7 +66,7 @@ class MisterThor extends MY_Controller {
 "			 '{$columns[$key]['COLUMN_NAME']}' =>
 				['display_column' => '$display_column', 
 				 'select' => [$select_values],
-				 'input' => ['type' => 'text', 'required' => '$required'],
+				 'input' => ['type' => '$type', 'required' => '$required'],
 				 'rules' => '$rules',
 				 'default_value' => $default_value, 
 				 'costumer_value' => '',
