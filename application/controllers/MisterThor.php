@@ -32,11 +32,13 @@ class MisterThor extends MY_Controller {
 				$display_grid = "";
 				$default_value = "'{$columns[$key]['COLUMN_DEFAULT']}'";
 
+				
+					
 				if(in_array($columns[$key]['DATA_TYPE'], ["date"])){
 					$type = "date";
 				} else if (in_array($columns[$key]['DATA_TYPE'], ["datetime"])){
 					$type = "datetime-local";
-				} else if if (in_array($columns[$key]['DATA_TYPE'], ["decimal", "float", "int", "double"])){
+				} else if (in_array($columns[$key]['DATA_TYPE'], ["decimal", "float", "int", "double"])) {
 					$type = "number";
 				} else {
 					$type = "text";
@@ -62,11 +64,21 @@ class MisterThor extends MY_Controller {
 					}
 				}
 
+				if(in_array($columns[$key]['COLUMN_KEY'], ["MUL"])){
+					$tabela_ref = $this->Mister->get_table_ref($nome_tabela, $columns[$key]['COLUMN_NAME']);
+					$field = "
+				 'select_relacional' => ['".$tabela_ref[0]['REFERENCED_COLUMN_NAME']."','".$tabela_ref[0]['REFERENCED_TABLE_NAME']."', 'nome', []],
+					";
+				} else {
+					$field = "
+				 'select' => [$select_values],
+				 'input' => ['type' => '$type', 'required' => '$required'],
+					";
+				}
 			$campos .= 
 "			 '{$columns[$key]['COLUMN_NAME']}' =>
 				['display_column' => '$display_column', 
-				 'select' => [$select_values],
-				 'input' => ['type' => '$type', 'required' => '$required'],
+				 $field
 				 'rules' => '$rules',
 				 'default_value' => $default_value, 
 				 'costumer_value' => '',

@@ -73,7 +73,6 @@ abstract class MY_Model extends CI_Model {
 
   public function get_show_columns($table_name, $column_name = '')
   {
-    //$sql = "SHOW COLUMNS FROM $table_name ";
     $sql = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'miste872_prod' AND TABLE_NAME = '$table_name'";
     if (!empty($column_name))
       $sql .= " AND COLUMN_NAME = '$column_name'";
@@ -86,6 +85,17 @@ abstract class MY_Model extends CI_Model {
     $sql = "SELECT TABLE_NAME, TABLE_COMMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'miste872_prod' ";
     if (!empty($tabela))
       $sql .= "AND TABLE_NAME = '$tabela'";
+    $query = $this->db->query($sql);
+    return $query->result_array();
+  }
+
+  public function get_table_ref($tabela, $coluna){
+    $sql = "SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS  RC
+            INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU1 
+                ON KCU1.CONSTRAINT_CATALOG = RC.CONSTRAINT_CATALOG  
+                AND KCU1.CONSTRAINT_SCHEMA = RC.CONSTRAINT_SCHEMA 
+                AND KCU1.CONSTRAINT_NAME = RC.CONSTRAINT_NAME
+            WHERE RC.CONSTRAINT_SCHEMA = 'miste872_prod' AND RC.TABLE_NAME = '$tabela' AND KCU1.COLUMN_NAME = '$coluna';";
     $query = $this->db->query($sql);
     return $query->result_array();
   }

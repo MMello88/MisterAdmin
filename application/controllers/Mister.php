@@ -255,101 +255,6 @@ class Mister extends MY_Controller {
 		$this->execute();
 	}
 
-	public function Fornecedores1($idFornecedor = ''){
-		$this->set_config = 
-			[
-				'table' => 
-					['nome'     => 'tbl_fornecedor', 
-					 'chave_pk' => 'id_fornecedor',
-					 'display'  => 'Fornecedores'],
-				'columns' => 
-					[
-					  'id_fornecedor' => 
-						['display_column' => 'Id', 
-						 'input' => ['type' => 'text', 'required' => 'readonly'],
-						 'rules' => '',
-						 'display_grid' => 'false'],
-					  'nome' =>
-					  	['display_column' => 'Fornecedore', 
-						 'input' => ['type' => 'text', 'required' => 'required'],
-						 'rules' => 'required',
-						 'display_grid' => 'true'],
-					  'apelido' =>
-					  	['display_column' => 'Apelido', 
-						 'input' => ['type' => 'text', 'required' => ''],
-						 'rules' => '',
-						 'display_grid' => 'false'],
-					  'email' =>
-					  	['display_column' => 'E-mail', 
-						 'input' => ['type' => 'email', 'required' => ''],
-						 'rules' => '',
-						 'display_grid' => 'true'],
-					  'site' =>
-					  	['display_column' => 'Web Site', 
-						 'input' => ['type' => 'text', 'required' => ''],
-						 'rules' => '',
-						 'display_grid' => 'false'],
-					  'whatsapp' =>
-					  	['display_column' => 'Whatsapp', 
-						 'input' => ['type' => 'text', 'required' => ''],
-						 'rules' => '',
-						 'display_grid' => 'true'],
-					  'celular' =>
-					  	['display_column' => 'Celular', 
-						 'input' => ['type' => 'text', 'required' => ''],
-						 'rules' => '',
-						 'display_grid' => 'false'],
-					  'telefone' =>
-					  	['display_column' => 'Telefone', 
-						 'input' => ['type' => 'text', 'required' => ''],
-						 'rules' => '',
-						 'display_grid' => 'false'],					  
-					  'tipo_pessoa' =>
-					  	['display_column' => 'Tipo Pessoa', 
-						 'select' => ['f' => 'Fisíca', 'j' => 'Juridica'],
-						 'rules' => '',
-						 'display_grid' => 'true'],
-					  'cpf_cnpj' =>
-					  	['display_column' => 'CPF ou CNPJ', 
-						 'input' => ['type' => 'text', 'required' => ''],
-						 'rules' => '',
-						 'display_grid' => 'false'],
-					  'rg'  =>
-					  	['display_column' => 'RG', 
-						 'input' => ['type' => 'text', 'required' => ''],
-						 'rules' => '',
-						 'display_grid' => 'false'],
-					  'inscr_municipal'  =>
-					  	['display_column' => 'Inscrição Municipal', 
-						 'input' => ['type' => 'text', 'required' => ''],
-						 'rules' => '',
-						 'display_grid' => 'false'],
-					  'inscr_estadual'  =>
-					  	['display_column' => 'Inscrição Estadual', 
-						 'input' => ['type' => 'text', 'required' => ''],
-						 'rules' => '',
-						 'display_grid' => 'false'],
-					  'observacao' =>
-					  	['display_column' => 'Observação', 
-						 'input' => ['type' => 'text', 'required' => ''],
-						 'rules' => '',
-						 'display_grid' => 'false'],
-					  'id_usuario' =>
-					  	['display_column' => 'Id Usuário', 
-						 'input' => ['type' => 'text', 'required' => 'readonly'],
-						 'rules' => 'required',
-						 'default_value' => $this->session->userdata('id_user'), 
-						 'display_grid' => 'false'],
-					],
-				'where' => ['id_usuario' => $this->session->userdata('id_user')],
-				'dropdown' => []
-			];
-		if (!empty($idFornecedor)) {
-			$this->set_config['where'] = array_merge_recursive($this->set_config['where'], ['id_fornecedor' => $idFornecedor]);
-		}
-		$this->execute();
-	}
-
 	public function categorias($idCategoria = ''){
 		$this->set_config = 
 			[
@@ -599,7 +504,7 @@ class Mister extends MY_Controller {
 		$this->execute();
 	}
 
-
+	/* Iniciando Aqui vindo do Thor */
 	public function afazer($id_afazer = ''){
 		$this->set_config =
 	    		[ 
@@ -670,6 +575,177 @@ class Mister extends MY_Controller {
 		$this->execute();
 	}
 
+	public function arquivo_controller($arquivo_controller_id = ''){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_arquivo_controller',
+				 'chave_pk' => 'arquivo_controller_id',
+				 'display'  => 'Arquivo de Controler'],
+			'columns' =>
+				[
+				  
+			 'arquivo_controller_id' =>
+				['display_column' => 'Id', 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'nome_controller' =>
+				['display_column' => 'Nome da Controler', 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'diretorio' =>
+				['display_column' => 'Diretório', 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_usuario' =>
+				['display_column' => 'Usuário', 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		if (!empty($arquivo_controller_id)) {
+			$this->set_config['where'] = array_merge_recursive($this->set_config['where'], ['arquivo_controller_id' => $arquivo_controller_id]);
+		}
+		$this->execute();
+	}
+
+	public function cart($id_cart = ''){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_cart',
+				 'chave_pk' => 'id_cart',
+				 'display'  => 'Carrinho'],
+			'columns' =>
+				[
+				  
+			 'id_cart' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_session' =>
+				['display_column' => 'Id Session', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_categoria_produto' =>
+				['display_column' => 'Categ. Produto', 
+				 
+				 'select_relacional' => ['id_categoria','tbl_categoria', 'nome', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_produto' =>
+				['display_column' => 'Produto', 
+				 
+				 'select_relacional' => ['id_produto','tbl_produto', 'nome', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_cidade' =>
+				['display_column' => 'Cidade', 
+				 
+				 'select_relacional' => ['id_cidade','tbl_cidade', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'qtde' =>
+				['display_column' => 'Qtde', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'valor_unitario' =>
+				['display_column' => 'Valor Unitário', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'situacao' =>
+				['display_column' => 'Situação', 
+				 
+				 'select' => ['a' => 'Ativo', 'd' => 'Desativado'],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'cod_promo' =>
+				['display_column' => 'SN Cod. Promo', 
+				 
+				 'select' => ['1' => 'True', '0' => 'False'],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '0', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_usuario' =>
+				['display_column' => 'Usuário', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		if (!empty($id_cart)) {
+			$this->set_config['where'] = array_merge_recursive($this->set_config['where'], ['id_cart' => $id_cart]);
+		}
+		$this->execute();
+	}
 
 }
 
