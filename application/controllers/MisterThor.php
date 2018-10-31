@@ -7,37 +7,38 @@ class MisterThor extends MY_Controller {
 		parent::__construct(FALSE);
 	}
 
+	/*
+		Campo comentário pode existir configuração
+		Configuração possiveis para tabela: nome:xxxxx
+		Configuração possiveis para colunas: display_column:xxxxx:select: 'a' => 'Ativo', 'd' => 'Desativado'
+	*/
 	public function index(){
-		$script = "";
-		$tabela = "";
 
-
-		$all_tables = $this->Mister->get_all_table();
-		$tables = ["" => ""];
-		foreach ($all_tables as $table) {
-			$tables[$table['TABLE_NAME']] = $table['TABLE_NAME'];
-		}
-		$data['all_tables'] = $tables;
-		
 		if ($_POST){
-			$table = $this->input->post('tabela');
-			$data['tabela'] = $table;
-			$columns = $this->Mister->get_show_columns($table);
+			$tabela = $this->Mister->get_all_table($this->input->post('tabela'));
+
+			$nome_tabela = $tabela[0]['TABLE_NAME'];
+			list($nome_var, $display_tabela) = explode(":", $tabela[0]['TABLE_COMMENT']);
+			$columns = $this->Mister->get_show_columns($this->input->post('tabela'));
+
 			$campo = "";
 			$campos = "\n";
 			foreach ($columns as $key => $value) {
+				$config_column = explode(":", $columns[$key]['COLUMN_COMMENT']);
+				$display_column = $config_column[1];
+				$select_values = isset($config_column[3]) ? $config_column[3] : "";
 				$required = "";
 				$rules = "";
 				$display_grid = "";
-				$default_value = "'{$columns[$key]['Default']}'";
+				$default_value = "'{$columns[$key]['COLUMN_DEFAULT']}'";
 
-				if($columns[$key]['Key'] == "PRI"){
-					$campo = $columns[$key]['Field'];
+				if($columns[$key]['COLUMN_KEY'] == "PRI"){
+					$campo = $columns[$key]['COLUMN_NAME'];
 					$required = "readonly";
 					$rules = "";
 					$display_grid = "false";
 				} else {
-					if ($columns[$key]['Null'] == "NO") {
+					if ($columns[$key]['IS_NULLABLE'] == "NO") {
 						$required = "required";
 						$rules = "required";
 						$display_grid = "true";
@@ -45,15 +46,16 @@ class MisterThor extends MY_Controller {
 						$display_grid = "false";
 					}
 
-					if($columns[$key]['Field'] == "id_usuario"){
+					if($columns[$key]['COLUMN_NAME'] == "id_usuario"){
 						$required = "readonly";
 						$default_value = "\$this->session->userdata(\"id_user\")";
 					}
 				}
 
 			$campos .= 
-"			 '{$columns[$key]['Field']}' =>
-				['display_column' => '{$columns[$key]['Field']}', 
+"			 '{$columns[$key]['COLUMN_NAME']}' =>
+				['display_column' => '$display_column', 
+				 'select' => [$select_values],
 				 'input' => ['type' => 'text', 'required' => '$required'],
 				 'rules' => '$rules',
 				 'default_value' => $default_value, 
@@ -63,13 +65,13 @@ class MisterThor extends MY_Controller {
 			}
 	
 			$script = "
-	public function ".str_replace("tbl_", "", $table)."(\$$campo = ''){
+	public function ".str_replace("tbl_", "", $nome_tabela)."(\$$campo = ''){
 		\$this->set_config =
 	    		[ 
 			'table' =>
-				['nome'     => '$table',
+				['nome'     => '$nome_tabela',
 				 'chave_pk' => '$campo',
-				 'display'  => 'nome_da_tela'],
+				 'display'  => '$display_tabela'],
 			'columns' =>
 				[
 				  $campos
@@ -84,10 +86,21 @@ class MisterThor extends MY_Controller {
 		\$this->execute();
 	}
 ";
-		}
 
-		$data['script'] = $script;
-		//$this->load->view('thor/thor', $data);
-		$this->_output_view($data, 'thor/thor');
+			if($this->input->post('echo') !== null && $this->input->post('echo') === 'true'){
+				echo $script;
+			} else {
+				$this->_output_view($data, 'thor/thor');
+				$data['script'] = $script;
+			}
+		} else {
+			$all_tables = $this->Mister->get_all_table();
+			$tables = ["" => ""];
+			foreach ($all_tables as $table) {
+				$tables[$table['TABLE_NAME']] = $table['TABLE_NAME'];
+			}
+			$data['all_tables'] = $tables;
+			$this->_output_view($data, 'thor/thor');
+		}
 	}
 }

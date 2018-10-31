@@ -19,7 +19,7 @@
                                   <?php 
                                     foreach ($set_config['columns'] as $campo => $config){
                                       $value = isset($obj->$campo) ? $obj->$campo : "";
-                                      if(isset($config['select']) && !empty($value)){
+                                      if((isset($config['select']) && !empty($config['select'])) && !empty($value)){
                                         $value = $config['select'][$value];
                                       }
                                       

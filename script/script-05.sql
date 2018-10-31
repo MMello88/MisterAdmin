@@ -80,3 +80,19 @@ ALTER TABLE `miste872_prod`.`tbl_cidade_categoria`
 
 ALTER TABLE `miste872_prod`.`tbl_item_pedido`   
   CHANGE `id_categoria_produto` `id_categoria` INT(11) NOT NULL  COMMENT 'categoria';
+
+
+
+ALTER TABLE `miste872_prod`.`tbl_afazer`  
+COMMENT='nome:A Fazeres';
+
+ALTER TABLE `miste872_prod`.`tbl_afazer`   
+  CHANGE `id_afazer` `id_afazer` INT(11) NOT NULL AUTO_INCREMENT  COMMENT 'display_column:Id',
+  CHANGE `afazer` `afazer` VARCHAR(255) CHARSET utf8 COLLATE utf8_general_ci NOT NULL  COMMENT 'display_column:Descrição a Fazer',
+  CHANGE `dt_inicio` `dt_inicio` DATE NOT NULL  COMMENT 'display_column:Dt. Inicio',
+  CHANGE `dt_fim` `dt_fim` DATE NULL  COMMENT 'display_column:Dt. Fim',
+  CHANGE `realizado` `realizado` CHAR(1) CHARSET utf8 COLLATE utf8_general_ci NULL  COMMENT 'display_column:Realizado:select:\'s\' => \'Sim\', \'n\' => \'Não\'';
+
+ALTER TABLE `miste872_prod`.`tbl_afazer`   
+  ADD COLUMN `id_usuario` INT(11) NULL  COMMENT 'display_column:Usuário' AFTER `realizado`,
+  ADD CONSTRAINT `FK_AFAZER_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_afazer`(`id_afazer`);

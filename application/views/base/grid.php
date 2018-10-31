@@ -100,7 +100,7 @@
                                                             echo "<tr>";
                                                             foreach ($set_config['columns'] as $campo => $config)
                                                                 if(isset($config['display_grid']) && $config['display_grid'] == 'true'){
-                                                                    if(isset($config['select']) && !empty($obj->$campo)){
+                                                                    if((isset($config['select']) && !empty($config['select'])) && !empty($obj->$campo)){
                                                                         $obj->$campo = $config['select'][$obj->$campo];
                                                                     }
                                                                     echo "<td>". $obj->$campo ."</td>"; 

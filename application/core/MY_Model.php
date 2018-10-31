@@ -73,16 +73,19 @@ abstract class MY_Model extends CI_Model {
 
   public function get_show_columns($table_name, $column_name = '')
   {
-    $sql = "SHOW COLUMNS FROM $table_name ";
+    //$sql = "SHOW COLUMNS FROM $table_name ";
+    $sql = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'miste872_prod' AND TABLE_NAME = '$table_name'";
     if (!empty($column_name))
-      $sql .= " WHERE FIELD = '$column_name'";
+      $sql .= " AND COLUMN_NAME = '$column_name'";
       //echo $sql;
     $query = $this->db->query($sql);
     return $query->result_array();
   }
 
-  public function get_all_table(){
-    $sql = "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'miste872_prod'";
+  public function get_all_table($tabela = ''){
+    $sql = "SELECT TABLE_NAME, TABLE_COMMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'miste872_prod' ";
+    if (!empty($tabela))
+      $sql .= "AND TABLE_NAME = '$tabela'";
     $query = $this->db->query($sql);
     return $query->result_array();
   }

@@ -88,7 +88,6 @@
   <!-- scripit init-->
 
   <script src="<?= base_url('assets/templateGrocery/js/grid_estoque.js'); ?>" ></script>
-
 <?php if(isset($js_files)) : ?>
 
 <?php foreach($js_files as $file): ?>

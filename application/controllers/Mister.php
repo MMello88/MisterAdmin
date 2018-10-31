@@ -599,5 +599,77 @@ class Mister extends MY_Controller {
 		$this->execute();
 	}
 
+
+	public function afazer($id_afazer = ''){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_afazer',
+				 'chave_pk' => 'id_afazer',
+				 'display'  => 'A Fazeres'],
+			'columns' =>
+				[
+				  
+			 'id_afazer' =>
+				['display_column' => 'Id', 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'readonly'],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'afazer' =>
+				['display_column' => 'Descrição a Fazer', 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'dt_inicio' =>
+				['display_column' => 'Dt. Inicio', 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'dt_fim' =>
+				['display_column' => 'Dt. Fim', 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'realizado' =>
+				['display_column' => 'Realizado', 
+				 'select' => ['s' => 'Sim', 'n' => 'Não'],
+				 'input' => ['type' => 'text', 'required' => ''],
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_usuario' =>
+				['display_column' => 'Usuário', 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'readonly'],
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		if (!empty($id_afazer)) {
+			$this->set_config['where'] = array_merge_recursive($this->set_config['where'], ['id_afazer' => $id_afazer]);
+		}
+		$this->execute();
+	}
+
+
 }
 

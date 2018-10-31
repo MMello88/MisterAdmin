@@ -37,16 +37,8 @@
                                             if ((isset($config['input']) && $config['input']['type'] !== "hidden") || isset($config['select']))
                                               echo "  <label>".$config['display_column']."</label>";
                                             
-                                            if(isset($config['input']))
-                                            {
-                                                echo "  <input type='".$config['input']['type']."' 
-                                                               class='form-control'
-                                                               name='".$campo."'
-                                                               placeholder='".$config['display_column']."'
-                                                               value='".$value."' 
-                                                               ".$config['input']['required'].">";
-                                            }
-                                            if(isset($config['select']))
+                                            
+                                            if(isset($config['select']) && !empty($config['select']))
                                             {
                                               echo "<select class='custom-select'
                                                             name='$campo'>";
@@ -58,6 +50,13 @@
                                                     echo "<option value='$key_option'>$val_option</option>";
                                                 }
                                               echo "</select>";
+                                            } else if(isset($config['input'])) {
+                                                echo "  <input type='".$config['input']['type']."' 
+                                                               class='form-control'
+                                                               name='".$campo."'
+                                                               placeholder='".$config['display_column']."'
+                                                               value='".$value."' 
+                                                               ".$config['input']['required'].">";
                                             }
 
                                             if(form_error($campo) !== null)
