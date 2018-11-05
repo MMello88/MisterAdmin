@@ -16,10 +16,18 @@
 	"</div>" .
     form_close(); 
 
-    echo "<br/>";
-    echo "<button onclick='myFunction()' class='btn btn-warning'>Copy text</button>";
-    echo "<br/>";
-    echo "<textarea id='myTextAreaScript' rows='150' cols='100'></textarea>";
+    echo "
+    <div class='container'>
+      <div class='row mb-5' id='tabela_input'>
+      </div>
+      <div class='row'>
+        <button onclick='myFunction()' class='btn btn-warning'>Copy text</button>
+        <textarea id='myTextAreaScript' rows='150' cols='100'></textarea>
+      </div>
+      <div class='row mb-5' id='retorno'>
+      </div>
+    <div>
+    ";
     
 ?>
 
@@ -32,7 +40,22 @@ function myFunction() {
 }
 
 $(document).on('change', '#thor_tabela', function(e){
-    var url_post = "<?= base_url("MisterThor/index"); ?>";
+    var url_post = "<?= base_url("MisterThor/get_input_tabela_colunas"); ?>";
+
+    $.ajax({
+      type: "POST",
+      url: url_post,
+      data: {'tabela' : this.value, 'echo' : 'true'},
+      success: function(data){
+        $("#tabela_input").html("");
+        $("#tabela_input").html(data);
+      },
+      error: function(data) {
+       $("#tabela_input").html(data);
+      }
+    });
+
+    var url_post = "<?= base_url("MisterThor/get_script"); ?>";
 
     $.ajax({
       type: "POST",
@@ -47,6 +70,24 @@ $(document).on('change', '#thor_tabela', function(e){
       }
     });
     e.preventDefault();
+});
+
+$(document).on('submit', '#enviar_tabela_coluna', function(e){
+  var url_post = "<?= base_url("MisterThor/set_tabelas_colunas"); ?>";
+
+  $.ajax({
+    type: "POST",
+    url: url_post,
+    data: this.serialize(),
+    success: function(data){
+      $("#retorno").html("");
+      $("#retorno").html(data);
+    },
+    error: function(data) {
+     $("#retorno").html(data);
+    }
+  });
+  return false;
 });
 
 </script>

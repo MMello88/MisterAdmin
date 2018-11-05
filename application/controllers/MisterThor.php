@@ -13,7 +13,82 @@ class MisterThor extends MY_Controller {
 		Configuração possiveis para colunas: display_column:xxxxx:select: 'a' => 'Ativo', 'd' => 'Desativado'
 	*/
 	public function index(){
+		$all_tables = $this->Mister->get_all_table();
+		$tables = ["" => ""];
+		foreach ($all_tables as $table) {
+			$tables[$table['TABLE_NAME']] = $table['TABLE_NAME'];
+		}
+		$data['all_tables'] = $tables;
+		$this->_output_view($data, 'thor/thor');
+	}
 
+	public function get_input_tabela_colunas(){
+		$script_inputs = "";
+		if ($_POST){
+			$tabela = $this->Mister->get_all_table($this->input->post('tabela'));
+			list($nome_var, $display_tabela) = explode(":", $tabela[0]['TABLE_COMMENT']);
+
+			$colunas = $this->Mister->get_show_columns($this->input->post('tabela'));
+
+			foreach ($colunas as $key => $coluna) {
+				$config_column = explode(":", $colunas[$key]['COLUMN_COMMENT']);
+				$display_var = $config_column[0];
+				$display_column = $config_column[1];
+				$select_var = isset($config_column[2]) ? $config_column[2] : "";
+				$select_values = isset($config_column[3]) ? $config_column[3] : "";
+
+				$script_inputs .= 
+				"
+				<div class='form-row'>
+					<div class='form-group col-md-3'>
+						<label>Nome da Coluna</label>
+						<input type='text' name='coluna[]' class='form-control' placeholder='Nome da Coluna' value='".$colunas[$key]['COLUMN_NAME']."'>
+					</div>
+					<input type='hidden' name='display_var[]' value='".$display_var."'>
+					<div class='form-group col-md-3'>
+						<label>Display da Coluna</label>
+						<input type='text' name='display_column[]' class='form-control' placeholder='Display da Coluna' value='".$display_column."'>
+					</div>
+					<input type='hidden' name='select_var[]' value='".$select_var."'>
+					<div class='form-group col-md-3'>
+						<label>Possíveis valores</label>
+						<input type='text' name='select_values[]' class='form-control' placeholder='Possíveis valores' value=\"".$select_values."\">
+					</div>
+				</div>
+				";
+			}
+			
+
+			$script_inputs = 
+			"
+				<form action='http://localhost/MisterAdmin/MisterThor/set_tabelas_colunas' class='form-inline' method='post' accept-charset='utf-8' id='enviar_tabela_coluna'>
+					<div class='form-row'>
+						<div class='form-group col-md-4'>
+							<label>Nome da Tabela</label>
+							<input type='text' name='tabela' class='form-control' placeholder='Nome da Tabela' value='".$tabela[0]['TABLE_NAME']."'>
+							<input type='hidden' name='nome_var' value='".$nome_var."'>
+						</div>
+						<div class='form-group col-md-4'>
+							<label>Display da Tabela</label>
+							<input type='text' name='display_tabela' class='form-control' placeholder='Display da Tabela' value='".$display_tabela."'>
+						</div>
+					</div>
+					$script_inputs
+					<button type='submit' class='btn btn-info'>Gerar e Salvar</button>
+				</form>
+			";
+
+			echo $script_inputs;
+		}
+	}
+
+	public function set_tabelas_colunas(){
+		if ($_POST){
+			print_r($_POST);
+		}
+	}
+
+	public function get_script(){
 		if ($_POST){
 			$tabela = $this->Mister->get_all_table($this->input->post('tabela'));
 
@@ -115,14 +190,6 @@ class MisterThor extends MY_Controller {
 				$this->_output_view($data, 'thor/thor');
 				$data['script'] = $script;
 			}
-		} else {
-			$all_tables = $this->Mister->get_all_table();
-			$tables = ["" => ""];
-			foreach ($all_tables as $table) {
-				$tables[$table['TABLE_NAME']] = $table['TABLE_NAME'];
-			}
-			$data['all_tables'] = $tables;
-			$this->_output_view($data, 'thor/thor');
 		}
 	}
 }
