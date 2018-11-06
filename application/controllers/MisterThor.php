@@ -45,16 +45,16 @@ class MisterThor extends MY_Controller {
 						<label>Nome da Coluna</label>
 						<input type='text' name='coluna[]' class='form-control' placeholder='Nome da Coluna' value='".$colunas[$key]['COLUMN_NAME']."'>
 					</div>
-					<input type='hidden' name='display_var[]' value='".$display_var."'>
+					<input type='hidden' name='display_var[]' value='display_column'>
 					<input type='hidden' name='column_type[]' value='".$colunas[$key]['COLUMN_TYPE']."'>
 					<div class='form-group col-md-3'>
 						<label>Display da Coluna</label>
 						<input type='text' name='display_column[]' class='form-control' placeholder='Display da Coluna' value='".$display_column."'>
 					</div>
-					<input type='hidden' name='select_var[]' value='".$select_var."'>
+					<input type='hidden' name='select_var[]' value='select'>
 					<div class='form-group col-md-3'>
 						<label>Possíveis valores</label>
-						<input type='text' name='select_values[]' class='form-control' placeholder='Possíveis valores' value=\"".$select_values."\">
+						<input type='text' name='select_values[]' class='form-control' placeholder='Possíveis valores' value='".$select_values."'>
 					</div>
 				</div>
 				";
@@ -68,7 +68,7 @@ class MisterThor extends MY_Controller {
 						<div class='form-group col-md-4'>
 							<label>Nome da Tabela</label>
 							<input type='text' name='tabela' class='form-control' placeholder='Nome da Tabela' value='".$tabela[0]['TABLE_NAME']."'>
-							<input type='hidden' name='nome_var' value='".$nome_var."'>
+							<input type='hidden' name='nome_var' value='nome'>
 						</div>
 						<div class='form-group col-md-4'>
 							<label>Display da Tabela</label>
@@ -87,13 +87,15 @@ class MisterThor extends MY_Controller {
 	public function set_tabelas_colunas(){
 		if ($_POST){
 			//print_r($_POST);
-			$script = "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` COMMENT='".$_POST['nome_var'].":".$_POST['display_tabela']."'; <br/>";
+			$script[] = "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` COMMENT='".$_POST['nome_var'].":".$_POST['display_tabela']."'; \n";
 			
 
 			foreach ($_POST['coluna'] as $key => $value) {
-				$script .= "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` CHANGE `".$value."` `".$value."` ".$_POST['column_type'][$key]." COMMENT '".$_POST['display_var'][$key].":".$_POST['display_column'][$key].":".$_POST['select_var'][$key].":".$_POST['select_values'][$key]."'; <br/>";
+				$script[] = "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` CHANGE `".$value."` `".$value."` ".$_POST['column_type'][$key]." COMMENT '".$_POST['display_var'][$key].":".$_POST['display_column'][$key].":".$_POST['select_var'][$key].":".$_POST['select_values'][$key]."'; \n";
 			}
-			echo $script;
+
+			$this->Mister->ExecScript($script);
+			print_r($script);
 		}
 	}
 

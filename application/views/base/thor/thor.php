@@ -20,7 +20,7 @@
     <div class='container'>
       <div class='row mb-5' id='tabela_input'>
       </div>
-      <div class='row'>
+      <div class='row mb-5'>
         <button onclick='myFunction()' class='btn btn-warning'>Copy text</button>
         <textarea id='myTextAreaScript' rows='150' cols='100'></textarea>
       </div>
@@ -72,13 +72,14 @@ $(document).on('change', '#thor_tabela', function(e){
     e.preventDefault();
 });
 
-$(document).on('submit', '#enviar_tabela_coluna', function(e){
-  var url_post = "<?= base_url("MisterThor/set_tabelas_colunas"); ?>";
+$(document).on('submit', 'form#enviar_tabela_coluna', function(e){
+  var dados = $(this).serialize();
+  var url_post = this.action;
 
   $.ajax({
     type: "POST",
     url: url_post,
-    data: this.serialize(),
+    data: dados,
     success: function(data){
       $("#retorno").html("");
       $("#retorno").html(data);
@@ -87,6 +88,7 @@ $(document).on('submit', '#enviar_tabela_coluna', function(e){
      $("#retorno").html(data);
     }
   });
+
 e.preventDefault();
   
 });

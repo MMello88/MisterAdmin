@@ -110,6 +110,19 @@ abstract class MY_Model extends CI_Model {
     $this->setValues();
   }
 
+  public function ExecScript($scripts){
+    if(is_array($scripts)){
+      foreach ($scripts as $script) {
+        if(!$this->db->query($script))
+          print_r($this->db->error());
+      }
+      
+    } else {
+      if(!$this->db->query($scripts))
+        print_r($this->db->error());
+    }
+  }
+
   abstract protected function setConfigure();
 
   protected function setValues(){
