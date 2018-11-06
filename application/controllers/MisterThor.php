@@ -30,6 +30,7 @@ class MisterThor extends MY_Controller {
 
 			$colunas = $this->Mister->get_show_columns($this->input->post('tabela'));
 
+
 			foreach ($colunas as $key => $coluna) {
 				$config_column = explode(":", $colunas[$key]['COLUMN_COMMENT']);
 				$display_var = $config_column[0];
@@ -45,6 +46,7 @@ class MisterThor extends MY_Controller {
 						<input type='text' name='coluna[]' class='form-control' placeholder='Nome da Coluna' value='".$colunas[$key]['COLUMN_NAME']."'>
 					</div>
 					<input type='hidden' name='display_var[]' value='".$display_var."'>
+					<input type='hidden' name='column_type[]' value='".$colunas[$key]['COLUMN_TYPE']."'>
 					<div class='form-group col-md-3'>
 						<label>Display da Coluna</label>
 						<input type='text' name='display_column[]' class='form-control' placeholder='Display da Coluna' value='".$display_column."'>
@@ -84,7 +86,14 @@ class MisterThor extends MY_Controller {
 
 	public function set_tabelas_colunas(){
 		if ($_POST){
-			print_r($_POST);
+			//print_r($_POST);
+			$script = "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` COMMENT='".$_POST['nome_var'].":".$_POST['display_tabela']."'; <br/>";
+			
+
+			foreach ($_POST['coluna'] as $key => $value) {
+				$script .= "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` CHANGE `".$value."` `".$value."` ".$_POST['column_type'][$key]." COMMENT '".$_POST['display_var'][$key].":".$_POST['display_column'][$key].":".$_POST['select_var'][$key].":".$_POST['select_values'][$key]."'; <br/>";
+			}
+			echo $script;
 		}
 	}
 

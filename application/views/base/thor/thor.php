@@ -87,7 +87,8 @@ $(document).on('submit', '#enviar_tabela_coluna', function(e){
      $("#retorno").html(data);
     }
   });
-  return false;
+e.preventDefault();
+  
 });
 
 </script>
