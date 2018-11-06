@@ -508,7 +508,7 @@ class Mister extends MY_Controller {
 
 
 	/* begin_tbl_afazer */
-	public function afazer($id_afazer = ''){
+	public function afazer(){
 		$this->set_config =
 	    		[ 
 			'table' =>
@@ -532,22 +532,22 @@ class Mister extends MY_Controller {
 				['display_column' => 'Descrição a Fazer', 
 				 
 				 'select' => [],
-				 'input' => ['type' => 'text', 'required' => ''],
+				 'input' => ['type' => 'text', 'required' => 'required'],
 					
-				 'rules' => '',
+				 'rules' => 'required',
 				 'default_value' => '', 
 				 'costumer_value' => '',
-				 'display_grid' => 'false'],
+				 'display_grid' => 'true'],
 			 'dt_inicio' =>
 				['display_column' => 'Dt. Inicio', 
 				 
 				 'select' => [],
-				 'input' => ['type' => 'date', 'required' => ''],
+				 'input' => ['type' => 'date', 'required' => 'required'],
 					
-				 'rules' => '',
+				 'rules' => 'required',
 				 'default_value' => '', 
 				 'costumer_value' => '',
-				 'display_grid' => 'false'],
+				 'display_grid' => 'true'],
 			 'dt_fim' =>
 				['display_column' => 'Dt. Fim', 
 				 
@@ -562,6 +562,67 @@ class Mister extends MY_Controller {
 				['display_column' => 'Realizado', 
 				 
 				 'select' => ["s" => "Sim", "n" => "Não"],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_usuario' =>
+				['display_column' => 'Usuário', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_afazer */
+
+
+	/* begin_tbl_arquivo_controller */
+	public function arquivo_controller(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_arquivo_controller',
+				 'chave_pk' => 'arquivo_controller_id',
+				 'display'  => 'Arquivo de Controler'],
+			'columns' =>
+				[
+				  
+			 'arquivo_controller_id' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'nome_controller' =>
+				['display_column' => 'Nome da Controler', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'diretorio' =>
+				['display_column' => 'Diretório', 
+				 
+				 'select' => [],
 				 'input' => ['type' => 'text', 'required' => ''],
 					
 				 'rules' => '',
@@ -583,11 +644,528 @@ class Mister extends MY_Controller {
 			'dropdown' => [],
 		];
 
-		if (!empty($id_afazer)) {
-			$this->set_config['where'] = array_merge_recursive($this->set_config['where'], ['id_afazer' => $id_afazer]);
-		}
 		$this->execute();
 	}
-	/* end_tbl_afazer */
+	/* end_tbl_arquivo_controller */
+
+
+	/* begin_tbl_cart */
+	public function cart(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_cart',
+				 'chave_pk' => 'id_cart',
+				 'display'  => 'Carrinho'],
+			'columns' =>
+				[
+				  
+			 'id_cart' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_session' =>
+				['display_column' => 'Id Session', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_categoria_produto' =>
+				['display_column' => 'Categ. Produto', 
+				 
+				 'select_relacional' => ['id_categoria','tbl_categoria', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_produto' =>
+				['display_column' => 'Produto', 
+				 
+				 'select_relacional' => ['id_produto','tbl_produto', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_cidade' =>
+				['display_column' => 'Cidade', 
+				 
+				 'select_relacional' => ['id_cidade','tbl_cidade', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'qtde' =>
+				['display_column' => 'Qtde', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'valor_unitario' =>
+				['display_column' => 'Valor Unitário', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'situacao' =>
+				['display_column' => 'Situação', 
+				 
+				 'select' => ["a" => "Ativo", "d" => "Desativado"],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'cod_promo' =>
+				['display_column' => 'SN Cod. Promo', 
+				 
+				 'select' => ["1" => "True", "0" => "False"],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_usuario' =>
+				['display_column' => 'Usuário', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_cart */
+
+
+	/* begin_tbl_categoria */
+	public function categoria(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_categoria',
+				 'chave_pk' => 'id_categoria',
+				 'display'  => 'Categoria'],
+			'columns' =>
+				[
+				  
+			 'id_categoria' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'nome' =>
+				['display_column' => 'Categoria', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'situacao' =>
+				['display_column' => 'Situação', 
+				 
+				 'select' => ["a" => "Ativo", "d" => "Desativado"],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'cssClass' =>
+				['display_column' => 'Css', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'controla_estoque' =>
+				['display_column' => 'SN Controla Estoque', 
+				 
+				 'select' => ["s" => "Sim", "n" => "Não"],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_usuario' =>
+				['display_column' => '', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_categoria */
+
+
+	/* begin_tbl_cidade */
+	public function cidade(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_cidade',
+				 'chave_pk' => 'id_cidade',
+				 'display'  => ''],
+			'columns' =>
+				[
+				  
+			 'id_cidade' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'nome' =>
+				['display_column' => 'Cidade', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'uf' =>
+				['display_column' => 'UF', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'link' =>
+				['display_column' => 'Link', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_usuario' =>
+				['display_column' => 'Usuário', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_cidade */
+
+
+	/* begin_tbl_cidade_categoria */
+	public function cidade_categoria(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_cidade_categoria',
+				 'chave_pk' => 'id_cidade_categoria',
+				 'display'  => 'Cidade por Categoria'],
+			'columns' =>
+				[
+				  
+			 'id_cidade_categoria' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_cidade' =>
+				['display_column' => 'Cidade', 
+				 
+				 'select_relacional' => ['id_cidade','tbl_cidade', 'nome', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_categoria' =>
+				['display_column' => 'Categoria', 
+				 
+				 'select_relacional' => ['id_categoria','tbl_categoria', 'nome', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_usuario' =>
+				['display_column' => 'Usuário', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_cidade_categoria */
+
+
+	/* begin_tbl_cliente */
+	public function cliente(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_cliente',
+				 'chave_pk' => 'id_cliente',
+				 'display'  => 'Cliente'],
+			'columns' =>
+				[
+				  
+			 'id_cliente' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'nome' =>
+				['display_column' => 'Nome', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'email' =>
+				['display_column' => 'E-mail', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'senha' =>
+				['display_column' => 'Senha', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'telefone' =>
+				['display_column' => 'Telefone', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'endereco' =>
+				['display_column' => 'Endereço', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'numero' =>
+				['display_column' => 'Nr.', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'bairro' =>
+				['display_column' => 'Bairro', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'complemento' =>
+				['display_column' => 'Compl.', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'situacao' =>
+				['display_column' => 'Situação', 
+				 
+				 'select' => ["a" => "Ativo", "d" => "Desativado"],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'tipo' =>
+				['display_column' => 'Tipo', 
+				 
+				 'select' => ["c" => "Cliente", "r" => "Revendedor", "s" => "Representante", "p" => "Parceiro"],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'ganho_unitario' =>
+				['display_column' => '% Ganho', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'cpf_cnpj' =>
+				['display_column' => 'CPF/CNPJ', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'hash' =>
+				['display_column' => 'Hash', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'ativo' =>
+				['display_column' => 'Ativo', 
+				 
+				 'select' => ["1" => "Frue", "0" => "False"],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'dt_cadastro' =>
+				['display_column' => 'Dt. Cadastro', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'datetime-local', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_usuario' =>
+				['display_column' => 'Usuário', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_cliente */
 
 }
