@@ -41,6 +41,7 @@ function myFunction() {
 
 $(document).on('change', '#thor_tabela', function(e){
     var url_post = "<?= base_url("MisterThor/get_input_tabela_colunas"); ?>";
+    $("#myTextAreaScript").val("");
 
     $.ajax({
       type: "POST",
@@ -55,20 +56,6 @@ $(document).on('change', '#thor_tabela', function(e){
       }
     });
 
-    var url_post = "<?= base_url("MisterThor/get_script"); ?>";
-
-    $.ajax({
-      type: "POST",
-      url: url_post,
-      data: {'tabela' : this.value, 'echo' : 'true'},
-      success: function(data){
-        $("#myTextAreaScript").val("");
-        $("#myTextAreaScript").val(data);
-      },
-      error: function(data) {
-       $("#myTextAreaScript").val(data);
-      }
-    });
     e.preventDefault();
 });
 
@@ -89,7 +76,22 @@ $(document).on('submit', 'form#enviar_tabela_coluna', function(e){
     }
   });
 
-e.preventDefault();
+  var url_post = "<?= base_url("MisterThor/get_script"); ?>";
+  
+  $.ajax({
+    type: "POST",
+    url: url_post,
+    data: dados,
+    success: function(data){
+      $("#myTextAreaScript").val("");
+      $("#myTextAreaScript").val(data);
+    },
+    error: function(data) {
+     $("#myTextAreaScript").val(data);
+    }
+  });
+
+  e.preventDefault();
   
 });
 

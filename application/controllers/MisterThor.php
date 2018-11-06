@@ -64,6 +64,7 @@ class MisterThor extends MY_Controller {
 			$script_inputs = 
 			"
 				<form action='http://localhost/MisterAdmin/MisterThor/set_tabelas_colunas' class='form-inline' method='post' accept-charset='utf-8' id='enviar_tabela_coluna'>
+					<input type='hidden' name='echo' value='true'>
 					<div class='form-row'>
 						<div class='form-group col-md-4'>
 							<label>Nome da Tabela</label>
@@ -86,16 +87,26 @@ class MisterThor extends MY_Controller {
 
 	public function set_tabelas_colunas(){
 		if ($_POST){
-			//print_r($_POST);
-			$script[] = "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` COMMENT='".$_POST['nome_var'].":".$_POST['display_tabela']."'; \n";
-			
+			$scripts[] = "SET FOREIGN_KEY_CHECKS = 0; \n";
 
+			$scripts[] = "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` COMMENT='".$_POST['nome_var'].":".$_POST['display_tabela']."'; \n";
+			
 			foreach ($_POST['coluna'] as $key => $value) {
-				$script[] = "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` CHANGE `".$value."` `".$value."` ".$_POST['column_type'][$key]." COMMENT '".$_POST['display_var'][$key].":".$_POST['display_column'][$key].":".$_POST['select_var'][$key].":".$_POST['select_values'][$key]."'; \n";
+				$scripts[] = "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` CHANGE `".$value."` `".$value."` ".$_POST['column_type'][$key]." COMMENT '".$_POST['display_var'][$key].":".$_POST['display_column'][$key].":".$_POST['select_var'][$key].":".$_POST['select_values'][$key]."'; \n";
 			}
 
-			$this->Mister->ExecScript($script);
-			print_r($script);
+			$scripts[] = "SET FOREIGN_KEY_CHECKS = 1; \n";
+
+			$this->Mister->ExecScript($scripts);
+
+			// "a" representa que o arquivo é aberto para ser escrito no final do arquivo
+			$fp = fopen(FCPATH."script\script-configuracao.sql", "a");
+			foreach ($scripts as $script) {
+				fwrite($fp, $script);
+			}
+			fclose($fp);
+
+			print_r($scripts);
 		}
 	}
 
@@ -173,6 +184,7 @@ class MisterThor extends MY_Controller {
 			}
 	
 			$script = "
+	/* begin_$nome_tabela */
 	public function ".str_replace("tbl_", "", $nome_tabela)."(\$$campo = ''){
 		\$this->set_config =
 	    		[ 
@@ -193,9 +205,34 @@ class MisterThor extends MY_Controller {
 		}
 		\$this->execute();
 	}
+	/* end_$nome_tabela */
 ";
 
 			if($this->input->post('echo') !== null && $this->input->post('echo') === 'true'){
+				$arquivo = APPPATH."controllers\\Mister.php";
+				$linhas = file($arquivo); // lê o arquivo na forma de array (cada linha é um elemento)
+				$start = false;
+				$stop = false;
+				foreach ($linhas as $key => $linha) {
+					if (strpos($linha, "begin_".$nome_tabela) !== false){
+						unset($linhas[$key-1]);
+						$start = true;
+					}
+					
+					if($start && !$stop)
+					 unset($linhas[$key]);
+
+					if (strpos($linha, "end_".$nome_tabela) !== false){
+						$stop = true;					
+						unset($linhas[$key+1]);
+					}
+				}
+				$numero_linha = count($linhas);
+				$final_array = array_splice($linhas, $numero_linha-1); // corta array ($linhas fica com a primeira parte; array_splice retorna a parte cortada)
+				$linhas[] = $script . "\n"; // adiciona após a posição cortada
+				$linhas = array_merge($linhas, $final_array); // junta novamente
+				file_put_contents($arquivo, $linhas);
+
 				echo $script;
 			} else {
 				$this->_output_view($data, 'thor/thor');

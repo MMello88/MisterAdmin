@@ -505,6 +505,9 @@ class Mister extends MY_Controller {
 	}
 
 	/* Iniciando Aqui vindo do Thor */
+
+
+	/* begin_tbl_afazer */
 	public function afazer($id_afazer = ''){
 		$this->set_config =
 	    		[ 
@@ -517,213 +520,52 @@ class Mister extends MY_Controller {
 				  
 			 'id_afazer' =>
 				['display_column' => 'Id', 
+				 
 				 'select' => [],
 				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
 				 'rules' => '',
 				 'default_value' => '', 
 				 'costumer_value' => '',
 				 'display_grid' => 'false'],
 			 'afazer' =>
 				['display_column' => 'Descrição a Fazer', 
+				 
 				 'select' => [],
-				 'input' => ['type' => 'text', 'required' => 'required'],
-				 'rules' => 'required',
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
 				 'default_value' => '', 
 				 'costumer_value' => '',
-				 'display_grid' => 'true'],
+				 'display_grid' => 'false'],
 			 'dt_inicio' =>
 				['display_column' => 'Dt. Inicio', 
-				 'select' => [],
-				 'input' => ['type' => 'date', 'required' => 'required'],
-				 'rules' => 'required',
-				 'default_value' => '', 
-				 'costumer_value' => '',
-				 'display_grid' => 'true'],
-			 'dt_fim' =>
-				['display_column' => 'Dt. Fim', 
+				 
 				 'select' => [],
 				 'input' => ['type' => 'date', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'dt_fim' =>
+				['display_column' => 'Dt. Fim', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'date', 'required' => ''],
+					
 				 'rules' => '',
 				 'default_value' => '', 
 				 'costumer_value' => '',
 				 'display_grid' => 'false'],
 			 'realizado' =>
 				['display_column' => 'Realizado', 
-				 'select' => ['s' => 'Sim', 'n' => 'Não'],
-				 'input' => ['type' => 'text', 'required' => ''],
-				 'rules' => '',
-				 'default_value' => '', 
-				 'costumer_value' => '',
-				 'display_grid' => 'false'],
-			 'id_usuario' =>
-				['display_column' => 'Usuário', 
-				 'select' => [],
-				 'input' => ['type' => 'number', 'required' => 'readonly'],
-				 'rules' => '',
-				 'default_value' => $this->session->userdata("id_user"), 
-				 'costumer_value' => '',
-				 'display_grid' => 'false'],
-
-				],
-			'where' => ['id_usuario' => $this->session->userdata('id_user')],
-			'dropdown' => [],
-		];
-
-		if (!empty($id_afazer)) {
-			$this->set_config['where'] = array_merge_recursive($this->set_config['where'], ['id_afazer' => $id_afazer]);
-		}
-		$this->execute();
-	}
-
-	public function arquivo_controller($arquivo_controller_id = ''){
-		$this->set_config =
-	    		[ 
-			'table' =>
-				['nome'     => 'tbl_arquivo_controller',
-				 'chave_pk' => 'arquivo_controller_id',
-				 'display'  => 'Arquivo de Controler'],
-			'columns' =>
-				[
-				  
-			 'arquivo_controller_id' =>
-				['display_column' => 'Id', 
-				 'select' => [],
-				 'input' => ['type' => 'number', 'required' => 'readonly'],
-				 'rules' => '',
-				 'default_value' => '', 
-				 'costumer_value' => '',
-				 'display_grid' => 'false'],
-			 'nome_controller' =>
-				['display_column' => 'Nome da Controler', 
-				 'select' => [],
-				 'input' => ['type' => 'text', 'required' => 'required'],
-				 'rules' => 'required',
-				 'default_value' => '', 
-				 'costumer_value' => '',
-				 'display_grid' => 'true'],
-			 'diretorio' =>
-				['display_column' => 'Diretório', 
-				 'select' => [],
-				 'input' => ['type' => 'text', 'required' => ''],
-				 'rules' => '',
-				 'default_value' => '', 
-				 'costumer_value' => '',
-				 'display_grid' => 'false'],
-			 'id_usuario' =>
-				['display_column' => 'Usuário', 
-				 'select' => [],
-				 'input' => ['type' => 'number', 'required' => 'readonly'],
-				 'rules' => '',
-				 'default_value' => $this->session->userdata("id_user"), 
-				 'costumer_value' => '',
-				 'display_grid' => 'false'],
-
-				],
-			'where' => ['id_usuario' => $this->session->userdata('id_user')],
-			'dropdown' => [],
-		];
-
-		if (!empty($arquivo_controller_id)) {
-			$this->set_config['where'] = array_merge_recursive($this->set_config['where'], ['arquivo_controller_id' => $arquivo_controller_id]);
-		}
-		$this->execute();
-	}
-
-	public function cart($id_cart = ''){
-		$this->set_config =
-	    		[ 
-			'table' =>
-				['nome'     => 'tbl_cart',
-				 'chave_pk' => 'id_cart',
-				 'display'  => 'Carrinho'],
-			'columns' =>
-				[
-				  
-			 'id_cart' =>
-				['display_column' => 'Id', 
 				 
-				 'select' => [],
-				 'input' => ['type' => 'number', 'required' => 'readonly'],
-					
-				 'rules' => '',
-				 'default_value' => '', 
-				 'costumer_value' => '',
-				 'display_grid' => 'false'],
-			 'id_session' =>
-				['display_column' => 'Id Session', 
-				 
-				 'select' => [],
-				 'input' => ['type' => 'text', 'required' => 'required'],
-					
-				 'rules' => 'required',
-				 'default_value' => '', 
-				 'costumer_value' => '',
-				 'display_grid' => 'true'],
-			 'id_categoria_produto' =>
-				['display_column' => 'Categ. Produto', 
-				 
-				 'select_relacional' => ['id_categoria','tbl_categoria', 'nome', []],
-					
-				 'rules' => 'required',
-				 'default_value' => '', 
-				 'costumer_value' => '',
-				 'display_grid' => 'true'],
-			 'id_produto' =>
-				['display_column' => 'Produto', 
-				 
-				 'select_relacional' => ['id_produto','tbl_produto', 'nome', []],
-					
-				 'rules' => 'required',
-				 'default_value' => '', 
-				 'costumer_value' => '',
-				 'display_grid' => 'true'],
-			 'id_cidade' =>
-				['display_column' => 'Cidade', 
-				 
-				 'select_relacional' => ['id_cidade','tbl_cidade', 'nome', []],
-					
-				 'rules' => '',
-				 'default_value' => '', 
-				 'costumer_value' => '',
-				 'display_grid' => 'false'],
-			 'qtde' =>
-				['display_column' => 'Qtde', 
-				 
-				 'select' => [],
-				 'input' => ['type' => 'number', 'required' => 'required'],
-					
-				 'rules' => 'required',
-				 'default_value' => '', 
-				 'costumer_value' => '',
-				 'display_grid' => 'true'],
-			 'valor_unitario' =>
-				['display_column' => 'Valor Unitário', 
-				 
-				 'select' => [],
-				 'input' => ['type' => 'number', 'required' => 'required'],
-					
-				 'rules' => 'required',
-				 'default_value' => '', 
-				 'costumer_value' => '',
-				 'display_grid' => 'true'],
-			 'situacao' =>
-				['display_column' => 'Situação', 
-				 
-				 'select' => ['a' => 'Ativo', 'd' => 'Desativado'],
-				 'input' => ['type' => 'text', 'required' => 'required'],
-					
-				 'rules' => 'required',
-				 'default_value' => '', 
-				 'costumer_value' => '',
-				 'display_grid' => 'true'],
-			 'cod_promo' =>
-				['display_column' => 'SN Cod. Promo', 
-				 
-				 'select' => ['1' => 'True', '0' => 'False'],
+				 'select' => ["s" => "Sim", "n" => "Não"],
 				 'input' => ['type' => 'text', 'required' => ''],
 					
 				 'rules' => '',
-				 'default_value' => '0', 
+				 'default_value' => '', 
 				 'costumer_value' => '',
 				 'display_grid' => 'false'],
 			 'id_usuario' =>
@@ -741,11 +583,11 @@ class Mister extends MY_Controller {
 			'dropdown' => [],
 		];
 
-		if (!empty($id_cart)) {
-			$this->set_config['where'] = array_merge_recursive($this->set_config['where'], ['id_cart' => $id_cart]);
+		if (!empty($id_afazer)) {
+			$this->set_config['where'] = array_merge_recursive($this->set_config['where'], ['id_afazer' => $id_afazer]);
 		}
 		$this->execute();
 	}
+	/* end_tbl_afazer */
 
 }
-
