@@ -128,4 +128,111 @@ ALTER TABLE `miste872_prod`.`tbl_cliente` CHANGE `dt_cadastro` `dt_cadastro` dat
 ALTER TABLE `miste872_prod`.`tbl_cliente` CHANGE `id_usuario` `id_usuario` int(11) NULL COMMENT 'display_column:Usuário:select:'; 
 SET FOREIGN_KEY_CHECKS = 1; 
 /* end_tbl_cliente */ 
+/* begin_tbl_conta_corrente */ 
+SET FOREIGN_KEY_CHECKS = 0; 
+UPDATE tbl_conta_corrente SET id_usuario = 6; 
+ALTER TABLE `miste872_prod`.`tbl_conta_corrente` COMMENT='nome:Conta Corrente'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_corrente` CHANGE `id_conta_corrente` `id_conta_corrente` int(11) NOT NULL COMMENT 'display_column:Id:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_corrente` CHANGE `nome_conta_corrente` `nome_conta_corrente` varchar(150) NOT NULL COMMENT 'display_column:Nome da Conta:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_corrente` CHANGE `interna` `interna` char(1) NOT NULL COMMENT 'display_column:SN Interna:select:"s" => "Sim", "n" => "Não"'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_corrente` CHANGE `banco` `banco` varchar(10) NULL COMMENT 'display_column:Banco:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_corrente` CHANGE `agencia` `agencia` varchar(10) NULL COMMENT 'display_column:Nr. Ag.:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_corrente` CHANGE `digito_ag` `digito_ag` varchar(5) NULL COMMENT 'display_column:Digito Ag.:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_corrente` CHANGE `conta_corrente` `conta_corrente` varchar(15) NULL COMMENT 'display_column:Nr. Conta Corrente:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_corrente` CHANGE `digito_cc` `digito_cc` varchar(5) NULL COMMENT 'display_column:Digito Cc:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_corrente` CHANGE `principal` `principal` char(1) NULL COMMENT 'display_column:Principal:select:"s" => "Sim", "n" => "Não"'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_corrente` CHANGE `ativo` `ativo` char(1) NULL COMMENT 'display_column:Ativo:select:"a" => "Ativo", "d" => "Desativado"'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_corrente` CHANGE `id_usuario` `id_usuario` int(11) NULL COMMENT 'display_column::select:'; 
+SET FOREIGN_KEY_CHECKS = 1; 
+/* end_tbl_conta_corrente */ 
+/* begin_tbl_conta_gerencial */ 
+SET FOREIGN_KEY_CHECKS = 0; 
+UPDATE tbl_conta_gerencial SET id_usuario = 6; 
+ALTER TABLE `miste872_prod`.`tbl_conta_gerencial` COMMENT='nome:Conta Gerencial'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_gerencial` CHANGE `id_conta_gerencial` `id_conta_gerencial` int(11) NOT NULL COMMENT 'display_column:Id:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_gerencial` CHANGE `nome_conta_gerencial` `nome_conta_gerencial` varchar(150) NOT NULL COMMENT 'display_column:Nome da Conta Gerencial:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_gerencial` CHANGE `tipo_conta` `tipo_conta` char(1) NOT NULL COMMENT 'display_column:Tipo:select:"e" => "Entrada", "s" => "Saída"'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_gerencial` CHANGE `id_conta_dre` `id_conta_dre` char(10) NULL COMMENT 'display_column:Id Conta DRE:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_gerencial` CHANGE `cc_debito` `cc_debito` varchar(15) NULL COMMENT 'display_column:Conta Débito:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_gerencial` CHANGE `cc_credito` `cc_credito` varchar(15) NULL COMMENT 'display_column:Conta Crédito:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_gerencial` CHANGE `permite_compras` `permite_compras` char(1) NULL COMMENT 'display_column:Permite Compras:select:"s" => "Sim", "n" => "Não"'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_gerencial` CHANGE `ativo` `ativo` char(1) NULL COMMENT 'display_column:Ativo:select:"a" => "Ativo", "d" => "Desativado"'; 
+ALTER TABLE `miste872_prod`.`tbl_conta_gerencial` CHANGE `id_usuario` `id_usuario` int(11) NULL COMMENT 'display_column::select:'; 
+SET FOREIGN_KEY_CHECKS = 1; 
+/* end_tbl_conta_gerencial */ 
+/* begin_tbl_contas_apagar */ 
+SET FOREIGN_KEY_CHECKS = 0; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` ADD COLUMN `id_usuario` INT(11) NULL  COMMENT 'Usuário'; 
+ ALTER TABLE `miste872_prod`.`tbl_contas_apagar` ADD CONSTRAINT `FK_contas_apagar_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`); 
+UPDATE tbl_contas_apagar SET id_usuario = 6; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` COMMENT='nome:Contas a Pagar'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `id_contas_apagar` `id_contas_apagar` int(11) NOT NULL COMMENT 'display_column:Id:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `dt_cadastro` `dt_cadastro` date NOT NULL COMMENT 'display_column:Dt. Cadastro:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `id_conta_gerencial` `id_conta_gerencial` int(11) NOT NULL COMMENT 'display_column:Conta Gerencial:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `id_fornecedor` `id_fornecedor` int(11) NOT NULL COMMENT 'display_column:Fornecedor:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `id_documento` `id_documento` int(11) NULL COMMENT 'display_column:Documentos:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `dt_venc` `dt_venc` date NOT NULL COMMENT 'display_column:Dt. Vencimento:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `valor_apagar` `valor_apagar` decimal(7,2) NOT NULL COMMENT 'display_column:Valor Pago:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `dt_pago` `dt_pago` date NULL COMMENT 'display_column:Dt. Pago:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `id_conta_corrente` `id_conta_corrente` int(11) NULL COMMENT 'display_column:Conta Corrente:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `valor_pgto` `valor_pgto` decimal(7,2) NULL COMMENT 'display_column:Valor Pago:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `valor_desconto` `valor_desconto` decimal(7,2) NULL COMMENT 'display_column:Valor Desnconto:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `valor_juros` `valor_juros` decimal(7,2) NULL COMMENT 'display_column:Valor de Juros:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `obs` `obs` varchar(255) NULL COMMENT 'display_column:Observação:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `conta_fixa` `conta_fixa` char(1) NULL COMMENT 'display_column:Conta Fixa:select:"s" => "Sim", "n" => "Não"'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `situacao` `situacao` char(1) NULL COMMENT 'display_column:Situação:select:"a" => "Aberto", "p" => "Pago"'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `tipo_pagamento` `tipo_pagamento` varchar(11) NULL COMMENT 'display_column:Tipo Pgto:select:"id_tipo","tbl_tipo", "descricao", ["campo" => "tipo_pagamento"]'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_apagar` CHANGE `nr_vezes` `nr_vezes` char(4) NULL COMMENT 'display_column:Nr. Vezes:select:'; 
+SET FOREIGN_KEY_CHECKS = 1; 
+/* end_tbl_contas_apagar */ 
+/* begin_tbl_contas_areceber */ 
+SET FOREIGN_KEY_CHECKS = 0; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` ADD COLUMN `id_usuario` INT(11) NULL  COMMENT 'Usuário'; 
+ ALTER TABLE `miste872_prod`.`tbl_contas_areceber` ADD CONSTRAINT `FK_contas_areceber_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`); 
+UPDATE tbl_contas_areceber SET id_usuario = 6; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` COMMENT='nome:Contas a Receber'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `id_contas_areceber` `id_contas_areceber` int(11) NOT NULL COMMENT 'display_column:Id:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `dt_cadastro` `dt_cadastro` date NOT NULL COMMENT 'display_column:Dt. Cadastro:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `id_conta_gerencial` `id_conta_gerencial` int(11) NOT NULL COMMENT 'display_column:Conta Gerencial:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `id_fornecedor` `id_fornecedor` int(11) NOT NULL COMMENT 'display_column:Fornecedor:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `id_documento` `id_documento` int(11) NULL COMMENT 'display_column:Documento:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `dt_venc` `dt_venc` date NOT NULL COMMENT 'display_column:Dt. Vencimento:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `valor_areceber` `valor_areceber` decimal(7,2) NOT NULL COMMENT 'display_column:Valor a Receber:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `dt_recebido` `dt_recebido` date NULL COMMENT 'display_column:Dt. Recebimento:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `id_conta_corrente` `id_conta_corrente` int(11) NULL COMMENT 'display_column:Conta Corrente:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `valor_recebido` `valor_recebido` decimal(7,2) NULL COMMENT 'display_column:Valor Recebimento:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `valor_desconto` `valor_desconto` decimal(7,2) NULL COMMENT 'display_column:Valor Desconto:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `valor_juros` `valor_juros` decimal(7,2) NULL COMMENT 'display_column:Valor Juros:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `obs` `obs` varchar(255) NULL COMMENT 'display_column:Observação:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `conta_fixa` `conta_fixa` char(1) NULL COMMENT 'display_column:Conta Fixa:select:"s" => "Sim", "n" => "Não"'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `situacao` `situacao` char(1) NULL COMMENT 'display_column:Situação:select:"a" => "Ativo", "d" => "Desativado"'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `tipo_recebimento` `tipo_recebimento` varchar(11) NULL COMMENT 'display_column:Tipo Recebimento:select:"id_tipo","tbl_tipo", "descricao", ["campo" => "tipo_pagamento"]'; 
+ALTER TABLE `miste872_prod`.`tbl_contas_areceber` CHANGE `nr_vezes` `nr_vezes` char(4) NULL COMMENT 'display_column:Nr. Vezes:select:'; 
+SET FOREIGN_KEY_CHECKS = 1; 
+/* end_tbl_contas_areceber */ 
+/* begin_tbl_empresa */ 
+SET FOREIGN_KEY_CHECKS = 0; 
+UPDATE tbl_empresa SET id_usuario = 6; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` COMMENT='nome:Empresas'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `id_empresa` `id_empresa` int(11) NOT NULL COMMENT 'display_column:Id:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `nome` `nome` varchar(150) NOT NULL COMMENT 'display_column:Nome da Empresa:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `razao_social` `razao_social` varchar(250) NOT NULL COMMENT 'display_column:Razão Social:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `nome_fantasia` `nome_fantasia` varchar(250) NOT NULL COMMENT 'display_column:Nome Fantasia:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `cnpj` `cnpj` varchar(14) NOT NULL COMMENT 'display_column:CNPJ:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `nr_inscricao_muni` `nr_inscricao_muni` varchar(20) NULL COMMENT 'display_column:Nr. Insc. Municipal:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `cnae` `cnae` varchar(250) NULL COMMENT 'display_column:CNAE:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `data_nascimento` `data_nascimento` date NULL COMMENT 'display_column:Dt. Nascimento:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `data_abertura` `data_abertura` date NULL COMMENT 'display_column:Dt. Abertura:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `endereco` `endereco` varchar(200) NOT NULL COMMENT 'display_column:Endereço:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `numero` `numero` varchar(10) NOT NULL COMMENT 'display_column:Nr.:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `complemento` `complemento` varchar(50) NULL COMMENT 'display_column:Complemento:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `bairro` `bairro` varchar(150) NOT NULL COMMENT 'display_column:Bairro:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `cep` `cep` varchar(10) NOT NULL COMMENT 'display_column:CEP:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `municipio` `municipio` varchar(100) NOT NULL COMMENT 'display_column:Municipio:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `uf` `uf` varchar(10) NOT NULL COMMENT 'display_column:UF:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `id_usuario` `id_usuario` int(11) NOT NULL COMMENT 'display_column:Usuário:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `id_tipo` `id_tipo` int(11) NULL COMMENT 'display_column:Tipo:select:"id_tipo","tbl_tipo", "descricao", ["campo" =>"forma_pgto"]'; 
+ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `sn_filial` `sn_filial` char(1) NULL COMMENT 'display_column:Filial:select:"s" => "Sim", "n" => "Não"'; 
+SET FOREIGN_KEY_CHECKS = 1; 
+/* end_tbl_empresa */ 
 
