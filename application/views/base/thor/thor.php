@@ -24,7 +24,7 @@
         <button onclick='myFunction()' class='btn btn-warning'>Copy text</button>
         <textarea id='myTextAreaScript' rows='150' cols='100'></textarea>
       </div>
-      <div class='row mb-5' id='retorno'>
+      <div class='row mb-5' id='script_gerados'>
       </div>
     <div>
     ";
@@ -41,6 +41,8 @@ function myFunction() {
 
 $(document).on('change', '#thor_tabela', function(e){
     var url_post = "<?= base_url("MisterThor/get_input_tabela_colunas"); ?>";
+    $("#myTextAreaScript").val("");
+    $("#script_gerados").html("");
 
     $.ajax({
       type: "POST",
@@ -55,20 +57,6 @@ $(document).on('change', '#thor_tabela', function(e){
       }
     });
 
-    var url_post = "<?= base_url("MisterThor/get_script"); ?>";
-
-    $.ajax({
-      type: "POST",
-      url: url_post,
-      data: {'tabela' : this.value, 'echo' : 'true'},
-      success: function(data){
-        $("#myTextAreaScript").val("");
-        $("#myTextAreaScript").val(data);
-      },
-      error: function(data) {
-       $("#myTextAreaScript").val(data);
-      }
-    });
     e.preventDefault();
 });
 
@@ -81,15 +69,30 @@ $(document).on('submit', 'form#enviar_tabela_coluna', function(e){
     url: url_post,
     data: dados,
     success: function(data){
-      $("#retorno").html("");
-      $("#retorno").html(data);
+      $("#script_gerados").html("");
+      $("#script_gerados").html(data);
     },
     error: function(data) {
-     $("#retorno").html(data);
+     $("#script_gerados").html(data);
     }
   });
 
-e.preventDefault();
+  var url_post = "<?= base_url("MisterThor/get_script"); ?>";
+  
+  $.ajax({
+    type: "POST",
+    url: url_post,
+    data: dados,
+    success: function(data){
+      $("#myTextAreaScript").val("");
+      $("#myTextAreaScript").val(data);
+    },
+    error: function(data) {
+     $("#myTextAreaScript").val(data);
+    }
+  });
+
+  e.preventDefault();
   
 });
 
