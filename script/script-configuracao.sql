@@ -235,4 +235,124 @@ ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `id_tipo` `id_tipo` int(11) NUL
 ALTER TABLE `miste872_prod`.`tbl_empresa` CHANGE `sn_filial` `sn_filial` char(1) NULL COMMENT 'display_column:Filial:select:"s" => "Sim", "n" => "Não"'; 
 SET FOREIGN_KEY_CHECKS = 1; 
 /* end_tbl_empresa */ 
+/* begin_tbl_endereco */ 
+SET FOREIGN_KEY_CHECKS = 0; 
+ALTER TABLE `miste872_prod`.`tbl_endereco` ADD COLUMN `id_usuario` INT(11) NULL  COMMENT 'Usuário'; 
+ ALTER TABLE `miste872_prod`.`tbl_endereco` ADD CONSTRAINT `FK_endereco_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`); 
+UPDATE tbl_endereco SET id_usuario = 6; 
+ALTER TABLE `miste872_prod`.`tbl_endereco` COMMENT='nome:Endereço'; 
+ALTER TABLE `miste872_prod`.`tbl_endereco` CHANGE `id_endereco` `id_endereco` int(11) NOT NULL COMMENT 'display_column:Id:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_endereco` CHANGE `endereco` `endereco` varchar(250) NOT NULL COMMENT 'display_column:Endereço:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_endereco` CHANGE `numero` `numero` varchar(10) NOT NULL COMMENT 'display_column:Nr.:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_endereco` CHANGE `bairro` `bairro` varchar(150) NOT NULL COMMENT 'display_column:Bairro:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_endereco` CHANGE `complemento` `complemento` varchar(100) NULL COMMENT 'display_column:Complemento:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_endereco` CHANGE `cep` `cep` varchar(10) NULL COMMENT 'display_column:CEP:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_endereco` CHANGE `principal` `principal` char(1) NOT NULL COMMENT 'display_column:Prinicipal:select:"s" => "Sim", "n" => "Não"'; 
+ALTER TABLE `miste872_prod`.`tbl_endereco` CHANGE `id_cliente` `id_cliente` int(11) NULL COMMENT 'display_column:Cliente:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_endereco` CHANGE `id_cidade` `id_cidade` int(11) NOT NULL COMMENT 'display_column:Cidade:select:'; 
+SET FOREIGN_KEY_CHECKS = 1; 
+/* end_tbl_endereco */ 
+/* begin_tbl_estoque */ 
+SET FOREIGN_KEY_CHECKS = 0; 
+ALTER TABLE `miste872_prod`.`tbl_estoque` ADD COLUMN `id_usuario` INT(11) NULL  COMMENT 'Usuário'; 
+ ALTER TABLE `miste872_prod`.`tbl_estoque` ADD CONSTRAINT `FK_estoque_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`); 
+UPDATE tbl_estoque SET id_usuario = 6; 
+ALTER TABLE `miste872_prod`.`tbl_estoque` COMMENT='nome:Estoque'; 
+ALTER TABLE `miste872_prod`.`tbl_estoque` CHANGE `id_estoque` `id_estoque` int(11) NOT NULL COMMENT 'display_column:Id:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_estoque` CHANGE `id_loja` `id_loja` int(11) NOT NULL COMMENT 'display_column:Loja:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_estoque` CHANGE `id_produto` `id_produto` int(11) NOT NULL COMMENT 'display_column:Produto:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_estoque` CHANGE `qtde_total` `qtde_total` decimal(6,0) NOT NULL COMMENT 'display_column:Qtde Total:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_estoque` CHANGE `qtde_minima` `qtde_minima` decimal(6,0) NULL COMMENT 'display_column:Qtde Minima:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_estoque` CHANGE `ativo` `ativo` char(1) NULL COMMENT 'display_column:Ativo:select:"s" => "Sim", "n" => "Não"'; 
+SET FOREIGN_KEY_CHECKS = 1; 
+/* end_tbl_estoque */ 
+/* begin_tbl_evento */ 
+SET FOREIGN_KEY_CHECKS = 0; 
+ALTER TABLE `miste872_prod`.`tbl_evento` ADD COLUMN `id_usuario` INT(11) NULL  COMMENT 'Usuário'; 
+ ALTER TABLE `miste872_prod`.`tbl_evento` ADD CONSTRAINT `FK_evento_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`); 
+UPDATE tbl_evento SET id_usuario = 6; 
+ALTER TABLE `miste872_prod`.`tbl_evento` COMMENT='nome:Evento'; 
+ALTER TABLE `miste872_prod`.`tbl_evento` CHANGE `id_evento` `id_evento` int(11) NOT NULL COMMENT 'display_column:Id:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_evento` CHANGE `id_cliente` `id_cliente` int(11) NOT NULL COMMENT 'display_column:Cliente:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_evento` CHANGE `id_pedido` `id_pedido` int(11) NOT NULL COMMENT 'display_column:Pedido:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_evento` CHANGE `data_evento` `data_evento` date NOT NULL COMMENT 'display_column:Dt. Evento:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_evento` CHANGE `end_evento` `end_evento` varchar(250) NOT NULL COMMENT 'display_column:Endereço:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_evento` CHANGE `hora_evento` `hora_evento` varchar(15) NOT NULL COMMENT 'display_column:Horário:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_evento` CHANGE `cel_evento` `cel_evento` varchar(30) NOT NULL COMMENT 'display_column:Celular:select:'; 
+SET FOREIGN_KEY_CHECKS = 1; 
+/* end_tbl_evento */ 
+/* begin_tbl_ficha_kardex */ 
+SET FOREIGN_KEY_CHECKS = 0; 
+ALTER TABLE `miste872_prod`.`tbl_ficha_kardex` ADD COLUMN `id_usuario` INT(11) NULL  COMMENT 'Usuário'; 
+ ALTER TABLE `miste872_prod`.`tbl_ficha_kardex` ADD CONSTRAINT `FK_ficha_kardex_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`); 
+UPDATE tbl_ficha_kardex SET id_usuario = 6; 
+ALTER TABLE `miste872_prod`.`tbl_ficha_kardex` COMMENT='nome:Ficha Kardex'; 
+ALTER TABLE `miste872_prod`.`tbl_ficha_kardex` CHANGE `id_ficha_kerdex` `id_ficha_kerdex` int(11) NOT NULL COMMENT 'display_column:Id:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_ficha_kardex` CHANGE `id_loja` `id_loja` int(11) NOT NULL COMMENT 'display_column:Loja:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_ficha_kardex` CHANGE `id_produto` `id_produto` int(11) NOT NULL COMMENT 'display_column:Produto:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_ficha_kardex` CHANGE `tipo_movimentacao` `tipo_movimentacao` char(2) NOT NULL COMMENT 'display_column:Tipo Movimentação:select:"e" => "Entrada", "s" => "Saída", "a" => "Ajustes", "t" => "Transferências", "c" => "Cancelado"'; 
+ALTER TABLE `miste872_prod`.`tbl_ficha_kardex` CHANGE `origem_movimentacao` `origem_movimentacao` char(3) NOT NULL COMMENT 'display_column:Origem:select:"me" => "Movimentação Estoque", "nfs" => "Nota Fiscal Saída", "nfe" => "Nota Fiscal Entrada", "ps" => "Pedido Site"'; 
+ALTER TABLE `miste872_prod`.`tbl_ficha_kardex` CHANGE `data_movimentacao` `data_movimentacao` date NOT NULL COMMENT 'display_column:Data:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_ficha_kardex` CHANGE `qtde_movimentacao` `qtde_movimentacao` decimal(6,0) NOT NULL COMMENT 'display_column:Qtde:select:'; 
+SET FOREIGN_KEY_CHECKS = 1; 
+/* end_tbl_ficha_kardex */ 
+/* begin_tbl_fluxo_caixa */ 
+SET FOREIGN_KEY_CHECKS = 0; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` ADD COLUMN `id_usuario` INT(11) NULL  COMMENT 'Usuário'; 
+ ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` ADD CONSTRAINT `FK_fluxo_caixa_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`); 
+UPDATE tbl_fluxo_caixa SET id_usuario = 6; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` COMMENT='nome:Fluxo de Caixa'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `id_fluxo_caixa` `id_fluxo_caixa` int(11) NOT NULL COMMENT 'display_column:Id:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `id_contas_areceber` `id_contas_areceber` int(11) NULL COMMENT 'display_column:Contas a Receber:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `id_contas_apagar` `id_contas_apagar` int(11) NULL COMMENT 'display_column:Contas a Pagar:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `dt_cadastro` `dt_cadastro` date NOT NULL COMMENT 'display_column:Dt. Cadastro:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `id_conta_gerencial` `id_conta_gerencial` int(11) NOT NULL COMMENT 'display_column:Conta Gerencial:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `id_fornecedor` `id_fornecedor` int(11) NOT NULL COMMENT 'display_column:Fornecedor:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `id_documento` `id_documento` int(11) NULL COMMENT 'display_column:Documento:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `dt_venc` `dt_venc` date NOT NULL COMMENT 'display_column:Dt. Vencimento:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `valor_areceber` `valor_areceber` decimal(7,2) NULL COMMENT 'display_column:Valor a Receber:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `valor_apagar` `valor_apagar` decimal(7,2) NULL COMMENT 'display_column:Valor a Pagar:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `dt_pgto_receb` `dt_pgto_receb` date NULL COMMENT 'display_column:Dt. Pgto Recebimento:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `id_conta_corrente` `id_conta_corrente` int(11) NULL COMMENT 'display_column:Conta Corrente:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `valor_recebido` `valor_recebido` decimal(7,2) NULL COMMENT 'display_column:Valor Recebido:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `valor_pgto` `valor_pgto` decimal(7,2) NULL COMMENT 'display_column:Valor Pgto:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `valor_desconto` `valor_desconto` decimal(7,2) NULL COMMENT 'display_column:Valor Desconto:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `valor_juros` `valor_juros` decimal(7,2) NULL COMMENT 'display_column:Valor Juros:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `obs` `obs` varchar(255) NULL COMMENT 'display_column:Observação:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `tipo_recebimento` `tipo_recebimento` varchar(11) NULL COMMENT 'display_column:Tipo Recebimento:select:"id_tipo","tbl_tipo", "descricao", ["campo" => "tipo_pagamento"]'; 
+ALTER TABLE `miste872_prod`.`tbl_fluxo_caixa` CHANGE `tp_entrada_saida` `tp_entrada_saida` char(1) NULL COMMENT 'display_column:Entrada/Saída:select:"e" => "Entrada", "s" => "Saída"'; 
+SET FOREIGN_KEY_CHECKS = 1; 
+/* end_tbl_fluxo_caixa */ 
+/* begin_tbl_fornecedor */ 
+SET FOREIGN_KEY_CHECKS = 0; 
+UPDATE tbl_fornecedor SET id_usuario = 6; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` COMMENT='nome:Fornecedor'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `id_fornecedor` `id_fornecedor` int(11) NOT NULL COMMENT 'display_column:Id:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `nome` `nome` varchar(250) NOT NULL COMMENT 'display_column:Nome do Fornecedor:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `apelido` `apelido` varchar(255) NULL COMMENT 'display_column:Razão Social:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `telefone` `telefone` varchar(25) NULL COMMENT 'display_column:Telefone:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `celular` `celular` varchar(25) NULL COMMENT 'display_column:Celular:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `whatsapp` `whatsapp` varchar(25) NULL COMMENT 'display_column:Whatsapp:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `email` `email` varchar(200) NULL COMMENT 'display_column:E-mail:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `site` `site` varchar(50) NULL COMMENT 'display_column:Site:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `observacao` `observacao` text NULL COMMENT 'display_column:Observação:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `tipo_pessoa` `tipo_pessoa` char(1) NULL COMMENT 'display_column:Tipo Pessoa:select:"f" => "Física", "j" => "Jurídica"'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `cpf_cnpj` `cpf_cnpj` varchar(14) NULL COMMENT 'display_column:CPF/CNPJ:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `rg` `rg` varchar(14) NULL COMMENT 'display_column:RG:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `inscr_municipal` `inscr_municipal` varchar(20) NULL COMMENT 'display_column:Inscrição Municipal:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `inscr_estadual` `inscr_estadual` varchar(25) NULL COMMENT 'display_column:Inscrição Estadual:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `tipo_ie` `tipo_ie` char(11) NULL COMMENT 'display_column:Tipo IE:select:"tipo_ie","tbl_tipo","descricao", ["campo" => "tipo_ie"]'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `cep` `cep` varchar(10) NULL COMMENT 'display_column:CEP:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `endereco` `endereco` varchar(150) NULL COMMENT 'display_column:Endereço:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `numero` `numero` varchar(10) NULL COMMENT 'display_column:Nr.:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `bairro` `bairro` varchar(150) NULL COMMENT 'display_column:Bairro:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `complemento` `complemento` varchar(100) NULL COMMENT 'display_column:Complemento:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `banco` `banco` varchar(250) NULL COMMENT 'display_column:Banco:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `agencia` `agencia` varchar(10) NULL COMMENT 'display_column:Agência:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `digito_ag` `digito_ag` varchar(5) NULL COMMENT 'display_column:Digito Ag.:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `conta_corrente` `conta_corrente` varchar(15) NULL COMMENT 'display_column:Conta Corrente:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `digito_cc` `digito_cc` varchar(5) NULL COMMENT 'display_column:Digito Cc.:select:'; 
+ALTER TABLE `miste872_prod`.`tbl_fornecedor` CHANGE `id_usuario` `id_usuario` int(11) NULL COMMENT 'display_column:Usuário:select:'; 
+SET FOREIGN_KEY_CHECKS = 1; 
+/* end_tbl_fornecedor */ 
 

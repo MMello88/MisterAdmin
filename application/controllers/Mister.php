@@ -1520,7 +1520,7 @@ class Mister extends MY_Controller {
 			 'tipo_recebimento' =>
 				['display_column' => 'Tipo Recebimento', 
 				 
-				 'select' => ["id_tipo","tbl_tipo", "descricao", ["campo" => "tipo_pagamento"]],
+				 'select_relacional' => ["id_tipo","tbl_tipo", "descricao", ["campo" => "tipo_pagamento"]],
 				 'input' => ['type' => 'text', 'required' => ''],
 					
 				 'rules' => '',
@@ -1765,5 +1765,908 @@ class Mister extends MY_Controller {
 		$this->execute();
 	}
 	/* end_tbl_empresa */
+
+
+	/* begin_tbl_endereco */
+	public function endereco(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_endereco',
+				 'chave_pk' => 'id_endereco',
+				 'display'  => 'Endereço'],
+			'columns' =>
+				[
+				  
+			 'id_endereco' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'endereco' =>
+				['display_column' => 'Endereço', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'numero' =>
+				['display_column' => 'Nr.', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'bairro' =>
+				['display_column' => 'Bairro', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'complemento' =>
+				['display_column' => 'Complemento', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'cep' =>
+				['display_column' => 'CEP', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'principal' =>
+				['display_column' => 'Prinicipal', 
+				 
+				 'select' => ["s" => "Sim", "n" => "Não"],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_cliente' =>
+				['display_column' => 'Cliente', 
+				 
+				 'select_relacional' => ['id_cliente','tbl_cliente', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_cidade' =>
+				['display_column' => 'Cidade', 
+				 
+				 'select_relacional' => ['id_cidade','tbl_cidade', 'nome', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_usuario' =>
+				['display_column' => '', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_endereco */
+
+
+	/* begin_tbl_estoque */
+	public function estoque(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_estoque',
+				 'chave_pk' => 'id_estoque',
+				 'display'  => 'Estoque'],
+			'columns' =>
+				[
+				  
+			 'id_estoque' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_loja' =>
+				['display_column' => 'Loja', 
+				 
+				 'select_relacional' => ['id_loja','tbl_loja', 'nome_fantasia', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_produto' =>
+				['display_column' => 'Produto', 
+				 
+				 'select_relacional' => ['id_produto','tbl_produto', 'nome', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'qtde_total' =>
+				['display_column' => 'Qtde Total', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'qtde_minima' =>
+				['display_column' => 'Qtde Minima', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'ativo' =>
+				['display_column' => 'Ativo', 
+				 
+				 'select' => ["s" => "Sim", "n" => "Não"],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_usuario' =>
+				['display_column' => '', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_estoque */
+
+
+	/* begin_tbl_evento */
+	public function evento(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_evento',
+				 'chave_pk' => 'id_evento',
+				 'display'  => 'Evento'],
+			'columns' =>
+				[
+				  
+			 'id_evento' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_cliente' =>
+				['display_column' => 'Cliente', 
+				 
+				 'select_relacional' => ['id_cliente','tbl_cliente', 'nome', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_pedido' =>
+				['display_column' => 'Pedido', 
+				 
+				 'select_relacional' => ['id_pedido','tbl_pedido', 'id_pedido', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'data_evento' =>
+				['display_column' => 'Dt. Evento', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'date', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'end_evento' =>
+				['display_column' => 'Endereço', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'hora_evento' =>
+				['display_column' => 'Horário', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'cel_evento' =>
+				['display_column' => 'Celular', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_usuario' =>
+				['display_column' => '', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_evento */
+
+
+	/* begin_tbl_ficha_kardex */
+	public function ficha_kardex(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_ficha_kardex',
+				 'chave_pk' => 'id_ficha_kerdex',
+				 'display'  => 'Ficha Kardex'],
+			'columns' =>
+				[
+				  
+			 'id_ficha_kerdex' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_loja' =>
+				['display_column' => 'Loja', 
+				 
+				 'select_relacional' => ['id_loja','tbl_loja', 'nome_fantasia', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_produto' =>
+				['display_column' => 'Produto', 
+				 
+				 'select_relacional' => ['id_produto','tbl_produto', 'nome', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'tipo_movimentacao' =>
+				['display_column' => 'Tipo Movimentação', 
+				 
+				 'select' => ["e" => "Entrada", "s" => "Saída", "a" => "Ajustes", "t" => "Transferências", "c" => "Cancelado"],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'origem_movimentacao' =>
+				['display_column' => 'Origem', 
+				 
+				 'select' => ["me" => "Movimentação Estoque", "nfs" => "Nota Fiscal Saída", "nfe" => "Nota Fiscal Entrada", "ps" => "Pedido Site"],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'data_movimentacao' =>
+				['display_column' => 'Data', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'date', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'qtde_movimentacao' =>
+				['display_column' => 'Qtde', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_usuario' =>
+				['display_column' => '', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_ficha_kardex */
+
+
+	/* begin_tbl_fluxo_caixa */
+	public function fluxo_caixa(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_fluxo_caixa',
+				 'chave_pk' => 'id_fluxo_caixa',
+				 'display'  => 'Fluxo de Caixa'],
+			'columns' =>
+				[
+				  
+			 'id_fluxo_caixa' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_contas_areceber' =>
+				['display_column' => 'Contas a Receber', 
+				 
+				 'select_relacional' => ['id_contas_areceber','tbl_contas_areceber', 'id_contas_areceber', []],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_contas_apagar' =>
+				['display_column' => 'Contas a Pagar', 
+				 
+				 'select_relacional' => ['id_contas_apagar','tbl_contas_apagar', 'id_contas_apagar', []],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'dt_cadastro' =>
+				['display_column' => 'Dt. Cadastro', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'date', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_conta_gerencial' =>
+				['display_column' => 'Conta Gerencial', 
+				 
+				 'select_relacional' => ['id_conta_gerencial','tbl_conta_gerencial', 'nome_conta_gerencial', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_fornecedor' =>
+				['display_column' => 'Fornecedor', 
+				 
+				 'select_relacional' => ['id_fornecedor','tbl_fornecedor', 'nome', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_documento' =>
+				['display_column' => 'Documento', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'dt_venc' =>
+				['display_column' => 'Dt. Vencimento', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'date', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'valor_areceber' =>
+				['display_column' => 'Valor a Receber', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'valor_apagar' =>
+				['display_column' => 'Valor a Pagar', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'dt_pgto_receb' =>
+				['display_column' => 'Dt. Pgto Recebimento', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'date', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_conta_corrente' =>
+				['display_column' => 'Conta Corrente', 
+				 
+				 'select_relacional' => ['id_conta_corrente','tbl_conta_corrente', 'nome_conta_corrente', []],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'valor_recebido' =>
+				['display_column' => 'Valor Recebido', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'valor_pgto' =>
+				['display_column' => 'Valor Pgto', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'valor_desconto' =>
+				['display_column' => 'Valor Desconto', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'valor_juros' =>
+				['display_column' => 'Valor Juros', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'obs' =>
+				['display_column' => 'Observação', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'tipo_recebimento' =>
+				['display_column' => 'Tipo Recebimento', 
+				 
+				 'select_relacional' => ["id_tipo","tbl_tipo", "descricao", ["campo" => "tipo_pagamento"]],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'tp_entrada_saida' =>
+				['display_column' => 'Entrada/Saída', 
+				 
+				 'select' => ["e" => "Entrada", "s" => "Saída"],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_usuario' =>
+				['display_column' => '', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_fluxo_caixa */
+
+
+	/* begin_tbl_fornecedor */
+	public function fornecedor(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_fornecedor',
+				 'chave_pk' => 'id_fornecedor',
+				 'display'  => 'Fornecedor'],
+			'columns' =>
+				[
+				  
+			 'id_fornecedor' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'nome' =>
+				['display_column' => 'Nome do Fornecedor', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'apelido' =>
+				['display_column' => 'Razão Social', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'telefone' =>
+				['display_column' => 'Telefone', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'celular' =>
+				['display_column' => 'Celular', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'whatsapp' =>
+				['display_column' => 'Whatsapp', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'email' =>
+				['display_column' => 'E-mail', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'site' =>
+				['display_column' => 'Site', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'observacao' =>
+				['display_column' => 'Observação', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'tipo_pessoa' =>
+				['display_column' => 'Tipo Pessoa', 
+				 
+				 'select' => ["f" => "Física", "j" => "Jurídica"],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'cpf_cnpj' =>
+				['display_column' => 'CPF/CNPJ', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'rg' =>
+				['display_column' => 'RG', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'inscr_municipal' =>
+				['display_column' => 'Inscrição Municipal', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'inscr_estadual' =>
+				['display_column' => 'Inscrição Estadual', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'tipo_ie' =>
+				['display_column' => 'Tipo IE', 
+				 
+				 'select_relacional' => ["tipo_ie","tbl_tipo","descricao", ["campo" => "tipo_ie"]],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'cep' =>
+				['display_column' => 'CEP', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'endereco' =>
+				['display_column' => 'Endereço', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'numero' =>
+				['display_column' => 'Nr.', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'bairro' =>
+				['display_column' => 'Bairro', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'complemento' =>
+				['display_column' => 'Complemento', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'banco' =>
+				['display_column' => 'Banco', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'agencia' =>
+				['display_column' => 'Agência', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'digito_ag' =>
+				['display_column' => 'Digito Ag.', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'conta_corrente' =>
+				['display_column' => 'Conta Corrente', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'digito_cc' =>
+				['display_column' => 'Digito Cc.', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_usuario' =>
+				['display_column' => 'Usuário', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_fornecedor */
 
 }
