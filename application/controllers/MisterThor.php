@@ -4,7 +4,7 @@ class MisterThor extends MY_Controller {
 	
 	public function __construct()
 	{
-		parent::__construct(FALSE);
+		parent::__construct(TRUE);
 	}
 
 	/*
@@ -26,15 +26,16 @@ class MisterThor extends MY_Controller {
 		$script_inputs = "";
 		if ($_POST){
 			$tabela = $this->Mister->get_all_table($this->input->post('tabela'));
-			list($nome_var, $display_tabela) = explode(":", $tabela[0]['TABLE_COMMENT']);
-
+			$table_comments = explode(":", $tabela[0]['TABLE_COMMENT']);
+			$nome_var = isset($table_comments[0]) ? $table_comments[0] : "";
+			$display_tabela = isset($table_comments[1]) ? $table_comments[1] : "";
+			
 			$colunas = $this->Mister->get_show_columns($this->input->post('tabela'));
-
 
 			foreach ($colunas as $key => $coluna) {
 				$config_column = explode(":", $colunas[$key]['COLUMN_COMMENT']);
-				$display_var = $config_column[0];
-				$display_column = $config_column[1];
+				$display_var = isset($config_column[0]) ? $config_column[0] : "";
+				$display_column = isset($config_column[1]) ? $config_column[1] : "";
 				$select_var = isset($config_column[2]) ? $config_column[2] : "";
 				$select_values = isset($config_column[3]) ? $config_column[3] : "";
 
@@ -47,6 +48,7 @@ class MisterThor extends MY_Controller {
 					</div>
 					<input type='hidden' name='display_var[]' value='display_column'>
 					<input type='hidden' name='column_type[]' value='".$colunas[$key]['COLUMN_TYPE']."'>
+					<input type='hidden' name='is_nullable[]' value='".($colunas[$key]['IS_NULLABLE'] === 'NO' ? "NOT NULL":"NULL") ."'>
 					<div class='form-group col-md-3'>
 						<label>Display da Coluna</label>
 						<input type='text' name='display_column[]' class='form-control' placeholder='Display da Coluna' value='".$display_column."'>
@@ -64,6 +66,7 @@ class MisterThor extends MY_Controller {
 			$script_inputs = 
 			"
 				<form action='http://localhost/MisterAdmin/MisterThor/set_tabelas_colunas' class='form-inline' method='post' accept-charset='utf-8' id='enviar_tabela_coluna'>
+					<input type='hidden' name='echo' value='true'>
 					<div class='form-row'>
 						<div class='form-group col-md-4'>
 							<label>Nome da Tabela</label>
@@ -86,16 +89,53 @@ class MisterThor extends MY_Controller {
 
 	public function set_tabelas_colunas(){
 		if ($_POST){
-			//print_r($_POST);
-			$script[] = "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` COMMENT='".$_POST['nome_var'].":".$_POST['display_tabela']."'; \n";
-			
+			$scripts[] = "/* begin_".$_POST['tabela']." */ \n";
 
-			foreach ($_POST['coluna'] as $key => $value) {
-				$script[] = "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` CHANGE `".$value."` `".$value."` ".$_POST['column_type'][$key]." COMMENT '".$_POST['display_var'][$key].":".$_POST['display_column'][$key].":".$_POST['select_var'][$key].":".$_POST['select_values'][$key]."'; \n";
+			$scripts[] = "SET FOREIGN_KEY_CHECKS = 0; \n";
+
+			if(array_search("id_usuario", $_POST['coluna']) === FALSE){
+				$scripts[] = "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` ADD COLUMN `id_usuario` INT(11) NULL  COMMENT 'Usuário'; \n";
+
+				$scripts[] = " ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` ADD CONSTRAINT `FK_".str_replace("tbl_", "", $_POST['tabela'])."_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `miste872_prod`.`tbl_usuario`(`id_usuario`); \n";
 			}
 
-			$this->Mister->ExecScript($script);
-			print_r($script);
+			$scripts[] = "UPDATE ".$_POST['tabela']." SET id_usuario = ".$this->session->userdata('id_user')."; \n";
+
+			$scripts[] = "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` COMMENT='".$_POST['nome_var'].":".$_POST['display_tabela']."'; \n";
+			
+			foreach ($_POST['coluna'] as $key => $value) {
+				$scripts[] = "ALTER TABLE `miste872_prod`.`".$_POST['tabela']."` CHANGE `".$value."` `".$value."` ".$_POST['column_type'][$key]." ".$_POST['is_nullable'][$key]." COMMENT '".$_POST['display_var'][$key].":".$_POST['display_column'][$key].":".$_POST['select_var'][$key].":".$_POST['select_values'][$key]."'; \n";
+			}
+
+			$scripts[] = "SET FOREIGN_KEY_CHECKS = 1; \n";
+
+			$scripts[] = "/* end_".$_POST['tabela']." */ \n";
+
+			$this->Mister->ExecScript($scripts);
+
+			$arquivo = FCPATH."script\script-configuracao.sql";
+			$linhas = file($arquivo); // lê o arquivo na forma de array (cada linha é um elemento)
+			$start = false;
+			$stop = false;
+			foreach ($linhas as $key => $linha) {
+				if (strpos($linha, "begin_".$_POST['tabela']) !== false){
+					$start = true;
+				}
+				
+				if($start && !$stop)
+				 unset($linhas[$key]);
+
+				if (strpos($linha, "end_".$_POST['tabela']) !== false){
+					$stop = true;					
+				}
+			}
+			$numero_linha = count($linhas);
+			$final_array = array_splice($linhas, $numero_linha-1); // corta array ($linhas fica com a primeira parte; array_splice retorna a parte cortada)
+			$linhas = array_merge($linhas, $scripts); // junta com o novo
+			$linhas = array_merge($linhas, $final_array); // junta novamente
+			file_put_contents($arquivo, $linhas);
+
+			print_r($scripts);
 		}
 	}
 
@@ -104,14 +144,18 @@ class MisterThor extends MY_Controller {
 			$tabela = $this->Mister->get_all_table($this->input->post('tabela'));
 
 			$nome_tabela = $tabela[0]['TABLE_NAME'];
-			list($nome_var, $display_tabela) = explode(":", $tabela[0]['TABLE_COMMENT']);
+			
+			$table_comments = explode(":", $tabela[0]['TABLE_COMMENT']);
+			$nome_var = isset($table_comments[0]) ? $table_comments[0] : "";
+			$display_tabela = isset($table_comments[1]) ? $table_comments[1] : "";
+
 			$columns = $this->Mister->get_show_columns($this->input->post('tabela'));
 			//print_r($columns);
 			$campo = "";
 			$campos = "\n";
 			foreach ($columns as $key => $value) {
 				$config_column = explode(":", $columns[$key]['COLUMN_COMMENT']);
-				$display_column = $config_column[1];
+				$display_column = isset($config_column[1]) ? $config_column[1] : "";
 				$select_values = isset($config_column[3]) ? $config_column[3] : "";
 				$required = "";
 				$rules = "";
@@ -173,7 +217,8 @@ class MisterThor extends MY_Controller {
 			}
 	
 			$script = "
-	public function ".str_replace("tbl_", "", $nome_tabela)."(\$$campo = ''){
+	/* begin_$nome_tabela */
+	public function ".str_replace("tbl_", "", $nome_tabela)."(){
 		\$this->set_config =
 	    		[ 
 			'table' =>
@@ -188,14 +233,36 @@ class MisterThor extends MY_Controller {
 			'dropdown' => [],
 		];
 
-		if (!empty(\$$campo)) {
-			\$this->set_config['where'] = array_merge_recursive(\$this->set_config['where'], ['$campo' => \$$campo]);
-		}
 		\$this->execute();
 	}
+	/* end_$nome_tabela */
 ";
 
 			if($this->input->post('echo') !== null && $this->input->post('echo') === 'true'){
+				$arquivo = APPPATH."controllers\\Mister.php";
+				$linhas = file($arquivo); // lê o arquivo na forma de array (cada linha é um elemento)
+				$start = false;
+				$stop = false;
+				foreach ($linhas as $key => $linha) {
+					if (strpos($linha, "begin_".$nome_tabela) !== false){
+						unset($linhas[$key-1]);
+						$start = true;
+					}
+					
+					if($start && !$stop)
+					 unset($linhas[$key]);
+
+					if (strpos($linha, "end_".$nome_tabela) !== false){
+						$stop = true;					
+						unset($linhas[$key+1]);
+					}
+				}
+				$numero_linha = count($linhas);
+				$final_array = array_splice($linhas, $numero_linha-1); // corta array ($linhas fica com a primeira parte; array_splice retorna a parte cortada)
+				$linhas[] = $script . "\n"; // adiciona após a posição cortada
+				$linhas = array_merge($linhas, $final_array); // junta novamente
+				file_put_contents($arquivo, $linhas);
+
 				echo $script;
 			} else {
 				$this->_output_view($data, 'thor/thor');

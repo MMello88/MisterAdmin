@@ -1,2 +1,0 @@
-http://themeofwp.com/plugins/grocerycrud/examples/customers_management
-https://codecanyon.net/item/grocery-crud-materialize-for-bootstrap-theme/21255547
