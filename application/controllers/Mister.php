@@ -633,7 +633,16 @@ class Mister extends MY_Controller {
 			 'uf' =>
 				['display_column' => 'UF', 
 				 
-				 'select' => [],
+				 'select' => ["AC" => "Acre", "AL" => "Alagoas", "AP" => "Amapá",
+							  "AM" => "Amazonas", "BA" => "Bahia", "CE" => "Ceará",
+							  "DF" => "Distrito Federal", "ES" => "Espírito Santo",
+							  "GO" => "Goiás", "MA" => "Maranhão", "MT" => "Mato Grosso",
+							  "MS" => "Mato Grosso do Sul", "MG" => "Minas Gerais",
+							  "PA" => "Pará", "PB" => "Paraíba", "PR" => "Paraná",
+							  "PE" => "Pernambuco", "PI" => "Piauí", "RJ" => "Rio de Janeiro",
+							  "RN" => "Rio Grande do Norte", "RS" => "Rio Grande do Sul",
+							  "RO" => "Rondônia", "RR" => "Roraima", "SC" => "Santa Catarina",
+							  "SP" => "São Paulo", "SE" => "Sergipe", "TO" => "Tocantins"],
 				 'input' => ['type' => 'text', 'required' => 'required'],
 					
 				 'rules' => 'required',
@@ -1721,7 +1730,16 @@ class Mister extends MY_Controller {
 			 'uf' =>
 				['display_column' => 'UF', 
 				 
-				 'select' => [],
+				 'select' => ["AC" => "Acre", "AL" => "Alagoas", "AP" => "Amapá",
+							  "AM" => "Amazonas", "BA" => "Bahia", "CE" => "Ceará",
+							  "DF" => "Distrito Federal", "ES" => "Espírito Santo",
+							  "GO" => "Goiás", "MA" => "Maranhão", "MT" => "Mato Grosso",
+							  "MS" => "Mato Grosso do Sul", "MG" => "Minas Gerais",
+							  "PA" => "Pará", "PB" => "Paraíba", "PR" => "Paraná",
+							  "PE" => "Pernambuco", "PI" => "Piauí", "RJ" => "Rio de Janeiro",
+							  "RN" => "Rio Grande do Norte", "RS" => "Rio Grande do Sul",
+							  "RO" => "Rondônia", "RR" => "Roraima", "SC" => "Santa Catarina",
+							  "SP" => "São Paulo", "SE" => "Sergipe", "TO" => "Tocantins"],
 				 'input' => ['type' => 'text', 'required' => 'required'],
 					
 				 'rules' => 'required',
@@ -2668,5 +2686,365 @@ class Mister extends MY_Controller {
 		$this->execute();
 	}
 	/* end_tbl_fornecedor */
+
+
+	/* begin_tbl_function_controller */
+	public function function_controller(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_function_controller',
+				 'chave_pk' => 'function_controller_id',
+				 'display'  => 'Classe Controller'],
+			'columns' =>
+				[
+				  
+			 'function_controller_id' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'arquivo_controller_id' =>
+				['display_column' => 'Arquivo Controller', 
+				 
+				 'select_relacional' => ['arquivo_controller_id','tbl_arquivo_controller', 'nome_controller', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'nome_function' =>
+				['display_column' => 'Nome da Função', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'funcao' =>
+				['display_column' => 'Script da Função', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_usuario' =>
+				['display_column' => '', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_function_controller */
+
+
+	/* begin_tbl_item_pedido */
+	public function item_pedido(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_item_pedido',
+				 'chave_pk' => 'id_item_pedido',
+				 'display'  => 'Item do Pedido'],
+			'columns' =>
+				[
+				  
+			 'id_item_pedido' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'id_pedido' =>
+				['display_column' => 'Pedido', 
+				 
+				 'select_relacional' => ['id_pedido','tbl_pedido', 'id_pedido', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_produto' =>
+				['display_column' => 'Produto', 
+				 
+				 'select_relacional' => ['id_produto','tbl_produto', 'nome', []],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_categoria' =>
+				['display_column' => 'Categoria', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'qtde' =>
+				['display_column' => 'Qtde', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'valor_unitario' =>
+				['display_column' => 'Valor Unitário', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_usuario' =>
+				['display_column' => '', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_item_pedido */
+
+
+	/* begin_tbl_loja */
+	public function loja(){
+		$this->set_config =
+	    		[ 
+			'table' =>
+				['nome'     => 'tbl_loja',
+				 'chave_pk' => 'id_loja',
+				 'display'  => 'Loja'],
+			'columns' =>
+				[
+				  
+			 'id_loja' =>
+				['display_column' => 'Id', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'number', 'required' => 'readonly'],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'nome_proprietario' =>
+				['display_column' => 'Nome do Proprietário', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'cpf' =>
+				['display_column' => 'CPF', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'razao_social' =>
+				['display_column' => 'Razão Social', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'nome_fantasia' =>
+				['display_column' => 'Nome Fantasia', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'cnpj' =>
+				['display_column' => 'CNPJ', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'nr_inscricao_muni' =>
+				['display_column' => 'Nr. Insc. Municipal', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'cnae' =>
+				['display_column' => 'CNAE', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'data_nascimento' =>
+				['display_column' => 'Dt. Nascimento', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'date', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'data_abertura' =>
+				['display_column' => 'Dt. Abertura', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'date', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'endereco' =>
+				['display_column' => 'Endereço', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'numero' =>
+				['display_column' => 'Nr.', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'complemento' =>
+				['display_column' => 'Complemento', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => ''],
+					
+				 'rules' => '',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+			 'bairro' =>
+				['display_column' => 'Bairro', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'cep' =>
+				['display_column' => 'CEP', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'municipio' =>
+				['display_column' => 'Municipio', 
+				 
+				 'select' => [],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'uf' =>
+				['display_column' => 'UF', 
+				 
+				 'select' => ["AC" => "Acre", "AL" => "Alagoas", "AP" => "Amapá", 							  "AM" => "Amazonas", "BA" => "Bahia", "CE" => "Ceará", 							  "DF" => "Distrito Federal", "ES" => "Espírito Santo", 							  "GO" => "Goiás", "MA" => "Maranhão", "MT" => "Mato Grosso", 							  "MS" => "Mato Grosso do Sul", "MG" => "Minas Gerais", 							  "PA" => "Pará", "PB" => "Paraíba", "PR" => "Paraná", 							  "PE" => "Pernambuco", "PI" => "Piauí", "RJ" => "Rio de Janeiro", 							  "RN" => "Rio Grande do Norte", "RS" => "Rio Grande do Sul", 							  "RO" => "Rondônia", "RR" => "Roraima", "SC" => "Santa Catarina", 							  "SP" => "São Paulo", "SE" => "Sergipe", "TO" => "Tocantins"],
+				 'input' => ['type' => 'text', 'required' => 'required'],
+					
+				 'rules' => 'required',
+				 'default_value' => '', 
+				 'costumer_value' => '',
+				 'display_grid' => 'true'],
+			 'id_usuario' =>
+				['display_column' => '', 
+				 
+				 'select_relacional' => ['id_usuario','tbl_usuario', 'nome', []],
+					
+				 'rules' => '',
+				 'default_value' => $this->session->userdata("id_user"), 
+				 'costumer_value' => '',
+				 'display_grid' => 'false'],
+
+				],
+			'where' => ['id_usuario' => $this->session->userdata('id_user')],
+			'dropdown' => [],
+		];
+
+		$this->execute();
+	}
+	/* end_tbl_loja */
 
 }
