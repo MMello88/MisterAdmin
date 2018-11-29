@@ -52,7 +52,16 @@ class MisterAmon extends MY_Controller {
 						<input type='text' name='display_column[]' class='form-control input-sm' placeholder='Display da Coluna' value='".$display_column."'>
 					</div>
 
-                    
+                    <div class='form-group col-md-3'>
+						<label>Tipo de Campo</label>
+						<select class='form-control input-sm' id='exampleFormControlSelect1'>
+                            <option></option>
+                            <option>Text</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+					</div>
 				</div>
 				";
 			}
