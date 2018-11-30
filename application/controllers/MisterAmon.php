@@ -25,13 +25,35 @@ class MisterAmon extends MY_Controller {
 			$html_input_coluna = $this->getHtmlInputColuna();
 
 			echo
-			"
-				<form action='http://localhost/MisterAdmin/MisterAmon/SalvarTabelaColuna' class='form-inline' method='post' accept-charset='utf-8' id='enviar_tabela_coluna'>
-					<input type='hidden' name='echo' value='true'>
-					$html_input_tabela
-					$html_input_coluna
-					<button type='submit' class='btn btn-info'>Salvar</button>
-				</form>
+			"<div class='col-lg-12'>
+				<div class='card'>
+					<div class='card-title'>
+						<h4>Tabela</h4>
+					</div>
+					<div class='card-body'>
+						<div class='basic-form'>
+							<form action='http://localhost/MisterAdmin/MisterAmon/SalvarTabelaColuna' class='form-inline' method='post' accept-charset='utf-8' id='enviar_tabela_coluna'>
+								<input type='hidden' name='echo' value='true'>
+								$html_input_tabela
+								<div class='col-lg-12'>
+									<div class='card'>
+										<div class='card-title'>
+											<h4>Colunas</h4>
+										</div>
+										<div class='card-body'>
+											<div class='basic-form'>
+												$html_input_coluna
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<button type='submit' class='btn btn-info'>Salvar</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 			";
 		}
 	}
@@ -115,14 +137,21 @@ class MisterAmon extends MY_Controller {
 
 		return "
 			<div class='form-row'>
-				<div class='form-group col-md-4'>
-					<label>Nome da Tabela</label>
-					<input type='text' name='tabela' class='form-control input-sm' placeholder='Nome da Tabela' value='".$tabela[0]['TABLE_NAME']."'>
-					<input type='hidden' name='nome_var' value='nome'>
+				<div class='form-group col-md-3'>
+					<label>Nome: </label>
+					" . form_input('tabela', $tabela[0]['TABLE_NAME'], "class='form-control input-sm' placeholder='Nome da Tabela'") . "
 				</div>
-				<div class='form-group col-md-4'>
-					<label>Display da Tabela</label>
-					<input type='text' name='display_tabela' class='form-control input-sm' placeholder='Display da Tabela' value=''>
+				<div class='form-group col-md-3'>
+					<label>Display: </label>
+					" . form_input('display_tabela', "", "class='form-control input-sm' placeholder='Display'") . "
+				</div>
+				<div class='form-group col-md-3'>
+					" . form_checkbox('eh_filha', 'N', FALSE, "id='eh_filha' class='form-control input-sm'") . "
+					<label> É Tabela Filha? </label>
+				</div>
+				<div class='form-group col-md-3'>
+					<label> Nome Tabela Filha: </label>
+					" . form_input('tabela_filha', "", "id='tabela_filha' class='form-control input-sm' placeholder='Nome Tabela Filha' readonly") . "
 				</div>
 			</div>
 		";
@@ -133,28 +162,32 @@ class MisterAmon extends MY_Controller {
 		$colunas = $this->Mister->get_show_columns($this->input->post('tabela'));
 		$html = "";
 		foreach ($colunas as $key => $coluna) {
-			$config_column = explode(":", $colunas[$key]['COLUMN_COMMENT']);
-			$display_var = isset($config_column[0]) ? $config_column[0] : "";
-			$display_column = isset($config_column[1]) ? $config_column[1] : "";
-			$select_var = isset($config_column[2]) ? $config_column[2] : "";
-			$select_values = isset($config_column[3]) ? $config_column[3] : "";
-
 			$html .= 
 			"
 				<div class='form-row'>
 					<div class='form-group col-md-3'>
-						<label>Nome da Coluna</label>
-						<input type='text' name='coluna[]' class='form-control input-sm' placeholder='Nome da Coluna' value='".$colunas[$key]['COLUMN_NAME']."'>
+						<label>Nome: </label>
+						" . form_input('column[]', $colunas[$key]['COLUMN_NAME'], "class='form-control input-sm' placeholder='Nome da Coluna' readoonly") . "
 					</div>
 					
 					<div class='form-group col-md-3'>
-						<label>Display da Coluna</label>
-						<input type='text' name='display_column[]' class='form-control input-sm' placeholder='Display da Coluna' value='".$display_column."'>
+						<label>Display: </label>
+						" . form_input('display_column[]', "", "class='form-control input-sm' placeholder='Display da Coluna'") . "
 					</div>
 
 					<div class='form-group col-md-3'>
-						<label>Tipo de Campo</label>
+						<label>Tipo: </label><br/>
 						" . form_dropdown('type[]', $cbxInputs, "", "id='cbxInput' class='form-control input-sm'") . "
+					</div>
+
+					<div class='form-group col-md-3'>
+						" . form_checkbox('notnull[]', 'Não', FALSE, "class='form-control input-sm'") . "
+						<label> Campo Obrigatório</label>
+					</div>
+					
+					<div class='form-group col-md-3'>
+						" . form_checkbox('primarykey[]', 'Não', FALSE, "class='form-control input-sm'") . "
+						<label> Campo Chave</label>
 					</div>
 				</div>
 			";			
@@ -163,3 +196,4 @@ class MisterAmon extends MY_Controller {
 		return $html;		
 	}
 }
+
