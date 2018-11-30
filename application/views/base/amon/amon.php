@@ -10,7 +10,7 @@
 <?php 
 	echo form_open("MisterAmon/index", "class='form-inline'") .
 	"<div class='form-group  mb-2'>".
-	form_dropdown('tabela', $all_tables, "", "id='thor_tabela' class='form-control mr-2'") .
+    form_dropdown('tabela', $all_tables, "", "id='thor_tabela' class='form-control mr-2'") .
 	"</div>" .
     form_close(); 
 
