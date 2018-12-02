@@ -139,19 +139,25 @@ class MisterAmon extends MY_Controller {
 			<div class='form-row'>
 				<div class='form-group col-md-3'>
 					<label>Nome: </label>
-					" . form_input('tabela', $tabela[0]['TABLE_NAME'], "class='form-control input-sm' placeholder='Nome da Tabela'") . "
+					" . form_input('tabela', $tabela[0]['TABLE_NAME'], "class='form-control' placeholder='Nome da Tabela'") . "
 				</div>
 				<div class='form-group col-md-3'>
 					<label>Display: </label>
-					" . form_input('display_tabela', "", "class='form-control input-sm' placeholder='Display'") . "
+					" . form_input('display_tabela', "", "class='form-control' placeholder='Display'") . "
 				</div>
-				<div class='form-group col-md-3'>
-					" . form_checkbox('eh_filha', 'N', FALSE, "id='eh_filha' class='form-control input-sm'") . "
-					<label> É Tabela Filha? </label>
+				<div class='form-group col-md-3 checkbox'>
+				<label>	
+				" . form_checkbox('eh_filha', 'N', FALSE, "id='eh_filha' class='form-check-input'") . "
+					 É Tabela Filha? </label>
 				</div>
 				<div class='form-group col-md-3'>
 					<label> Nome Tabela Filha: </label>
-					" . form_input('tabela_filha', "", "id='tabela_filha' class='form-control input-sm' placeholder='Nome Tabela Filha' readonly") . "
+					" . form_input('tabela_filha', "", "id='tabela_filha' class='form-control' placeholder='Nome Tabela Filha' readonly") . "
+				</div>
+
+				<div class='form-group col-md-3'>
+					<label>Link Web: </label>
+					" . form_input('link', "", "class='form-control' placeholder='Link Web'") . "
 				</div>
 			</div>
 		";
@@ -164,30 +170,54 @@ class MisterAmon extends MY_Controller {
 		foreach ($colunas as $key => $coluna) {
 			$html .= 
 			"
-				<div class='form-row'>
-					<div class='form-group col-md-3'>
+				<div class='form-row border-bottom py-3'>
+					<div class='col-md-3 form-group'>
 						<label>Nome: </label>
-						" . form_input('column[]', $colunas[$key]['COLUMN_NAME'], "class='form-control input-sm' placeholder='Nome da Coluna' readoonly") . "
+						" . form_input('column[]', $colunas[$key]['COLUMN_NAME'], "class='form-control' placeholder='Nome da Coluna' readonly") . "
 					</div>
 					
-					<div class='form-group col-md-3'>
+					<div class='col-md-3 form-group'>
 						<label>Display: </label>
-						" . form_input('display_column[]', "", "class='form-control input-sm' placeholder='Display da Coluna'") . "
+						" . form_input('display_column[]', "", "class='form-control' placeholder='Display da Coluna'") . "
 					</div>
 
-					<div class='form-group col-md-3'>
-						<label>Tipo: </label><br/>
-						" . form_dropdown('type[]', $cbxInputs, "", "id='cbxInput' class='form-control input-sm'") . "
+					<div class='col-md-3 form-group'>
+						<label>Tipo: </label>
+						" . form_dropdown('type[]', $cbxInputs, "", "id='cbxInput' class='form-control'") . "
 					</div>
 
-					<div class='form-group col-md-3'>
-						" . form_checkbox('notnull[]', 'Não', FALSE, "class='form-control input-sm'") . "
-						<label> Campo Obrigatório</label>
+					<div class='col-md-3 form-group checkbox'>
+						<label>
+						" . form_checkbox('notnull[]', $colunas[$key]['IS_NULLABLE'] == 'NO' ? 'Sim' : 'Não', $colunas[$key]['IS_NULLABLE'] == 'NO' ? TRUE : FALSE, "class='form-check-input'") . "
+						 Campo Obrigatório</label>
 					</div>
 					
-					<div class='form-group col-md-3'>
-						" . form_checkbox('primarykey[]', 'Não', FALSE, "class='form-control input-sm'") . "
-						<label> Campo Chave</label>
+					<div class='col-md-3 form-group checkbox'>
+						<label>Campo Chave: </label>
+						" . form_dropdown('colunachave[]', ["" => "", "PRI" => "Chave Primaria", "MUL" => "Chave Relacional"], $colunas[$key]['COLUMN_KEY'], "id='colunachave' class='form-control'") . "
+					</div>
+
+					<div class='col-md-3 form-group checkbox'>
+						<label>Regras: </label>
+						" . form_multiselect('rules[]', ["" => "", "required" => "Campo Obrigatório", "valid_email" => "Validar Email", 
+						  "trim" => "Retira Espaços", "alpha_numeric" => "Valor Alfanumerico", "numeric" => "Valor Numérico", 
+						  "decimal" => "Valor Decimal", "integer" => "Valor Inteiro"], "", "id='rules' class='form-control'") . "
+					</div>
+
+					<div class='col-md-3 form-group'>
+						<label>Valor Default: </label>
+						" . form_input('display_column[]', "", "class='form-control' placeholder='Valor Default'") . "
+					</div>
+
+					<div class='col-md-3 form-group'>
+						<label>Valor Customizado: </label>
+						" . form_dropdown('costumer_value[]', ["" => "", "md5" => "Criptografia MD5"], "", "id='costumer_value' class='form-control'") . "
+					</div>
+
+					<div class='col-md-3 form-group checkbox'>
+						<label>
+						" . form_checkbox('display_grid[]', 'Sim', TRUE, "class='form-check-input'") . "
+						 Mostrar da Grade</label>
 					</div>
 				</div>
 			";			
