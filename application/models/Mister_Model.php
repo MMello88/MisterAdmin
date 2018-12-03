@@ -9,7 +9,7 @@ class Mister_Model extends MY_Model {
        
     protected function setConfigure(){}
 
-    public function getColunaInput($id_coluna_input = ''){
+    public function getMisterColunaInput($id_coluna_input = ''){
         $sql = "SELECT ci.id_coluna_input, tc.tipo, ti.display, ti.type
                   FROM mister_coluna_input ci
                  INNER JOIN mister_tipo_coluna tc ON (tc.id_tipo_coluna = ci.id_tipo_coluna)

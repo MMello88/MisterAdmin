@@ -53,26 +53,37 @@ $(document).on('change', '#thor_tabela', function(e){
 });
 
 function addTabelaRelacional(key){
-    console.log(key);
-    var url_post = "<?= base_url("MisterAmon/getAllTablesToCombox"); ?>";
-    
-
+    var url_post = "<?= base_url("MisterAmon/getComboboxTabelaRef"); ?>";
+    $("#tab_ref").html("");
+    $("#col_ref").html("");
+    $("#col_ref_1").html("");
     $.ajax({
       type: "POST",
       url: url_post,
-      data: {'echo' : 'true'},
+      data: {'echo' : 'true', 'div_id' : key},
       success: function(data){
           console.log(data);
-            var html = "<div class='col-md-3 form-group'><label>Tabela Ref:</label><select name='id_tabela_ref[]' id='id_tabela_ref' class='form-control' onchange='addCampoRelacional("+key+")'><option value=''></option>"
-                
-            html = html.concat("</select></div>");
-        $("#campo" + key).append(html);
+        $("#campo" + key).append(data);
       },
       error: function(data) {
-       $("#tabela_input").html(data);
+       $("#campo" + key).html(data);
       }
     });
+}
 
-    e.preventDefault();
+function addCampoRelacional(tabela, key){
+    var url_post = "<?= base_url("MisterAmon/getComboboxCampoRef"); ?>";
+    $.ajax({
+      type: "POST",
+      url: url_post,
+      data: {'tabela' : tabela, 'echo' : 'true'},
+      success: function(data){
+        console.log(data);
+        $("#campo" + key).append(data);
+      },
+      error: function(data) {
+       $("#campo" + key).html(data);
+      }
+    });
 }
 </script>

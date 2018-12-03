@@ -100,7 +100,7 @@ SELECT ci.id_coluna_input, CONCAT(tc.tipo,tc.length) tipo, ti.display, ti.type
   FROM mister_coluna_input ci
  INNER JOIN mister_tipo_coluna tc ON (tc.id_tipo_coluna = ci.id_tipo_coluna)
  INNER JOIN mister_tipo_input ti ON (ti.id_tipo_input = ci.id_tipo_input)
- WHERE tc.id_banco = 3 /*Mysql*/
+ WHERE tc.id_banco = 3; /*Mysql*/
 
 DROP TABLE IF EXISTS `mister_tabela`;
 

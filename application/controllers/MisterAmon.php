@@ -31,7 +31,7 @@ class MisterAmon extends MY_Controller {
 						<h4>Tabela</h4>
 					</div>
 					<div class='card-body'>
-						<div class='basic-form'>
+						<div class='basic-elements'>
 							<form action='http://localhost/MisterAdmin/MisterAmon/SalvarTabelaColuna' class='form-inline' method='post' accept-charset='utf-8' id='enviar_tabela_coluna'>
 								<input type='hidden' name='echo' value='true'>
 								$html_input_tabela
@@ -41,7 +41,7 @@ class MisterAmon extends MY_Controller {
 											<h4>Colunas</h4>
 										</div>
 										<div class='card-body'>
-											<div class='basic-form'>
+											<div class='basic-elements'>
 												$html_input_coluna
 											</div>
 										</div>
@@ -112,8 +112,40 @@ class MisterAmon extends MY_Controller {
 		}
 	}
 
+	public function getComboboxTabelaRef(){
+		$tables = $this->getAllTablesToCombox();
+		if(isset($_POST['echo']) && $_POST['echo'] === "true"){
+			$variavel = $_POST['div_id'];
+			echo "
+				<div class='form-group' id='tab_ref'>
+					<label>Tabela Ref: </label>
+					" . form_dropdown("id_tabela_ref[]", $tables, "", "id='id_tabela_ref' class='form-control' onchange='addCampoRelacional(this.value,$variavel)'") . "
+				</div>
+				  ";
+		}
+	}
+
+	public function getComboboxCampoRef(){
+		if(isset($_POST['echo']) && $_POST['echo'] === "true"){
+			$colunas = $this->Mister->get_show_columns($this->input->post('tabela'));
+			$cols = ["" => ""];
+			foreach ($colunas as $coluna) {
+				$cols[$coluna['COLUMN_NAME']] = $coluna['COLUMN_NAME'];
+			}
+			echo "<div class='form-group' id='col_ref'>
+					<label>Coluna Id Ref: </label>
+					" . form_dropdown("coluna_id_ref[]", $cols, "", "id='coluna_id_ref' class='form-control'") . "
+				</div>
+
+				<div class='form-group' id='col_ref_1'>
+					<label>Coluna Ref: </label>
+					" . form_dropdown("coluna_ref[]", $cols, "", "id='coluna_ref' class='form-control'") . "
+				</div>";
+		}
+	}
+
 	private function getColunaInputToCombox(){
-		$ColunaInputs = $this->Mister->getColunaInput();
+		$ColunaInputs = $this->Mister->getMisterColunaInput();
 		$cbxInputs = ["" => ""];
 		foreach ($ColunaInputs as $ColunaInput) {
 			$cbxInputs[$ColunaInput['id_coluna_input']] = $ColunaInput['display'];
@@ -122,14 +154,13 @@ class MisterAmon extends MY_Controller {
 		return $cbxInputs;
 	}
 
-	public function getAllTablesToCombox(){
+	private function getAllTablesToCombox(){
 		$all_tables = $this->Mister->get_all_table();
 		$tables = ["" => ""];
 		foreach ($all_tables as $table) {
 			$tables[$table['TABLE_NAME']] = $table['TABLE_NAME'];
 		}
-		if(isset($_POST['echo']) && $_POST['echo'] === "true")
-			print_r($tables);
+		
 		return $tables;
 	}
 
@@ -167,55 +198,55 @@ class MisterAmon extends MY_Controller {
 	private function getHtmlInputColuna(){
 		$cbxInputs = $this->getColunaInputToCombox();
 		$colunas = $this->Mister->get_show_columns($this->input->post('tabela'));
-		$html = "";
+		$html = "<div class='row'>";
 		foreach ($colunas as $key => $coluna) {
 			$html .= 
 			"
-				<div class='form-row border-bottom py-3' id='campo$key'>
-					<div class='col-md-3 form-group'>
+				<div class='col-lg-6 border-bottom py-3' id='campo$key'>
+					<div class='form-group'>
 						<label>Nome: </label>
 						" . form_input('column[]', $colunas[$key]['COLUMN_NAME'], "class='form-control' placeholder='Nome da Coluna' readonly") . "
 					</div>
 					
-					<div class='col-md-3 form-group'>
+					<div class='form-group'>
 						<label>Display: </label>
 						" . form_input('display_column[]', "", "class='form-control' placeholder='Display da Coluna'") . "
 					</div>
 
-					<div class='col-md-3 form-group'>
+					<div class='form-group'>
 						<label>Tipo: </label>
 						" . form_dropdown('type[]', $cbxInputs, "", "id='cbxInput' class='form-control'") . "
 					</div>
 
-					<div class='col-md-3 form-group checkbox'>
+					<div class='form-group checkbox'>
 						<label>
 						" . form_checkbox('notnull[]', $colunas[$key]['IS_NULLABLE'] == 'NO' ? 'Sim' : 'Não', $colunas[$key]['IS_NULLABLE'] == 'NO' ? TRUE : FALSE, "class='form-check-input'") . "
 						 Campo Obrigatório</label>
 					</div>
 					
-					<div class='col-md-3 form-group checkbox'>
+					<div class='form-group checkbox'>
 						<label>Campo Chave: </label>
 						" . form_dropdown('colunachave[]', ["" => "", "PRI" => "Chave Primaria", "MUL" => "Chave Relacional"], $colunas[$key]['COLUMN_KEY'], "id='colunachave' class='form-control' onChange='addTabelaRelacional($key)'") . "
 					</div>
 
-					<div class='col-md-3 form-group checkbox'>
+					<div class='form-group'>
 						<label>Regras: </label>
 						" . form_multiselect('rules[]', ["" => "", "required" => "Campo Obrigatório", "valid_email" => "Validar Email", 
 						  "trim" => "Retira Espaços", "alpha_numeric" => "Valor Alfanumerico", "numeric" => "Valor Numérico", 
 						  "decimal" => "Valor Decimal", "integer" => "Valor Inteiro"], "", "id='rules' class='form-control'") . "
 					</div>
 
-					<div class='col-md-3 form-group'>
+					<div class='form-group'>
 						<label>Valor Default: </label>
 						" . form_input('display_column[]', "", "class='form-control' placeholder='Valor Default'") . "
 					</div>
 
-					<div class='col-md-3 form-group'>
+					<div class='form-group'>
 						<label>Valor Customizado: </label>
 						" . form_dropdown('costumer_value[]', ["" => "", "md5" => "Criptografia MD5"], "", "id='costumer_value' class='form-control'") . "
 					</div>
 
-					<div class='col-md-3 form-group checkbox'>
+					<div class='form-group checkbox'>
 						<label>
 						" . form_checkbox('display_grid[]', 'Sim', TRUE, "class='form-check-input'") . "
 						 Mostrar da Grade</label>
@@ -223,7 +254,7 @@ class MisterAmon extends MY_Controller {
 				</div>
 			";			
 		}
-
+		$html .= "</div>";
 		return $html;		
 	}
 }

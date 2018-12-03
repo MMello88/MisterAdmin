@@ -13,35 +13,13 @@
   <!-- Standard -->
   <link rel="shortcut icon" sizes="32x32" href="<?= base_url('assets/templateGrocery/ico/32.png'); ?>">
 
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-  <!-- Grocery Theme CSS-->
-  <?php if (isset($css_files)) : ?>
-    
-  <?php foreach($css_files as $file): ?>
-  <link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
-  <?php endforeach; ?>
-
-  <?php endif; ?>
-
-
-  <?php if (empty($css_files)) { ?>
-  <!-- Bootstrap core CSS-->
-  <!--<link href="<?= base_url('assets/templateGrocery/template_admin/vendor/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">-->
-  <?php } ?>
-
   <script src="<?= base_url('assets/templateGrocery/tamplate_focus/assets/js/lib/jquery.min.js'); ?>"></script>
 
   <!-- Styles -->
-
-  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/weather-icons.css'); ?>" rel="stylesheet" />
-  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/owl.carousel.min.css'); ?>" rel="stylesheet" />
-  <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/owl.theme.default.min.css'); ?>" rel="stylesheet" />
   <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/font-awesome.min.css'); ?>" rel="stylesheet">
   <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/themify-icons.css'); ?>" rel="stylesheet">
   <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/menubar/sidebar.css'); ?>" rel="stylesheet">
-  <!--<link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/bootstrap.min.css'); ?>" rel="stylesheet">-->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
   <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/lib/helper.css'); ?>" rel="stylesheet">
   <link href="<?= base_url('assets/templateGrocery/tamplate_focus/assets/css/style.css'); ?>" rel="stylesheet">
