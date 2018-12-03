@@ -118,11 +118,15 @@ CREATE TABLE `miste872_prod`.`mister_coluna`(
   `id_tabela` INT(11) NOT NULL,
   `notnull` ENUM('Sim','Não') NOT NULL,
   `colunachave` ENUM('Pri','Mul') NOT NULL,
+  `id_tabela_ref` INT(11) NULL,
+  `coluna_id_ref` VARCHAR(100) NULL,
+  `coluna_ref` VARCHAR(100) NULL,
   `id_coluna_input` INT(11) NOT NULL,
   `length` VARCHAR(255),
   PRIMARY KEY (`id_coluna`),
   CONSTRAINT `FK_COLUNA_INPUT_COLUNA` FOREIGN KEY (`id_coluna_input`) REFERENCES `miste872_prod`.`mister_coluna_input`(`id_coluna_input`),
-  CONSTRAINT `FK_TABELA_COLUNA` FOREIGN KEY (`id_tabela`) REFERENCES `miste872_prod`.`mister_tabela`(`id_tabela`)
+  CONSTRAINT `FK_TABELA_COLUNA` FOREIGN KEY (`id_tabela`) REFERENCES `miste872_prod`.`mister_tabela`(`id_tabela`),
+  CONSTRAINT `FK_TABELA_COLUNA_REF` FOREIGN KEY (`id_tabela_ref`) REFERENCES `miste872_prod`.`mister_tabela`(`id_tabela`)
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `mister_link`;

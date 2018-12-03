@@ -122,13 +122,14 @@ class MisterAmon extends MY_Controller {
 		return $cbxInputs;
 	}
 
-	private function getAllTablesToCombox(){
+	public function getAllTablesToCombox(){
 		$all_tables = $this->Mister->get_all_table();
 		$tables = ["" => ""];
 		foreach ($all_tables as $table) {
 			$tables[$table['TABLE_NAME']] = $table['TABLE_NAME'];
 		}
-		
+		if(isset($_POST['echo']) && $_POST['echo'] === "true")
+			print_r($tables);
 		return $tables;
 	}
 
@@ -170,7 +171,7 @@ class MisterAmon extends MY_Controller {
 		foreach ($colunas as $key => $coluna) {
 			$html .= 
 			"
-				<div class='form-row border-bottom py-3'>
+				<div class='form-row border-bottom py-3' id='campo$key'>
 					<div class='col-md-3 form-group'>
 						<label>Nome: </label>
 						" . form_input('column[]', $colunas[$key]['COLUMN_NAME'], "class='form-control' placeholder='Nome da Coluna' readonly") . "
@@ -194,7 +195,7 @@ class MisterAmon extends MY_Controller {
 					
 					<div class='col-md-3 form-group checkbox'>
 						<label>Campo Chave: </label>
-						" . form_dropdown('colunachave[]', ["" => "", "PRI" => "Chave Primaria", "MUL" => "Chave Relacional"], $colunas[$key]['COLUMN_KEY'], "id='colunachave' class='form-control'") . "
+						" . form_dropdown('colunachave[]', ["" => "", "PRI" => "Chave Primaria", "MUL" => "Chave Relacional"], $colunas[$key]['COLUMN_KEY'], "id='colunachave' class='form-control' onChange='addTabelaRelacional($key)'") . "
 					</div>
 
 					<div class='col-md-3 form-group checkbox'>
