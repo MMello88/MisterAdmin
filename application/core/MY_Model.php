@@ -82,7 +82,7 @@ abstract class MY_Model extends CI_Model {
   }
 
   public function get_all_table($tabela = ''){
-    $sql = "SELECT TABLE_NAME, TABLE_COMMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'miste872_prod' ";
+    $sql = "SELECT TABLE_NAME, TABLE_COMMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'miste872_prod' AND TABLE_NAME NOT LIKE 'mister%'";
     if (!empty($tabela))
       $sql .= "AND TABLE_NAME = '$tabela'";
     $query = $this->db->query($sql);

@@ -16,10 +16,7 @@
 
     echo "
     <div class='container'>
-      <div class='row mb-5' id='tabela_input'>
-      </div>
-      
-      <div class='row mb-5' id='script_gerados'>
+      <div class='row' id='tabela_input'>
       </div>
     <div>
     ";    
@@ -52,33 +49,39 @@ $(document).on('change', '#thor_tabela', function(e){
     e.preventDefault();
 });
 
-function addTabelaRelacional(key){
-    var url_post = "<?= base_url("MisterAmon/getComboboxTabelaRef"); ?>";
-    $("#tab_ref").html("");
-    $("#col_ref").html("");
-    $("#col_ref_1").html("");
-    $.ajax({
-      type: "POST",
-      url: url_post,
-      data: {'echo' : 'true', 'div_id' : key},
-      success: function(data){
-          console.log(data);
-        $("#campo" + key).append(data);
-      },
-      error: function(data) {
-       $("#campo" + key).html(data);
-      }
-    });
+function addTabelaRelacional(value, key){
+    $("#tab_ref").remove();
+    $("#col_ref").remove();
+    $("#col_ref_1").remove();
+
+    if (value === 'MUL'){
+        var url_post = "<?= base_url("MisterAmon/getComboboxTabelaRef"); ?>";
+       
+
+        $.ajax({
+        type: "POST",
+        url: url_post,
+        data: {'echo' : 'true', 'div_id' : key},
+        success: function(data){
+            $("#campo" + key).append(data);
+        },
+        error: function(data) {
+        $("#campo" + key).html(data);
+        }
+        });
+    }
 }
 
 function addCampoRelacional(tabela, key){
     var url_post = "<?= base_url("MisterAmon/getComboboxCampoRef"); ?>";
+    $("#col_ref").remove();
+    $("#col_ref_1").remove();
+
     $.ajax({
       type: "POST",
       url: url_post,
       data: {'tabela' : tabela, 'echo' : 'true'},
       success: function(data){
-        console.log(data);
         $("#campo" + key).append(data);
       },
       error: function(data) {
