@@ -50,37 +50,26 @@ $(document).on('change', '#thor_tabela', function(e){
 });
 
 function addTabelaRelacional(value, key){
-    $("#tab_ref").remove();
-    $("#col_ref").remove();
-    $("#col_ref_1").remove();
+    $("#tab_ref_"+key).addClass('d-none');
+    $("#col_id_ref_"+key).addClass('d-none');
+    $("#col_desc_ref_"+key).addClass('d-none');
 
     if (value === 'MUL'){
-        var url_post = "<?= base_url("MisterAmon/getComboboxTabelaRef"); ?>";
-       
-
-        $.ajax({
-        type: "POST",
-        url: url_post,
-        data: {'echo' : 'true', 'div_id' : key},
-        success: function(data){
-            $("#campo" + key).append(data);
-        },
-        error: function(data) {
-        $("#campo" + key).html(data);
-        }
-        });
+        $("#tab_ref_"+key).removeClass('d-none');
+        $("#col_id_ref_"+key).removeClass('d-none');
+        $("#col_desc_ref_"+key).removeClass('d-none');
     }
 }
 
 function addCampoRelacional(tabela, key){
     var url_post = "<?= base_url("MisterAmon/getComboboxCampoRef"); ?>";
-    $("#col_ref").remove();
-    $("#col_ref_1").remove();
+    $("#col_id_ref_"+key).remove();
+    $("#col_desc_ref_"+key).remove();
 
     $.ajax({
       type: "POST",
       url: url_post,
-      data: {'tabela' : tabela, 'echo' : 'true'},
+      data: {'tabela' : tabela, 'echo' : 'true', 'key' : key},
       success: function(data){
         $("#campo" + key).append(data);
       },

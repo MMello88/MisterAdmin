@@ -107,6 +107,7 @@ DROP TABLE IF EXISTS `mister_tabela`;
 CREATE TABLE `miste872_prod`.`mister_tabela`(  
   `id_tabela` INT(11) NOT NULL AUTO_INCREMENT,
   `tabela` VARCHAR(100) NOT NULL,
+  UNIQUE INDEX `UK_TABELA` (`tabela`),
   PRIMARY KEY (`id_tabela`)
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -116,30 +117,30 @@ CREATE TABLE `miste872_prod`.`mister_coluna`(
   `id_coluna` INT(11) NOT NULL AUTO_INCREMENT,
   `coluna` VARCHAR(100) NOT NULL,
   `id_tabela` INT(11) NOT NULL,
-  `notnull` ENUM('Sim','Não') NOT NULL,
+  `notnull` ENUM('Sim','Nao') NOT NULL,
   `colunachave` ENUM('Pri','Mul') NOT NULL,
-  `id_tabela_ref` INT(11) NULL,
+  `tabela_ref` VARCHAR(100) NULL,
   `coluna_id_ref` VARCHAR(100) NULL,
   `coluna_ref` VARCHAR(100) NULL,
   `id_coluna_input` INT(11) NOT NULL,
-  `length` VARCHAR(255),
+  `length` VARCHAR(255) NULL,
   PRIMARY KEY (`id_coluna`),
+  UNIQUE INDEX `UK_COLUNA` (`id_tabela`, `coluna`),
   CONSTRAINT `FK_COLUNA_INPUT_COLUNA` FOREIGN KEY (`id_coluna_input`) REFERENCES `miste872_prod`.`mister_coluna_input`(`id_coluna_input`),
-  CONSTRAINT `FK_TABELA_COLUNA` FOREIGN KEY (`id_tabela`) REFERENCES `miste872_prod`.`mister_tabela`(`id_tabela`),
-  CONSTRAINT `FK_TABELA_COLUNA_REF` FOREIGN KEY (`id_tabela_ref`) REFERENCES `miste872_prod`.`mister_tabela`(`id_tabela`)
+  CONSTRAINT `FK_TABELA_COLUNA` FOREIGN KEY (`id_tabela`) REFERENCES `miste872_prod`.`mister_tabela`(`id_tabela`)
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `mister_link`;
 
 CREATE TABLE `miste872_prod`.`mister_link`(  
-  `id_link` INT(11) NOT NULL,
+  `id_link` INT(11) NOT NULL AUTO_INCREMENT,
   `link` VARCHAR(50) NOT NULL,
-  `id_tabla` INT(11) NOT NULL,
-  `ativo` ENUM('Sim','Não') DEFAULT 'Sim',
+  `id_tabela` INT(11) NOT NULL,
+  `ativo` ENUM('Sim','Nao') DEFAULT 'Sim',
   PRIMARY KEY (`id_link`),
   UNIQUE INDEX `UK_LINK` (`link`),
-  FOREIGN KEY (`id_tabla`) REFERENCES `miste872_prod`.`mister_tabela`(`id_tabela`)
-);
+  FOREIGN KEY (`id_tabela`) REFERENCES `miste872_prod`.`mister_tabela`(`id_tabela`)
+)ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `mister_coluna_regra`;
 
