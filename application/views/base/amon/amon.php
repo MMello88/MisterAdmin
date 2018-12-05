@@ -61,7 +61,7 @@ function addTabelaRelacional(value, key){
     }
 }
 
-function addCampoRelacional(tabela, key){
+function addCampoRelacional(tabela, key, colunaKey){
     var url_post = "<?= base_url("MisterAmon/getComboboxCampoRef"); ?>";
     $("#col_id_ref_"+key).remove();
     $("#col_desc_ref_"+key).remove();
@@ -69,7 +69,7 @@ function addCampoRelacional(tabela, key){
     $.ajax({
       type: "POST",
       url: url_post,
-      data: {'tabela' : tabela, 'echo' : 'true', 'key' : key},
+      data: {'tabela' : tabela, 'echo' : 'true', 'key' : key, 'colunaKey' : colunaKey},
       success: function(data){
         $("#campo" + key).append(data);
       },

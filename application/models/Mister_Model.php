@@ -6,6 +6,8 @@ class Mister_Model extends MY_Model {
     public function  __construct() {
         parent::__construct();
     }
+
+    protected function setConfigure(){}
        
     public function getMisterColunaInput($id_coluna_input = ''){
         $sql = "SELECT ci.id_coluna_input, tc.tipo, ti.display, ti.type
