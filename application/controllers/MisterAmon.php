@@ -11,66 +11,8 @@ class MisterAmon extends MY_Controller {
 		$data['all_tables'] = $this->getAllTablesToCombox();
 		$this->_output_view($data, 'amon/amon');
     }
-    
-	public function get_input_tabela_colunas(){
-		$script_inputs = "";
-		if ($_POST){
-			$html_input_tabela = $this->getHtmlInputTabela();
-			$html_input_coluna = $this->getHtmlInputColuna();
-
-			echo
-			"
-			<!-- Formulário da Tabela -->
-			<div class='row'>
-				<div class='col-lg-12'>
-					<div class='card'>
-						<div class='card-title'>
-							<h4>Tabela</h4>
-						</div>
-						<div class='card-body'>
-							<!-- basic-elements -->
-							<div class='basic-elements'>
-								<form action='http://localhost/MisterAdmin/MisterAmon/SalvarTabelaColuna' class='form-inline' method='post' accept-charset='utf-8' id='enviar_tabela_coluna'>
-									<input type='hidden' name='echo' value='true'>
-									
-									<!-- Campos da Tabela -->
-									<div class='row'>
-										$html_input_tabela
-									</div>
-									<!-- // Campos da Tabela -->
-
-									<!-- Formulário dos Campos -->
-									<div class='col-lg-12'>
-										<div class='card'>
-											<div class='card-title'>
-												<h4>Colunas</h4>
-											</div>
-											<div class='card-body'>
-												<!-- basic-elements -->
-												<div class='basic-elements'>
-													<!-- Campos do Campos -->
-													$html_input_coluna
-													<!-- // Campos do Campos -->
-												</div>
-												<!-- // basic-elements -->
-											</div>
-										</div>
-									</div>
-									<!-- // Formulário dos Campos -->
-									<button type='submit' class='btn btn-info'>Salvar</button>
-								</form>
-							</div>
-							<!-- // basic-elements -->
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- // Formulário da Tabela -->			
-			";
-			
-		}
-	}
-
+	
+	/**Post Via Formulário para Salvar */
 	public function SalvarTabelaColuna(){
 		if ($_POST){
 			/* Adicionando a Tabela */
@@ -147,17 +89,85 @@ class MisterAmon extends MY_Controller {
 		}
 	}
 
-	private function getComboboxTabelaRef($coluna, $key = ''){
-		$tables = $this->getAllTablesToCombox();
-		return "
-			<div class='col-lg-3 d-none' id='tab_ref_$key'>
-				<div class='form-group'>
-					<label>Tabela Ref: </label>
-					" . form_dropdown("tabela_ref[$coluna][]", $tables, "", "id='tabela_ref' class='form-control' style='width:100%;' onchange='addCampoRelacional(this.value, $key, \"$coluna\")'") . "
+	/** Post Via Ajax para Carregar o Formulário */
+	public function get_input_tabela_colunas(){
+		$script_inputs = "";
+		if ($_POST){
+			$tabela = $this->input->post('tabela');
+			$html_input_tabela = $this->getHtmlInputTabela();
+			$html_input_coluna = $this->getHtmlInputColuna();
+
+			echo
+			"
+			<!-- Formulário da Tabela -->
+			<div class='row'>
+				<div class='col-lg-12'>
+					<div class='card'>
+						<div class='card-title'>
+							<h4>Tabela</h4>
+						</div>
+						<div class='card-body'>
+							<!-- basic-elements -->
+							<div class='basic-elements'>
+								<form action='http://localhost/MisterAdmin/MisterAmon/SalvarTabelaColuna' class='form-inline' method='post' accept-charset='utf-8' id='enviar_tabela_coluna'>
+									<input type='hidden' name='echo' value='true'>
+									
+									<!-- Campos da Tabela -->
+									<div class='row'>
+										$html_input_tabela
+									</div>
+									<!-- // Campos da Tabela -->
+
+									<!-- Formulário dos Campos -->
+									<div class='col-lg-12'>
+										<div class='card'>
+											<div class='card-title'>
+												<h4>Colunas</h4>
+											</div>
+											<div class='card-body'>
+												<!-- basic-elements -->
+												<div class='basic-elements'>
+													<!-- Campos do Campos -->
+													$html_input_coluna
+													<!-- // Campos do Campos -->
+												</div>
+												<!-- // basic-elements -->
+											</div>
+										</div>
+									</div>
+									<!-- Formulário dos Wheres -->
+									<div class='col-lg-12'>
+										<div class='card'>
+											<div class='card-title'>
+												<h4>Condições</h4>
+											</div>
+											<div class='card-body'>
+												<!-- basic-elements -->
+												<div class='basic-elements' id='campos_where'>
+													
+													<button type='button' class='btn btn-link btn-outline btn-rounded btn-flat btn-addon m-b-10 m-l-5' onclick='AddCampoWhere(\"$tabela\")'><i class='ti-plus'></i>Add Condição</button>
+												</div>
+												<!-- // basic-elements -->
+											</div>
+										</div>
+									</div>
+									
+									<!-- // Formulário dos Campos -->
+									<button type='submit' class='btn btn-info'>Salvar</button>
+								</form>
+							</div>
+							<!-- // basic-elements -->
+						</div>
+					</div>
 				</div>
-			</div>";
+			</div>
+			<!-- // Formulário da Tabela -->			
+			";
+			
+		}
 	}
 
+	/** Post Via Ajax para Carregar os Campos de Referência */
 	public function getComboboxCampoRef(){
 		if(isset($_POST['echo']) && $_POST['echo'] === "true"){
 			$colunas = $this->Mister->get_show_columns($this->input->post('tabela'));
@@ -183,6 +193,12 @@ class MisterAmon extends MY_Controller {
 		}
 	}
 
+	/** Post Via Ajax para Carregar os Campos Where */
+	public function getInputsCampoWhere(){
+		$this->getHtmlInputWhere();
+	}
+
+	/** Values do Combobox em formato de array para a função form_dropdown */
 	private function getColunaInputToCombox(){
 		$ColunaInputs = $this->Mister->getMisterColunaInput();
 		$cbxInputs = ["" => ""];
@@ -203,6 +219,7 @@ class MisterAmon extends MY_Controller {
 		return $tables;
 	}
 
+	/** Montagem do Html da Tabela / Coluna / Where */
 	private function getHtmlInputTabela(){
 		$tabela = $this->Mister->get_all_table($this->input->post('tabela'));
 		$all_tabelas = $this->getAllTablesToCombox();
@@ -246,6 +263,7 @@ class MisterAmon extends MY_Controller {
 	}
 
 	private function getHtmlInputColuna(){
+		$tables = $this->getAllTablesToCombox();
 		$cbxInputs = $this->getColunaInputToCombox();
 		$ColunaTypes = $this->Mister->getMisterColunaInput();
 
@@ -319,7 +337,12 @@ class MisterAmon extends MY_Controller {
 						" . form_dropdown("display_grid[$coluna][]", ["Sim" => "Sim", "Nao" => "Não"], "", "class='form-control' style='width:100%;'") . "
 					</div>
 				</div>
-				".$this->getComboboxTabelaRef($coluna, $key)."
+				<div class='col-lg-3 d-none' id='tab_ref_$key'>
+					<div class='form-group'>
+						<label>Tabela Ref: </label>
+						" . form_dropdown("tabela_ref[$coluna][]", $tables, "", "id='tabela_ref' class='form-control' style='width:100%;' onchange='addCampoRelacional(this.value, $key, \"$coluna\")'") . "
+					</div>
+				</div>
 				<div class='col-lg-3 d-none' id='col_id_ref_$key'>
 					<div class='form-group'>
 						<label>Coluna Id Ref: </label>
@@ -336,5 +359,42 @@ class MisterAmon extends MY_Controller {
 			";			
 		}
 		return $html;		
+	}
+
+	private function getHtmlInputWhere(){
+		$colunas = $this->Mister->get_show_columns($this->input->post('tabela'));
+		foreach($colunas as $coluna)
+			$cols[$coluna['COLUMN_NAME']] = $coluna['COLUMN_NAME'];
+		$html = "
+		<div class='row' id='RowInputsWhere'>
+			<div class='col-md-3'>
+				<div class='form-group'>
+					<label>Nome: </label>
+					" . form_dropdown('id_coluna_where[]', $cols, "" , "class='form-control' style='width:100%;' required") . "
+				</div>
+			</div>
+			<div class='col-md-3'>
+				<div class='form-group'>
+					<label>Nome: </label>
+					" . form_dropdown('sinal[]', ["=" => "Igual", "<>" => "Diferente", "<" => "Menor", ">" => "Maior", "=>" => "Maior e Igual",
+					"=<" => "Menor e Igual", "NOT IN" => "Não Esta Em", "IN" => "Esta Em"], "" , "class='form-control' style='width:100%;' required") . "
+				</div>
+			</div>
+			<div class='col-md-3'>
+				<div class='form-group'>
+					<label>Nome: </label>
+					" . form_input('valor[]', "", "class='form-control'  placeholder='Valor' style='width:100%;' required") . "
+				</div>
+			</div>
+			<div class='col-md-3 mt-auto'>
+				<div class='form-group'>
+					<button type='button' id='btnInputCampoWhere' class='btn btn-link btn-outline btn-rounded btn-flat btn-addon m-b-10 m-l-5' onclick='RemoverCampoWhere(this)'><i class='ti-minus'></i>Remover</button>
+				</div>
+			</div>
+		</div>";
+		if(isset($_POST['echo']) && $_POST['echo'] === "true")
+			echo $html;
+		else 
+		   return $html;
 	}
 }

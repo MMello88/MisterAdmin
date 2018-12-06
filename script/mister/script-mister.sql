@@ -160,10 +160,23 @@ CREATE TABLE `miste872_prod`.`mister_coluna_regra`(
   CONSTRAINT `FK_REGRA_LINK` FOREIGN KEY (`id_link`) REFERENCES `miste872_prod`.`mister_link`(`id_link`)
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
 
+DROP TABLE IF EXISTS `mister_where`;
 
+CREATE TABLE `miste872_prod`.`mister_where`(  
+  `id_where` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_link` INT(11) NOT NULL,
+  `id_coluna` INT(11) NOT NULL,
+  `sinal` VARCHAR(50) NOT NULL,
+  `valor` VARCHAR(150) NOT NULL,
+  PRIMARY KEY (`id_where`),
+  UNIQUE INDEX `UK_WHERE` (`id_link`, `id_coluna`),
+  CONSTRAINT `FK_WHERE_LINK` FOREIGN KEY (`id_link`) REFERENCES `miste872_prod`.`mister_link`(`id_link`),
+  CONSTRAINT `FK_WHERE_COLUNA` FOREIGN KEY (`id_coluna`) REFERENCES `miste872_prod`.`mister_coluna`(`id_coluna`)
+) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 /*----------------------------LISTA DE DELETE------------------------------*/
+DROP TABLE IF EXISTS `mister_where`;
 DROP TABLE IF EXISTS `mister_coluna_regra`;
 DROP TABLE IF EXISTS `mister_coluna`;
 DROP TABLE IF EXISTS `mister_coluna_input`;

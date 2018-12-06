@@ -78,4 +78,25 @@ function addCampoRelacional(tabela, key, colunaKey){
       }
     });
 }
+
+function AddCampoWhere(tabela){
+    var url_post = "<?= base_url("MisterAmon/getInputsCampoWhere"); ?>";
+
+    $.ajax({
+      type: "POST",
+      url: url_post,
+      data: {'tabela' : tabela, 'echo' : 'true'},
+      success: function(data){
+        $("#campos_where").append(data);
+      },
+      error: function(data) {
+       $("#campos_where").html(data);
+      }
+    });
+}
+
+function RemoverCampoWhere(BtnMe){
+//
+BtnMe.parent().parent().remove();
+}
 </script>
