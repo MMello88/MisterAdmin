@@ -96,7 +96,6 @@ function AddCampoWhere(tabela){
 }
 
 function RemoverCampoWhere(BtnMe){
-//
-BtnMe.parent().parent().remove();
+    $(BtnMe).parent().parent().parent().remove();
 }
 </script>

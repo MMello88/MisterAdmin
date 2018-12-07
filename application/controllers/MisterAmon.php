@@ -86,6 +86,23 @@ class MisterAmon extends MY_Controller {
 				}
 
 			}
+
+			if($this->input->post('id_coluna_where') !== null){
+				foreach ($this->input->post('id_coluna_where') as $coluna_key => $coluna) {
+					$rows = $this->Mister->db->get_where('mister_coluna', ['id_tabela' => $id_tabela, 'coluna' => $this->input->post('id_coluna_where')[$coluna_key]]);
+					$colunas = $rows->result_object();
+					if(!empty($colunas)){
+						$id_coluna = $colunas[0]->id_coluna;
+						$data = ['id_link' => $id_link,
+								'id_coluna' => $id_coluna,
+								'sinal' => $this->input->post('sinal')[$coluna_key],
+								'valor' => $this->input->post('valor')[$coluna_key]
+								];
+						$this->Mister->db->insert('mister_where', $data);
+						$id_where = $this->db->insert_id();
+					}
+				}
+			}
 		}
 	}
 
