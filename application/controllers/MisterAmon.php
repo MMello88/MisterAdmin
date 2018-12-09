@@ -16,14 +16,20 @@ class MisterAmon extends MY_Controller {
 	public function SalvarTabelaColuna(){
 		if ($_POST){
 			/* Adicionando a Tabela */
-			$data = ['tabela' => $this->input->post('tabela')];
-			$rows = $this->Mister->db->get_where('mister_tabela', $data);
+			$data = ['tabela' => $this->input->post('tabela'), 'filha' => '0', 'tabela_filha' => ''];
+			if($this->input->post('filha') !== null){
+				$data['filha'] = '1';
+				$data['tabela_filha'] = $this->input->post('tabela_filha');
+			}
+			$rows = $this->Mister->db->get_where('mister_tabela', ['tabela' => $this->input->post('tabela')]);
 			$tabelas = $rows->result_object();
 			if (empty($tabelas)){
 				$this->Mister->db->insert('mister_tabela', $data);
 				$id_tabela = $this->db->insert_id();
 			} else {
 				$id_tabela = $tabelas[0]->id_tabela;
+				$this->Mister->db->where('id_tabela', $id_tabela);
+				$this->Mister->db->update('mister_tabela', $data);
 			}
 			
 
@@ -39,7 +45,7 @@ class MisterAmon extends MY_Controller {
 			}
 			
 			/* Adicionando as Colunas da Tabela */
-			print_r($_POST);
+			//print_r($_POST);
 			foreach($this->input->post('coluna') as $coluna_key => $coluna){
 				//print_r($this->input->post('rules')[$coluna_key]);
 				$data = ['coluna' => $this->input->post('coluna')[$coluna_key][0], 
@@ -226,20 +232,28 @@ class MisterAmon extends MY_Controller {
 		return $cbxInputs;
 	}
 
+	private function getAllMisterTabelaToCombobox(){
+		$tabelas = $this->Mister->getAllMisterTabela();
+		$tabs = ["" => ""];
+		foreach ($tabelas as $key => $tabela) {
+			$tabs[$tabela['id_tabela']] = $tabela['tabela'];
+		}
+		return $tabs;
+	}
+
 	private function getAllTablesToCombox(){
 		$all_tables = $this->Mister->get_all_table();
 		$tables = ["" => ""];
 		foreach ($all_tables as $table) {
 			$tables[$table['TABLE_NAME']] = $table['TABLE_NAME'];
 		}
-		
 		return $tables;
 	}
 
 	/** Montagem do Html da Tabela / Coluna / Where */
 	private function getHtmlInputTabela(){
 		$tabela = $this->Mister->get_all_table($this->input->post('tabela'));
-		$all_tabelas = $this->getAllTablesToCombox();
+		$all_tabelas = $this->getAllMisterTabelaToCombobox();
 
 		return "
 			<div class='row'>
@@ -258,7 +272,7 @@ class MisterAmon extends MY_Controller {
 				<div class='col-md-3'>
 					<div class='form-group checkbox'>
 						<label>	
-						" . form_checkbox('eh_filha', 'N', FALSE, "id='eh_filha' class='form-check-input'") . "
+						" . form_checkbox('filha', 'N', FALSE, "id='eh_filha' class='form-check-input' onclick='habilitaComboboxTabelaFilha(this)'") . "
 							É Tabela Filha? </label>
 					</div>
 				</div>

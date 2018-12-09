@@ -8,7 +8,12 @@ class Mister_Model extends MY_Model {
     }
 
     protected function setConfigure(){}
-       
+    
+    public function getAllMisterTabela(){
+        $result = $this->db->get_where('mister_tabela');
+        return $result->result_array();
+    }
+
     public function getMisterColunaInput($id_coluna_input = ''){
         $sql = "SELECT ci.id_coluna_input, tc.tipo, ti.display, ti.type
                   FROM mister_coluna_input ci

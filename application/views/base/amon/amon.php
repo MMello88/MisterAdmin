@@ -98,4 +98,11 @@ function AddCampoWhere(tabela){
 function RemoverCampoWhere(BtnMe){
     $(BtnMe).parent().parent().parent().remove();
 }
+
+function habilitaComboboxTabelaFilha(checkboxMe){
+    $('#tabela_filha').prop('disabled',!checkboxMe.checked);    
+    if(!checkboxMe.checked){
+        $('#tabela_filha').val("");
+    }
+}
 </script>

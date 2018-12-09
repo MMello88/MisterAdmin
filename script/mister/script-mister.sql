@@ -107,6 +107,8 @@ DROP TABLE IF EXISTS `mister_tabela`;
 CREATE TABLE `miste872_prod`.`mister_tabela`(  
   `id_tabela` INT(11) NOT NULL AUTO_INCREMENT,
   `tabela` VARCHAR(100) NOT NULL,
+  `filha` CHAR(1) NOT NULL DEFAULT 0,
+  `tabela_filha` INT 
   UNIQUE INDEX `UK_TABELA` (`tabela`),
   PRIMARY KEY (`id_tabela`)
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
