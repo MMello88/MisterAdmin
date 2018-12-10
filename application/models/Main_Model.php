@@ -31,8 +31,8 @@ class Main_Model extends CI_Model {
 	 * Busca na tabela Mister Tabela atravé do id ou nome da tabela
 	 * e retorna um ou todas Tabelas
 	 *
-	 * @param	string	o Link
-     * @param	string	o Link
+	 * @param	string	o Iid da Tabela
+     * @param	string	o Nome da Tabelas
 	 * @return	array[]
 	 */
     public function getMisterTabela($id_tabela = '', $tabela = ''){
