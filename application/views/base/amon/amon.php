@@ -1,3 +1,20 @@
+                <?php if($this->session->flashdata("msg_flash") !== null) : ?>
+                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Yes!</strong> <?= $this->session->flashdata("msg_flash") ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php endif; ?>
+                <?php if($this->session->flashdata("msg_erro_flash") !== null) : ?>
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Ops!</strong> <?= $this->session->flashdata("msg_erro_flash") ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php endif; ?>
+
                 <section id="main-content">
                     <div class="row">
                         <div class="col-lg-12">

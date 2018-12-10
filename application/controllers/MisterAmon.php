@@ -44,10 +44,10 @@ class MisterAmon extends MY_Controller {
 				$id_link = $links[0]->id_link;
 			}
 			
-			/* Adicionando as Colunas da Tabela */
 			//print_r($_POST);
+
+			/* Adicionando as Colunas da Tabela */
 			foreach($this->input->post('coluna') as $coluna_key => $coluna){
-				//print_r($this->input->post('rules')[$coluna_key]);
 				$data = ['coluna' => $this->input->post('coluna')[$coluna_key][0], 
 						 'id_tabela' => $id_tabela, 
 						 'notnull' => $this->input->post('notnull')[$coluna_key][0], 
@@ -109,7 +109,13 @@ class MisterAmon extends MY_Controller {
 					}
 				}
 			}
+
+			$this->session->set_flashdata('msg_flash', 'Configurações salvo com sucesso!');
+		} else {
+			$this->session->set_flashdata('msg_erro_flash', 'Dados não foi submetido!');
 		}
+
+		redirect("MisterAmon");
 	}
 
 	/** Post Via Ajax para Carregar o Formulário */
