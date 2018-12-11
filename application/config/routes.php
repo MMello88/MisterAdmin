@@ -56,6 +56,8 @@ $route['Portal/ativar/(:any)'] = 'user/ativar/$1';
 $route['Portal/forgot/(:any)'] = 'user/forgot/$1';
 $route['Portal/forgot'] = 'user/forgot';
 
+$route['Main/(:any)'] = 'Main/index/$1';
+
 $route['Planos'] = 'bemvindo/planos'; 
 
 $route['default_controller'] = 'bemvindo';

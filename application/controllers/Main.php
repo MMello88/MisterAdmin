@@ -5,9 +5,9 @@ class Main extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct(TRUE);
-    }
+  }
     
-    public function index(){
-        
-    }
+  public function index($aLink){
+    $this->Main->compilate($aLink);
+  }
 }

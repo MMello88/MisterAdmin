@@ -56,4 +56,27 @@ class Main_Model extends CI_Model {
 
         return $query->result_array();
     }
+
+    public function getMisterColunaRegra($id_link, $id_tabela, $id_coluna = ''){
+        $data = ['id_link' => $id_link, 'id_tabela' => $id_tabela];
+        if(!empty($id_coluna)){
+            $data['id_coluna'] = $id_coluna;
+        }
+        $query = $this->db->get_where('mister_coluna_regra', $data);
+        return $query->result_array();
+    }
+
+    public function getMisterWhere($id_link, $id_coluna){
+        $data = ['id_link' => $id_link, 'id_coluna' => $id_coluna];
+        $query = $this->db->get_where('mister_coluna_regra', $data);
+        return $query->result_array();
+    }
+
+    public function compilate($aLink){
+        $arrLinks = $this->getMisterLink($aLink);
+        foreach ($arrLinks as $key => $Link) {
+            $tabelas[] = $this->getMisterTabela($Link['id_tabela']);
+        }
+        print_r($tabelas);
+    }
 }
