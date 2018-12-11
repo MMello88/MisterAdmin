@@ -122,4 +122,14 @@ function habilitaComboboxTabelaFilha(checkboxMe){
         $('#tabela_filha').val("");
     }
 }
+
+function changeColunaInpu(selectMe, key, colunaKey){ 
+    $("#select_"+key).addClass('d-none');
+    $("#select_"+key).prop('required',false);
+
+    if($(selectMe).find('option:selected').text() == 'Opção Escolha'){
+        $("#select_"+key).removeClass('d-none');
+        $("#select_"+key).prop('required',true);
+    } 
+}
 </script>

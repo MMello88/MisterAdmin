@@ -66,17 +66,81 @@ class Main_Model extends CI_Model {
         return $query->result_array();
     }
 
-    public function getMisterWhere($id_link, $id_coluna){
-        $data = ['id_link' => $id_link, 'id_coluna' => $id_coluna];
-        $query = $this->db->get_where('mister_coluna_regra', $data);
+    public function getMisterWhere($id_link, $id_coluna = ''){
+        $this->db->select('*');
+        $this->db->from('mister_where');
+        $this->db->join('mister_coluna', 'mister_coluna.id_coluna = mister_where.id_coluna');
+        if(empty($id_coluna))
+            $this->db->where(['id_link' => $id_link]);
+        else
+        $this->db->where(['id_link' => $id_link, 'id_coluna' => $id_coluna]);
+        $query = $this->db->get();
         return $query->result_array();
     }
 
-    public function compilate($aLink){
-        $arrLinks = $this->getMisterLink($aLink);
-        foreach ($arrLinks as $key => $Link) {
-            $tabelas[] = $this->getMisterTabela($Link['id_tabela']);
+    public function getMisterColunaInput($id_coluna_input){
+        /** id_banco = 3 (MYSQL) */
+        $sql = "SELECT ci.id_coluna_input, CONCAT(tc.tipo,tc.length) tipo, ti.display, ti.type
+                  FROM mister_coluna_input ci
+                 INNER JOIN mister_tipo_coluna tc ON (tc.id_tipo_coluna = ci.id_tipo_coluna)
+                 INNER JOIN mister_tipo_input ti ON (ti.id_tipo_input = ci.id_tipo_input)
+                 WHERE tc.id_banco = 3
+                   AND ci.id_coluna_input = $id_coluna_input";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+    public function compile($aLink){
+        $link = current($this->getMisterLink($aLink));
+        $tabela = current($this->getMisterTabela($link['id_tabela']));
+        $colunas = $this->getMisterColuna($tabela['id_tabela']);
+        $keyColunaPri = '';
+        $arrColumns = '';
+        foreach($colunas as $keyColuna => $coluna){
+            $colunaRegra = current($this->getMisterColunaRegra($link['id_link'], $tabela['id_tabela'], $coluna['id_coluna']));
+            if($coluna['colunachave'] === 'Pri')
+                $keyColunaPri = $keyColuna;
+            $arrColumns[$coluna['coluna']] = [
+                'display_column' => $colunaRegra['display_column'], 
+                'rules' => $colunaRegra['rules'],
+                'default_value' => $colunaRegra['default_value'], 
+                'costumer_value' => $colunaRegra['costumer_value'], 
+                'display_grid' => $colunaRegra['display_grid']];
+
+                if($coluna['colunachave'] === 'Mul'){
+                    $arrColumns[$coluna['coluna']]['select_relacional'] = [$coluna['coluna_id_ref'],$coluna['tabela_ref'], $coluna['coluna_ref'], []];
+                } else if($coluna['colunachave'] === 'Pri') {
+                    $input = current($this->getMisterColunaInput($coluna['id_coluna_input']));
+                    $arrColumns[$coluna['coluna']]['input'] = ['type' => $input['type'], 'required' => 'readonly'];
+                } else if($coluna['colunachave'] === '') {
+                    $input = current($this->getMisterColunaInput($coluna['id_coluna_input']));
+                    if($input['type'] == 'checkbox'){
+                        $arrColumns[$coluna['coluna']]['select'] = ['1' => 'True', '0' => 'False'];
+                    } else if($input['type'] == 'select'){
+                        $arrColumns[$coluna['coluna']]['select'] = $colunaRegra['select'];
+                    } else {
+                        $arrColumns[$coluna['coluna']]['input'] = ['type' => $input['type'], 'required' => $coluna['notnull'] === 'Sim' ? "required" : ""];
+                    }
+                }
         }
-        print_r($tabelas);
+        $wheres = $this->getMisterWhere($link['id_link']);
+        $arrWheres['id_usuario'] = '$this->session->userdata(\'id_user\')';
+        foreach ($wheres as $key => $where) {
+            $campo = $where['coluna'] + ' ' + $where['sinal'];
+            $arrWheres[$campo] = $where['valor'];
+        }
+        
+        $set_config = [
+            'table' => [
+                'nome' => $tabela['tabela'],
+                'chave_pk' => $colunas[$keyColunaPri]['coluna'],
+                'display' => $link['display']
+            ],
+            'columns' => $arrColumns,
+            'where' => $arrWheres,
+            'dropdown' => []
+        ];
+
+        return $set_config;
     }
 }

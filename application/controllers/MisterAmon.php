@@ -34,7 +34,7 @@ class MisterAmon extends MY_Controller {
 			
 
 			/* Adicionando o link para a Tabela */
-			$data = ['link' => $this->input->post('link'), 'id_tabela' => $id_tabela, 'ativo' => 'Sim'];
+			$data = ['link' => $this->input->post('link'), 'id_tabela' => $id_tabela, 'ativo' => 'Sim', 'display' => $this->input->post('display_tabela')];
 			$rows = $this->Mister->db->get_where('mister_link', ['link' => $this->input->post('link')]);
 			$links = $rows->result_object();
 			if(empty($links)){
@@ -74,6 +74,7 @@ class MisterAmon extends MY_Controller {
 						 'id_tabela' => $id_tabela, 
 						 'display_column' => $this->input->post('display_column')[$coluna_key][0], 
 						 'rules' => implode("|", $this->input->post('rules')[$coluna_key]), 
+						 'select' => $this->input->post('select')[$coluna_key][0], 
 						 'default_value' => $this->input->post('default_value')[$coluna_key][0], 
 						 'costumer_value' => $this->input->post('costumer_value')[$coluna_key][0], 
 						 'display_grid' => $this->input->post('display_grid')[$coluna_key][0]
@@ -195,7 +196,7 @@ class MisterAmon extends MY_Controller {
 			
 		}
 	}
-
+	
 	/** Post Via Ajax para Carregar os Campos de Referência */
 	public function getComboboxCampoRef(){
 		if(isset($_POST['echo']) && $_POST['echo'] === "true"){
@@ -327,13 +328,13 @@ class MisterAmon extends MY_Controller {
 				<div class='col-lg-3'>
 					<div class='form-group'>
 						<label>Display: </label>
-						" . form_input("display_column[$coluna][]", "", "class='form-control' placeholder='Display da Coluna' style='width:100%;'") . "
+						" . form_input("display_column[$coluna][]", "", "class='form-control' placeholder='Display da Coluna' style='width:100%;' required") . "
 					</div>
 				</div>
 				<div class='col-lg-3'>
 					<div class='form-group'>
 						<label>Tipo: </label>
-						" . form_dropdown("id_coluna_input[$coluna][]", $cbxInputs, $id_coluna_input, "id='cbxInput' class='form-control' style='width:100%;' required") . "
+						" . form_dropdown("id_coluna_input[$coluna][]", $cbxInputs, $id_coluna_input, "id='cbxInput' class='form-control' onChange='changeColunaInpu(this, $key, \"$coluna\")' style='width:100%;' required") . "
 					</div>
 				</div>
 				<div class='col-lg-3'>
@@ -390,6 +391,12 @@ class MisterAmon extends MY_Controller {
 					<div class='form-group'>
 						<label>Coluna Ref: </label>
 						" . form_dropdown("coluna_ref[$coluna][]", ["" => ""], "", "id='coluna_ref_$key' class='form-control' style='width:100%;'") . "
+					</div>
+				</div>
+				<div class='col-lg-3 d-none' id='select_$key'>
+					<div class='form-group'>
+						<label>Lista de Valores: </label>
+						" . form_input("select[$coluna][]", "", "class='form-control' placeholder='Exemplo: a => Ativo, d => Desativado ' style='width:100%;' ") . "
 					</div>
 				</div>
 			</div>

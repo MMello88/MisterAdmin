@@ -8,6 +8,7 @@ class Main extends MY_Controller {
   }
     
   public function index($aLink){
-    $this->Main->compilate($aLink);
+    $this->set_config = $this->Main->compile($aLink);
+    $this->execute();
   }
 }

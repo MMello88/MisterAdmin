@@ -193,7 +193,8 @@ class Mister extends MY_Controller {
 			'dropdown' => [['function' => 'teste', 'param' => 'id_empresa', 'display' => 'Realizar Teste'],
 						   ['function' => 'abc', 'param' => '', 'display' => 'Teste Abc']]
 			];
-		$this->execute();
+			print_r($this->set_config);
+		//$this->execute();
 		//echo $idEmpresa;
 	}
 

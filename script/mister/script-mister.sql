@@ -137,6 +137,7 @@ DROP TABLE IF EXISTS `mister_link`;
 CREATE TABLE `miste872_prod`.`mister_link`(  
   `id_link` INT(11) NOT NULL AUTO_INCREMENT,
   `link` VARCHAR(50) NOT NULL,
+  `display` VARCHAR(50) NOT NULL,
   `id_tabela` INT(11) NOT NULL,
   `ativo` ENUM('Sim','Nao') DEFAULT 'Sim',
   PRIMARY KEY (`id_link`),
@@ -153,6 +154,7 @@ CREATE TABLE `miste872_prod`.`mister_coluna_regra`(
   `id_tabela` INT(11) NOT NULL,
   `display_column` VARCHAR(80) NOT NULL,
   `rules` VARCHAR(80),
+  `select` VARCHAR(250),
   `default_value` VARCHAR(80),
   `costumer_value` VARCHAR(80),
   `display_grid` ENUM('TRUE','FALSE') NOT NULL,
