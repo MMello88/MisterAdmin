@@ -32,6 +32,9 @@ abstract class MY_Model extends CI_Model {
         }
         else
             return $this->db->error();
+
+            $this->db->last_query();
+            die();
     }
 
     public function update(){

@@ -51,7 +51,7 @@
                                                             <?php 
                                                                 echo "<option value=''>Pesquisar por: </option>";
                                                                 foreach ($set_config['columns'] as $campo => $conf) {
-                                                                    if ($conf['display_grid'] === 'true') {
+                                                                    if ($conf['display_grid'] == 'TRUE') {
                                                                         echo "<option value='$campo'>".$conf['display_column']."</option>";
                                                                     }
                                                                 }
@@ -85,7 +85,7 @@
                                                 <tr>
                                                 <?php 
                                                     foreach ($set_config['columns'] as $campo => $config) {
-                                                        if(isset($config['display_grid']) && $config['display_grid'] == 'true')
+                                                        if(isset($config['display_grid']) && $config['display_grid'] === 'TRUE')
                                                             echo "<th>". $config['display_column'] ."</th> ";
                                                     }
                                                     echo "<th>#</th>";
@@ -99,7 +99,7 @@
                                                         foreach ($rows as $obj) {
                                                             echo "<tr>";
                                                             foreach ($set_config['columns'] as $campo => $config)
-                                                                if(isset($config['display_grid']) && $config['display_grid'] == 'true'){
+                                                                if(isset($config['display_grid']) && $config['display_grid'] == 'TRUE'){
                                                                     if((isset($config['select']) && !empty($config['select']) && !empty($obj->$campo))) {
                                                                         $obj->$campo = isset($config['select'][$obj->$campo]) ? $config['select'][$obj->$campo] : "Codigo não Encontrado";
                                                                     }

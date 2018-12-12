@@ -372,7 +372,7 @@ class MisterAmon extends MY_Controller {
 				<div class='col-lg-3'>
 					<div class='form-group checkbox'>
 						<label>Mostrar da Grade</label>
-						" . form_dropdown("display_grid[$coluna][]", ["Sim" => "Sim", "Nao" => "Não"], "", "class='form-control' style='width:100%;'") . "
+						" . form_dropdown("display_grid[$coluna][]", ["TRUE" => "Sim", "FALSE" => "Não"], "", "class='form-control' style='width:100%;'") . "
 					</div>
 				</div>
 				<div class='col-lg-3 d-none' id='tab_ref_$key'>

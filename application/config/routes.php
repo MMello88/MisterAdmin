@@ -57,6 +57,12 @@ $route['Portal/forgot/(:any)'] = 'user/forgot/$1';
 $route['Portal/forgot'] = 'user/forgot';
 
 $route['Main/(:any)'] = 'Main/index/$1';
+$route['Main/(:any)/add'] = 'Main/index/$1/add';
+$route['Main/(:any)/view/(:any)'] = 'Main/index/$1/view/$1';
+$route['Main/(:any)/edit/(:any)'] = 'Main/index/$1/edit/$1';
+$route['Main/(:any)/delete/(:any)'] = 'Main/index/$1/delete/$1';
+$route['Main/(:any)/list/(:any)'] = 'Main/index/$1/list/$1';
+$route['Main/(:any)/search'] = 'Main/index/$1/search';
 
 $route['Planos'] = 'bemvindo/planos'; 
 

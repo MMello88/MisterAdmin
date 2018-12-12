@@ -159,7 +159,7 @@ class MY_Controller extends CI_Controller {
 			}
 
 			$this->data['rows'] = $this->Mister->get('', $where);
-			echo "string2";
+
 			if (empty($this->data['rows']))
 				$this->data['erro_message'] = "Não foi encontrado nenhum resultado!";
 			else
@@ -199,6 +199,8 @@ class MY_Controller extends CI_Controller {
 			} else {
 				$this->data['success_message'] = $result;
 			}
+		} else {
+			$this->session->set_flashdata('msg_flash', 'formulário invalidou');
 		}
 	}
 

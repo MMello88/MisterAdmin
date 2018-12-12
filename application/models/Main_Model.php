@@ -115,7 +115,7 @@ class Main_Model extends CI_Model {
                 } else if($coluna['colunachave'] === '') {
                     $input = current($this->getMisterColunaInput($coluna['id_coluna_input']));
                     if($input['type'] == 'checkbox'){
-                        $arrColumns[$coluna['coluna']]['select'] = ['1' => 'True', '0' => 'False'];
+                        $arrColumns[$coluna['coluna']]['select'] = ['1' => 'Sim', '0' => 'Não'];
                     } else if($input['type'] == 'select'){
                         $arrColumns[$coluna['coluna']]['select'] = $colunaRegra['select'];
                     } else {
@@ -124,7 +124,7 @@ class Main_Model extends CI_Model {
                 }
         }
         $wheres = $this->getMisterWhere($link['id_link']);
-        $arrWheres['id_usuario'] = '$this->session->userdata(\'id_user\')';
+        $arrWheres['id_usuario'] = $this->session->userdata('id_user');
         foreach ($wheres as $key => $where) {
             $campo = $where['coluna'] + ' ' + $where['sinal'];
             $arrWheres[$campo] = $where['valor'];
