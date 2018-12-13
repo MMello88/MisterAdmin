@@ -1,3 +1,15 @@
+/*----------------------------LISTA DE DELETE------------------------------*/
+DROP TABLE IF EXISTS `mister_where`;
+DROP TABLE IF EXISTS `mister_coluna_regra`;
+DROP TABLE IF EXISTS `mister_coluna`;
+DROP TABLE IF EXISTS `mister_coluna_input`;
+DROP TABLE IF EXISTS `mister_tipo_input`;
+DROP TABLE IF EXISTS `mister_tipo_coluna`;
+DROP TABLE IF EXISTS `mister_banco`;
+DROP TABLE IF EXISTS `mister_link`;
+DROP TABLE IF EXISTS `mister_tabela`;
+/*----------------------------LISTA DE DELETE------------------------------*/
+
 DROP TABLE IF EXISTS `mister_banco`;
 
 CREATE TABLE `miste872_prod`.`mister_banco`(  
@@ -123,7 +135,6 @@ CREATE TABLE `miste872_prod`.`mister_coluna`(
   `colunachave` ENUM('Pri','Mul') NOT NULL,
   `tabela_ref` VARCHAR(100) NULL,
   `coluna_id_ref` VARCHAR(100) NULL,
-  `coluna_ref` VARCHAR(100) NULL,
   `id_coluna_input` INT(11) NOT NULL,
   `length` VARCHAR(255) NULL,
   PRIMARY KEY (`id_coluna`),
@@ -152,12 +163,14 @@ CREATE TABLE `miste872_prod`.`mister_coluna_regra`(
   `id_link` INT(11) NOT NULL,
   `id_coluna` INT(11) NOT NULL,
   `id_tabela` INT(11) NOT NULL,
+  `coluna_ref` VARCHAR(100) NULL,
   `display_column` VARCHAR(80) NOT NULL,
   `rules` VARCHAR(80),
   `select` VARCHAR(250),
   `default_value` VARCHAR(80),
   `costumer_value` VARCHAR(80),
   `display_grid` ENUM('TRUE','FALSE') NOT NULL,
+  `ordem` INT NOT NULL,
   PRIMARY KEY (`id_coluna_regra`),
   CONSTRAINT `FK_REGRA_COLUNA` FOREIGN KEY (`id_coluna`) REFERENCES `miste872_prod`.`mister_coluna`(`id_coluna`),
   CONSTRAINT `FK_REGRA_TABELA` FOREIGN KEY (`id_tabela`) REFERENCES `miste872_prod`.`mister_tabela`(`id_tabela`),
@@ -177,16 +190,3 @@ CREATE TABLE `miste872_prod`.`mister_where`(
   CONSTRAINT `FK_WHERE_LINK` FOREIGN KEY (`id_link`) REFERENCES `miste872_prod`.`mister_link`(`id_link`),
   CONSTRAINT `FK_WHERE_COLUNA` FOREIGN KEY (`id_coluna`) REFERENCES `miste872_prod`.`mister_coluna`(`id_coluna`)
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
-
-
-/*----------------------------LISTA DE DELETE------------------------------*/
-DROP TABLE IF EXISTS `mister_where`;
-DROP TABLE IF EXISTS `mister_coluna_regra`;
-DROP TABLE IF EXISTS `mister_coluna`;
-DROP TABLE IF EXISTS `mister_coluna_input`;
-DROP TABLE IF EXISTS `mister_tipo_input`;
-DROP TABLE IF EXISTS `mister_tipo_coluna`;
-DROP TABLE IF EXISTS `mister_banco`;
-DROP TABLE IF EXISTS `mister_link`;
-DROP TABLE IF EXISTS `mister_tabela`;
-/*----------------------------LISTA DE DELETE------------------------------*/

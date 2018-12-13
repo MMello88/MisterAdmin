@@ -54,7 +54,6 @@ class MisterAmon extends MY_Controller {
 						 'colunachave' => $this->input->post('colunachave')[$coluna_key][0], 
 						 'tabela_ref' => $this->input->post('tabela_ref')[$coluna_key][0], 
 						 'coluna_id_ref' => $this->input->post('coluna_id_ref')[$coluna_key][0], 
-						 'coluna_ref' => $this->input->post('coluna_ref')[$coluna_key][0], 
 						 'id_coluna_input' => $this->input->post('id_coluna_input')[$coluna_key][0]
 						];
 
@@ -71,13 +70,15 @@ class MisterAmon extends MY_Controller {
 
 				$data = ['id_link' => $id_link,
 						 'id_coluna' => $id_coluna,  
-						 'id_tabela' => $id_tabela, 
-						 'display_column' => $this->input->post('display_column')[$coluna_key][0], 
+						 'id_tabela' => $id_tabela,
+						 'coluna_ref' => $this->input->post('coluna_ref')[$coluna_key][0], 
+						 'display_column' => $this->input->post('display_column')[$coluna_key][0],
 						 'rules' => implode("|", $this->input->post('rules')[$coluna_key]), 
 						 'select' => $this->input->post('select')[$coluna_key][0], 
 						 'default_value' => $this->input->post('default_value')[$coluna_key][0], 
 						 'costumer_value' => $this->input->post('costumer_value')[$coluna_key][0], 
-						 'display_grid' => $this->input->post('display_grid')[$coluna_key][0]
+						 'display_grid' => $this->input->post('display_grid')[$coluna_key][0],
+						 'ordem' => $this->input->post('ordem')[$coluna_key][0]
 						];
 				
 				
@@ -399,8 +400,14 @@ class MisterAmon extends MY_Controller {
 						" . form_input("select[$coluna][]", "", "class='form-control' placeholder='Exemplo: a => Ativo, d => Desativado ' style='width:100%;' ") . "
 					</div>
 				</div>
+				<div class='col-lg-3' id='select_$key'>
+					<div class='form-group'>
+						<label>Ordem: </label>
+						" . form_input(['type'  => 'number', 'name'  => 'ordem[$coluna][]', 'id'    => 'ordem', 'value' => $key,'class' => 'form-control', 'placeholder' => 'Numero da Ordem', 'style' => 'width:100%']) . "
+					</div>
+				</div>
 			</div>
-			";			
+			";
 		}
 		return $html;		
 	}

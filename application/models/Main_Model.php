@@ -62,7 +62,7 @@ class Main_Model extends CI_Model {
         if(!empty($id_coluna)){
             $data['id_coluna'] = $id_coluna;
         }
-        $query = $this->db->get_where('mister_coluna_regra', $data);
+        $query = $this->db->get_where('mister_coluna_regra', $data)->order_by('ordem');
         return $query->result_array();
     }
 
@@ -108,14 +108,14 @@ class Main_Model extends CI_Model {
                 'display_grid' => $colunaRegra['display_grid']];
 
                 if($coluna['colunachave'] === 'Mul'){
-                    $arrColumns[$coluna['coluna']]['select_relacional'] = [$coluna['coluna_id_ref'],$coluna['tabela_ref'], $coluna['coluna_ref'], []];
+                    $arrColumns[$coluna['coluna']]['select_relacional'] = [$coluna['coluna_id_ref'],$coluna['tabela_ref'], $colunaRegra['coluna_ref'], []];
                 } else if($coluna['colunachave'] === 'Pri') {
                     $input = current($this->getMisterColunaInput($coluna['id_coluna_input']));
                     $arrColumns[$coluna['coluna']]['input'] = ['type' => $input['type'], 'required' => 'readonly'];
                 } else if($coluna['colunachave'] === '') {
                     $input = current($this->getMisterColunaInput($coluna['id_coluna_input']));
                     if($input['type'] == 'checkbox'){
-                        $arrColumns[$coluna['coluna']]['select'] = ['1' => 'Sim', '0' => 'Não'];
+                        $arrColumns[$coluna['coluna']]['select'] = ['1' => 'Não', '2' => 'Sim'];
                     } else if($input['type'] == 'select'){
                         $arrColumns[$coluna['coluna']]['select'] = $colunaRegra['select'];
                     } else {
@@ -141,6 +141,7 @@ class Main_Model extends CI_Model {
             'dropdown' => []
         ];
 
+        //print_r($set_config);
         return $set_config;
     }
 }

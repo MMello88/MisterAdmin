@@ -199,9 +199,9 @@ class MY_Controller extends CI_Controller {
 			} else {
 				$this->data['success_message'] = $result;
 			}
-		} else {
+		} /**else {
 			$this->session->set_flashdata('msg_flash', 'formulário invalidou');
-		}
+		}*/
 	}
 
 	public function PaginasAnteriores(){
