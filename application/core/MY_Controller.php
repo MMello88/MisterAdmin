@@ -92,6 +92,7 @@ class MY_Controller extends CI_Controller {
 				$table = $config['select_relacional'][1];
 				$campo_valor = $config['select_relacional'][2];
 				$where = $config['select_relacional'][3];
+				$readonly = isset($config['select_relacional'][4]) ? $config['select_relacional'][4] : "";
 
 				$rows = $this->Mister->get_where($table, $where);
 
@@ -100,6 +101,7 @@ class MY_Controller extends CI_Controller {
 					$select[$row->$campo_id] = $row->$campo_valor;
 				}
 				$this->set_config['columns'][$key]['select'] = $select;
+				$this->set_config['columns'][$key]['readonly'] = $readonly;
 			}
 		}
 
@@ -226,7 +228,7 @@ class MY_Controller extends CI_Controller {
 	}
 
 	public function execute(){
-
+		
 		$this->PaginasAnteriores();
 		
 		$this->defineSegment();		

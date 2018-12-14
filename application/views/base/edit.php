@@ -40,8 +40,11 @@
                                             
                                             if(isset($config['select']) && !empty($config['select']))
                                             {
-                                              echo "<select class='custom-select'
-                                                            name='$campo'>";
+                                              $readonly = isset($config['readonly']) ? $config['readonly'] : "";
+                                              if(isset($config['readonly'])){
+                                                echo "<input type='hidden' value='$value' name='$campo'>";
+                                              }
+                                              echo "<select class='custom-select' name='$campo' $readonly>";
                                               echo "<option value=''></option>";
                                                 foreach ($config['select'] as $key_option => $val_option) {
                                                   if($value == $key_option)

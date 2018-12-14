@@ -101,9 +101,11 @@
                                                             foreach ($set_config['columns'] as $campo => $config)
                                                                 if(isset($config['display_grid']) && $config['display_grid'] == 'TRUE'){   
                                                                     if((isset($config['select']) && !empty($config['select']) && !empty($obj->$campo))) {
-                                                                        $obj->$campo = isset($config['select'][$obj->$campo]) ? $config['select'][$obj->$campo] : "Codigo não Encontrado";
+                                                                        $campo_calculado = isset($config['select'][$obj->$campo]) ? $config['select'][$obj->$campo] : "Codigo não Encontrado";
+                                                                        echo "<td>". $campo_calculado ."</td>";
+                                                                    } else {
+                                                                        echo "<td>". $obj->$campo ."</td>";
                                                                     }
-                                                                    echo "<td>". $obj->$campo ."</td>"; 
                                                                 }
                                                             echo "<td>
                                                                 <span>
@@ -119,10 +121,17 @@
                                                                           <div class='dropdown-menu'>
                                                                         ";
                                                                 foreach ($set_config['dropdown'] as $dropdown) {
+                                                                    
                                                                       $function = $dropdown['function'];
-                                                                      $param = $dropdown['param'];
-                                                                      if(!empty($param))
-                                                                        $param = $obj->$param;
+                                                                      if(is_array($dropdown['param'])){
+                                                                          $param = "";
+                                                                          foreach($dropdown['param'] as $value_param)
+                                                                            $param .= $obj->$value_param . "/";
+                                                                      } else {
+                                                                        $param = $dropdown['param'];
+                                                                        if(!empty($param))
+                                                                            $param = $obj->$param;
+                                                                      }
                                                                       $link = base_url("$segment_class/$function/$param");
                                                                       $display = $dropdown['display'];
                                                                       echo "<a class='dropdown-item' href='$link'>$display</a>
