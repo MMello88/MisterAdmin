@@ -60,21 +60,48 @@ class MisterMut extends MY_Controller {
                     
                 ],
                 'where' => [],
-                'dropdown' => [['function' => 'Link', 'param' => 'id_tabela', 'display' => 'Links da Tabela']]
+                'dropdown' => [
+                    ['function' => 'Link', 'param' => 'id_tabela', 'display' => 'Links da Tabela'],
+                    ['function' => 'Colunas', 'param' => 'id_tabela', 'display' => 'Colunas da Tabela']
+                ]
             ];
 
         $this->execute();
     }
 
     public function Colunas($id_tabela, $id_coluna = ''){
+        if(!is_numeric($id_tabela)){
+            $id_tabela = '';
+        }
+        if(!is_numeric($id_coluna)){
+            $id_coluna = '';
+        }
+
+        $tabela = 
+            "(SELECT ci.id_coluna_input, CONCAT(tc.tipo,tc.length) tipo, ti.display, ti.type
+                FROM mister_coluna_input ci
+                INNER JOIN mister_tipo_coluna tc ON (tc.id_tipo_coluna = ci.id_tipo_coluna)
+                INNER JOIN mister_tipo_input ti ON (ti.id_tipo_input = ci.id_tipo_input)
+                WHERE tc.id_banco = 3) a";
         $this->set_config = 
             [
                 'table' => [
                     'nome' => 'mister_coluna',
                     'chave_pk' => 'id_coluna',
-                    'display' => 'Mister Coluna'
+                    'chave_pai' => 'id_tabela',
+                    'display' => 'Mister Colunas'
                 ],
                 'columns' => [
+                    'id_tabela' => [
+                        'display_column' => 'Nome da Tabela',
+                        'rules' => 'required',
+                        'default_value' => $id_tabela,
+                        'costumer_value' => '',
+                        'display_grid' => 'FALSE',
+                        //'input' => ['type' => 'hidden', 'required' => 'readonly'],
+                        //'select' => '',
+                        'select_relacional' => ['id_tabela', 'mister_tabela', 'tabela', ['id_tabela' => $id_tabela], 'disabled']
+                    ],
                     'id_coluna' => [
                         'display_column' => 'Id',
                         'rules' => '',
@@ -95,22 +122,12 @@ class MisterMut extends MY_Controller {
                         'select' => ''
                         //'select_relacional' => ''
                     ],
-                    'id_tabela' => [
-                        'display_column' => 'Nome da Tabela',
-                        'rules' => 'required',
-                        'default_value' => '',
-                        'costumer_value' => $id_tabela,
-                        'display_grid' => 'FALSE',
-                        //'input' => ['type' => 'hidden', 'required' => 'required'],
-                        //'select' => ''
-                        'select_relacional' => ['id_tabela', 'mister_tabela', 'tabela', ['id_tabela' => $id_tabela]]
-                    ],
                     'notnull' => [
                         'display_column' => 'Não Nulo',
                         'rules' => 'required',
                         'default_value' => '',
                         'costumer_value' => '',
-                        'display_grid' => 'FALSE',
+                        'display_grid' => 'TRUE',
                         'input' => '',
                         'select' => ['Sim' => 'Sim', 'Nao' => 'Não']
                         //'select_relacional' => ''
@@ -120,19 +137,56 @@ class MisterMut extends MY_Controller {
                         'rules' => '',
                         'default_value' => '',
                         'costumer_value' => '',
-                        'display_grid' => 'FALSE',
+                        'display_grid' => 'TRUE',
                         'input' => '',
                         'select' => ['' => '', 'Pri' => 'Chave Principal', 'Mul' => 'Chave Relacional']
                         //'select_relacional' => ''
                     ],
+                    'id_coluna_input' => [
+                        'display_column' => 'Tipo da Coluna',
+                        'rules' => 'required',
+                        'default_value' => '',
+                        'costumer_value' => '',
+                        'display_grid' => 'TRUE',
+                        //'input' => ['type' => 'hidden', 'required' => 'readonly'],
+                        //'select' => '',
+                        'select_relacional' => ['id_coluna_input', $tabela, 'display', [], 'disabled']
+                    ],
+                    /*'length' => [
+                        'display_column' => 'Tamanho',
+                        'rules' => '',
+                        'default_value' => '',
+                        'costumer_value' => '',
+                        'display_grid' => 'FALSE',
+                        'input' => ['type' => 'Text', 'required' => '']
+                        //'select' => []
+                        //'select_relacional' => ''
+                    ],*/
+                    'tabela_ref' => [
+                        'display_column' => 'Nome da Tabela Referência',
+                        'rules' => '',
+                        'default_value' => '',
+                        'costumer_value' => '',
+                        'display_grid' => 'FALSE',
+                        //'input' => ['type' => 'text', 'required' => '']
+                        //'select' => []
+                        'select_relacional' => ['tabela', 'mister_tabela', 'tabela', [], 'disabled']
+                    ],
+                    'coluna_id_ref' => [
+                        'display_column' => 'Nome da coluna Id Referência',
+                        'rules' => '',
+                        'default_value' => '',
+                        'costumer_value' => '',
+                        'display_grid' => 'FALSE',
+                        'input' => ['type' => 'text', 'required' => '']
+                        //'select' => []
+                        //'select_relacional' => ''
+                    ]
                 ],
                 'where' => [],
                 'dropdown' => [['function' => 'Link', 'param' => 'id_tabela', 'display' => 'Links da Tabela']]
             ];
         
-        if(!is_numeric($id_tabela)){
-            $id_tabela = '';
-        }
         if(!empty($id_tabela)){
             $this->set_config['where']['id_tabela'] = $id_tabela;
         }
