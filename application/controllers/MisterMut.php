@@ -409,7 +409,71 @@ class MisterMut extends MY_Controller {
         $this->execute();
     }
 
-    public function Where(){
+    public function Where($id_link){
+        $this->set_config = 
+            [
+                'table' => [
+                    'nome' => 'mister_where',
+                    'chave_pk' => 'id_where',
+                    'chave_pai' => 'id_link',
+                    'display' => 'Mister Condições'
+                ],
+                'columns' => [
+                    'id_where' => [
+                        'display_column' => 'Id',
+                        'rules' => '',
+                        'default_value' => '',
+                        'costumer_value' => '',
+                        'display_grid' => 'TRUE',
+                        'input' => ['type' => 'Text', 'required' => 'readonly'],
+                        'select' => ''
+                        //'select_relacional' => ''
+                    ],
+                    'id_link' => [
+                        'display_column' => 'Nome do Link',
+                        'rules' => 'required',
+                        'default_value' => $id_link,
+                        'costumer_value' => '',
+                        'display_grid' => 'TRUE',
+                        //'input' => ['type' => 'hidden', 'required' => 'readonly'],
+                        //'select' => '',
+                        'select_relacional' => ['id_link', 'mister_link', 'link', ['id_link' => $id_link], 'disabled']
+                    ],
+                    'id_coluna' => [
+                        'display_column' => 'Colunas',
+                        'rules' => 'required',
+                        'default_value' => '',
+                        'costumer_value' => '',
+                        'display_grid' => 'TRUE',
+                        //'input' => ['type' => 'Text', 'required' => 'required'],
+                        //'select' => ''
+                        'select_relacional' => ['id_coluna', 'mister_coluna_regra', 'display_column', [], 'disabled']
+                    ],
+                    'sinal' => [
+                        'display_column' => 'Sinal',
+                        'rules' => '',
+                        'default_value' => '',
+                        'costumer_value' => '',
+                        'display_grid' => 'FALSE',
+                        //'input' => ['type' => 'text', 'required' => '']
+                        //'select_relacional' => '',
+                        'select' => ['=' => 'Igual', '<>' => 'Diferente', '<' => 'Menor', '>' => 'Maior', '=>' => 'Maior e Igual', '=<' => 'Menor e Igual', 'NOT IN' => 'Não Esta Em', 'IN' => 'Esta Em']
+                    ],
+                    'valor' => [
+                        'display_column' => 'Valor',
+                        'rules' => 'required',
+                        'default_value' => '',
+                        'costumer_value' => '',
+                        'display_grid' => 'TRUE',
+                        'input' => ['type' => 'Text', 'required' => 'required'],
+                        //'select' => ''
+                        //'select_relacional' => ''
+                    ]
+                ],
+                'where' => ['id_link' => $id_link],
+                'dropdown' => []
+            ];
 
+        $this->execute();
     }
 }

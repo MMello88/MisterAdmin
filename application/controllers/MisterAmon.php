@@ -309,6 +309,7 @@ class MisterAmon extends MY_Controller {
 		$colunas = $this->Mister->get_show_columns($this->input->post('tabela'));
 		$html = "";
 		foreach ($colunas as $key => $colunaDB) {
+			$ordem = $key + 1;
 			$coluna = $colunaDB['COLUMN_NAME'];
 			$id_coluna_input = "";
 			foreach ($ColunaTypes as $type) {
@@ -403,7 +404,7 @@ class MisterAmon extends MY_Controller {
 				<div class='col-lg-3' id='select_$key'>
 					<div class='form-group'>
 						<label>Ordem: </label>
-						" . form_input(['type'  => 'number', 'name'  => 'ordem[$coluna][]', 'id'    => 'ordem', 'value' => $key,'class' => 'form-control', 'placeholder' => 'Numero da Ordem', 'style' => 'width:100%']) . "
+						" . form_input(['type'  => 'number', 'name'  => "ordem[$coluna][]", 'id' => 'ordem', 'value' => $ordem,'class' => 'form-control', 'placeholder' => 'Numero da Ordem', 'style' => 'width:100%']) . "
 					</div>
 				</div>
 			</div>

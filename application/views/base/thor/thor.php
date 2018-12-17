@@ -5,7 +5,7 @@
                         	<div class="card">
 
                                 <div class="card-title">
-                                    <h4>Formulário Thor</h4>
+                                    <h4>Formulário Thor - Mais rápido que um raio</h4>
                                 </div>
 <?php 
     
